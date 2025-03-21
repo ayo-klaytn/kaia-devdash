@@ -3,9 +3,6 @@ import {
   timestamp,
   pgTable,
   text,
-  primaryKey,
-  integer,
-  varchar,
 } from "drizzle-orm/pg-core";
 
 export const user = pgTable("user", {

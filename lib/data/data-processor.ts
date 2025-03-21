@@ -19,6 +19,23 @@ interface Analytics {
   mediaViews: number;
 }
 
+interface CSVRow {
+  Date: string;
+  Impressions: string;
+  Likes: string;
+  Engagements: string;
+  Bookmarks: string;
+  Shares: string;
+  'New follows': string;
+  Unfollows: string;
+  Replies: string;
+  Reposts: string;
+  'Profile visits': string;
+  'Create Post': string;
+  'Video views': string;
+  'Media views': string;
+}
+
 export async function processAnalyticsData(): Promise<void> {
   const csvFilePath = path.join(process.cwd(), 'lib', 'data', 'kaiadevintern_account_overview_analytics.csv');
   const jsonFilePath = path.join(process.cwd(), 'lib', 'data', 'kaiadevintern_account_overview_analytics.json');
@@ -37,7 +54,7 @@ export async function processAnalyticsData(): Promise<void> {
   // Use promises to handle the data
   const processFile = new Promise((resolve, reject) => {
     fileContent.pipe(parser)
-      .on('data', (row: any) => {
+      .on('data', (row: CSVRow) => {
         analytics.push({
           date: row.Date,
           impressions: parseInt(row.Impressions),

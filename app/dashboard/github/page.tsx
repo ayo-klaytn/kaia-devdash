@@ -1,6 +1,5 @@
 "use client";
 
-import { Skeleton } from "@/components/ui/skeleton"
 import kaia from "@/lib/mocks/kaia.json"
 import { Package, UserPen, Users } from "lucide-react";
 import { Repository, columns } from "@/app/dashboard/github/columns"

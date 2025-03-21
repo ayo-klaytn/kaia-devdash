@@ -89,7 +89,7 @@ export async function getContributors(owner: string, repo: string) {
       return [];
     }
   } catch (error) {
-    console.log(`No contributors found for ${owner}/${repo}`);
+    console.log(`${error} No contributors found for ${owner}/${repo}`);
     return [];
   }
 }

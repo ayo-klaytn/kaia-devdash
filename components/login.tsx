@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { type SVGProps, useState } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
 import { Input } from "@/components/ui/input";
