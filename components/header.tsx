@@ -1,14 +1,27 @@
 "use client";
 
+import React from "react";
 import { authClient } from "@/lib/auth-client";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { LogOut } from 'lucide-react';
 import { SidebarTrigger } from "@/components/ui/sidebar"
 import { Separator } from "@/components/ui/separator";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb"
+
 
 export default function Header() {
   const router = useRouter();
+  const pathname = usePathname();
+  const segments = pathname.split('/').filter(Boolean);
+
   const signOut = async (e: React.FormEvent) => {
     e.preventDefault();
     await authClient.signOut({
@@ -25,7 +38,32 @@ export default function Header() {
       <div className="flex h-5 items-center space-x-4 text-sm">
         <SidebarTrigger />
         <Separator orientation="vertical" />
-        <h1>DevRel</h1>
+        <Breadcrumb>
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbLink href="/">Home</BreadcrumbLink>
+            </BreadcrumbItem>
+            {segments.map((segment, index) => {
+              const path = `/${segments.slice(0, index + 1).join('/')}`;
+              const isLast = index === segments.length - 1;
+
+              return (
+                <React.Fragment key={path}>
+                  <BreadcrumbSeparator />
+                  <BreadcrumbItem key={path}>
+                    {isLast ? (
+                      <BreadcrumbPage>{segment}</BreadcrumbPage>
+                    ) : (
+                      <BreadcrumbLink href={path}>
+                        {segment}
+                      </BreadcrumbLink>
+                    )}
+                  </BreadcrumbItem>
+                </React.Fragment>
+              );
+            })}
+          </BreadcrumbList>
+        </Breadcrumb>
       </div>
       <Button variant="outline" size="icon" onClick={signOut}>
         <LogOut />
