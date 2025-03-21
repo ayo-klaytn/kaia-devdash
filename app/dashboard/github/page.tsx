@@ -1,6 +1,8 @@
 import { Skeleton } from "@/components/ui/skeleton"
 import kaia from "@/lib/mocks/kaia.json"
-import { Package, UserPen, Users } from "lucide-react"
+import { Package, UserPen, Users } from "lucide-react";
+import { Repository, columns } from "@/app/dashboard/github/columns"
+import { DataTable } from "@/app/dashboard/github/data-table"
 
 export default function GitHub() {
 
@@ -13,6 +15,8 @@ export default function GitHub() {
   // count number of unique contributors
   const uniqueContributors = new Set(kaia.repositories.flatMap(repo => repo.contributors))
   const totalContributors = uniqueContributors.size
+
+  const data: Repository[] = kaia.repositories
 
   return (
     <div className="flex flex-col gap-4 p-4">
@@ -44,6 +48,9 @@ export default function GitHub() {
             <p className="text-sm">Contributors</p>
           </div>
         </div>
+      </div>
+      <div className="container mx-auto py-10">
+        <DataTable columns={columns} data={data} />
       </div>
     </div>
     
