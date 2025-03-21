@@ -35,7 +35,7 @@ Number of projects with github repositories (group the github repositories into 
 Number of projects in each category (DeFi, Consumer, AI, Developer Tooling, NFT, Community)
 Ranking of each project in terms of stage (based on this preliminary ranking DevRel Ranking system)
 Number of projects with X account active within Kaia community (judged based on observation)
-Number of projects that is level 4 and above (ready for incubation foundation wide)
+Number of projects that is level 3 and above (ready for incubation foundation wide)
 
 Developer
 Number of developers Kaia related NFT badges (released with our marketing campaigns)

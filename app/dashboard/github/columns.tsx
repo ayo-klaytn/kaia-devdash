@@ -32,7 +32,7 @@ export const columns: ColumnDef<Repository>[] = [
       return (
         <div className="w-[400px]">
           <Link
-            href={`/dashboard/github/${row.original.owner}/${row.original.repository}`}
+            href={`/dashboard/projects/${row.original.repository}`}
             className="text-blue-500 underline underline-offset-4"
           >
             {row.original.repository}
@@ -58,7 +58,7 @@ export const columns: ColumnDef<Repository>[] = [
       return (
         <div className="w-[120px]">
           <Link
-            href={`/dashboard/github/${row.original.owner}`}
+            href={`/dashboard/developers/${row.original.owner}`}
             className="text-blue-500 underline underline-offset-4"
           >
             {row.original.owner}
@@ -83,7 +83,7 @@ export const columns: ColumnDef<Repository>[] = [
           {row.original.contributors.map((contributor) => (
             <Link
               key={contributor}
-              href={`/dashboard/github/${contributor}`}
+              href={`/dashboard/developers/${contributor}`}
               className="inline-flex items-center rounded-md p-2 text-xs font-medium bg-secondary hover:bg-secondary/80 text-blue-500 underline underline-offset-4"
             >
               {contributor}
