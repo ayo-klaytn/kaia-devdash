@@ -13,12 +13,12 @@ export async function middleware(request: NextRequest) {
 	});
  
 	if (!session) {
-		return NextResponse.redirect(new URL("/sign-in", request.url));
+		return NextResponse.redirect(new URL("/signin", request.url));
 	}
  
 	return NextResponse.next();
 }
  
 export const config = {
-	matcher: ["/dashboard"], // Apply middleware to specific routes
+	matcher: ["/dashboard/:path*"], // Apply middleware to specific routes
 };
