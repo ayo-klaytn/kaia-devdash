@@ -1,7 +1,7 @@
 {
   "projects": [
     {
-      "id": "1",
+      "id": 1,
       "name": "DGSwap",
       "description": "Kaia's Leading DEX DragonSwap",
       "url": "https://dgswap.io",
@@ -26,7 +26,7 @@
       "maturity_rank": 5
     },
     {
-      "id": "2",
+      "id": 2,
       "name": "KaiaAI",
       "description": "AI-powered Smart Contract Analysis Tool",
       "url": "https://kaiai.dev",
@@ -47,7 +47,7 @@
       "maturity_rank": 3
     },
     {
-      "id": "3",
+      "id": 3,
       "name": "NFTBridge",
       "description": "Cross-chain NFT Bridge Protocol",
       "url": "https://nftbridge.kaia.io",
@@ -61,10 +61,10 @@
       ],
       "categories": ["NFT", "Developer Tooling"],
       "community_rank": 3,
-      "maturity_rank": 4
+      "maturity_rank": 2
     },
     {
-      "id": "4",
+      "id": 4,
       "name": "KaiaDAO",
       "description": "Community Governance Platform",
       "url": "https://kaiadao.org",
@@ -82,10 +82,10 @@
       ],
       "categories": ["Community", "DeFi"],
       "community_rank": 5,
-      "maturity_rank": 4
+      "maturity_rank": 1
     },
     {
-      "id": "5",
+      "id": 5,
       "name": "DevKit",
       "description": "Developer Toolkit for Kaia Integration",
       "url": "https://devkit.kaia.dev",
@@ -102,7 +102,7 @@
       "maturity_rank": 5
     },
     {
-      "id": "6",
+      "id": 6,
       "name": "KaiaWallet",
       "description": "Consumer-friendly Web3 Wallet",
       "url": "https://wallet.kaia.app",
@@ -123,7 +123,7 @@
       "maturity_rank": 4
     },
     {
-      "id": "7",
+      "id": 7,
       "name": "ArtGen",
       "description": "AI-powered NFT Generation Platform",
       "url": "https://artgen.ai",
@@ -137,10 +137,10 @@
       ],
       "categories": ["AI", "NFT"],
       "community_rank": 2,
-      "maturity_rank": 3
+      "maturity_rank": 2
     },
     {
-      "id": "8",
+      "id": 8,
       "name": "KaiaLend",
       "description": "Decentralized Lending Protocol",
       "url": "https://kaialend.finance",
@@ -161,7 +161,7 @@
       "maturity_rank": 4
     },
     {
-      "id": "9",
+      "id": 9,
       "name": "KaiaChat",
       "description": "Web3 Social Platform",
       "url": "https://kaiachat.social",
@@ -178,7 +178,7 @@
       "maturity_rank": 3
     },
     {
-      "id": "10",
+      "id": 10,
       "name": "SmartAudit",
       "description": "Automated Smart Contract Auditing",
       "url": "https://smartaudit.security",
@@ -199,7 +199,7 @@
       "maturity_rank": 4
     },
     {
-      "id": "11",
+      "id": 11,
       "name": "KaiaVerse",
       "description": "Web3 Metaverse Platform",
       "url": "https://kaiaverse.world",
@@ -217,7 +217,7 @@
       ],
       "categories": ["Consumer", "NFT"],
       "community_rank": 2,
-      "maturity_rank": 2
+      "maturity_rank": 1
     }
   ]
 }

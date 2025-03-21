@@ -8,7 +8,6 @@ import {
   flexRender,
   getFilteredRowModel,
   getCoreRowModel,
-  getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
@@ -30,8 +29,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+
 import { Skeleton } from "@/components/ui/skeleton";
-import { DataTablePagination } from "@/components/data-table-pagination";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -44,14 +43,13 @@ export function DataTable<TData, TValue>({
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
-  const [selectedColumn, setSelectedColumn] = useState("repository");
+  const [selectedColumn, setSelectedColumn] = useState("name");
   const [isFiltering, setIsFiltering] = useState(false);
 
   const table = useReactTable({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
     onSortingChange: setSorting,
     getSortedRowModel: getSortedRowModel(),
     onColumnFiltersChange: (value) => {
@@ -60,11 +58,6 @@ export function DataTable<TData, TValue>({
       setTimeout(() => setIsFiltering(false), 200);
     },
     getFilteredRowModel: getFilteredRowModel(),
-    initialState: {
-      pagination: {
-        pageSize: 100, //custom default page size
-      },
-    },
     state: {
       sorting,
       columnFilters,
@@ -79,12 +72,13 @@ export function DataTable<TData, TValue>({
           onValueChange={setSelectedColumn}
         >
           <SelectTrigger className="w-[180px]">
-            <SelectValue defaultValue="repository" />
+            <SelectValue defaultValue="name" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="repository">Repository</SelectItem>
-            <SelectItem value="owner">Owner</SelectItem>
-            <SelectItem value="contributors">Contributors</SelectItem>
+            <SelectItem value="name">Name</SelectItem>
+            <SelectItem value="categories">Categories</SelectItem>
+            <SelectItem value="community_rank">Community Rank</SelectItem>
+            <SelectItem value="maturity_rank">Maturity Rank</SelectItem>
           </SelectContent>
         </Select>
         <Input
@@ -164,7 +158,6 @@ export function DataTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
-      <DataTablePagination table={table} />
     </div>
   );
 }

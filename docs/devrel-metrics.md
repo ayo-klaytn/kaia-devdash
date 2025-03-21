@@ -26,11 +26,11 @@
 ## Impact metrics
 
 ### Project
-- [ ] Number of projects with github repositories (group the github repositories into a project, for example, frontend + smart contract)
-- [ ] Number of projects in each category (DeFi, Consumer, AI, Developer Tooling, NFT, Community)
-- [ ] Ranking of each project in terms of stage (based on this preliminary ranking DevRel Ranking system)
-- [ ] Number of projects with X account active within Kaia community (judged based on observation)
-- [ ] Number of projects that is level 3 and above (ready for incubation foundation wide)
+- [x] Number of projects with github repositories (group the github repositories into a project, for example, frontend + smart contract)
+- [x] Number of projects in each category (DeFi, Consumer, AI, Developer Tooling, NFT, Community)
+- [x] Ranking of each project in terms of stage (based on this preliminary ranking DevRel Ranking system)
+- [x] Number of projects with X account that is level 3 and above active (judged based on observation)
+- [x] Number of projects that is level 3 and above (ready for incubation foundation wide)
 
 ### Developer
 - [ ] Number of developers Kaia related NFT badges (released with our marketing campaigns)
