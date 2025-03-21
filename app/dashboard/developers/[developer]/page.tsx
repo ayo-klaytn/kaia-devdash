@@ -35,13 +35,13 @@ export default async function Page({
       <div className="flex flex-row items-center gap-4">
         <h1 className="text-2xl font-bold">{developer}</h1>
         <Button variant="outline" asChild>
-          <Link href={`https://github.com/${developer}`}>
+          <Link target="_blank" href={`https://github.com/${developer}`}>
             <ExternalLink className="w-4 h-4" />
             <span>GitHub</span>
           </Link>
         </Button>
         <Button variant="outline" asChild>
-          <Link href={`https://x.com/${developer}`}>
+          <Link target="_blank" href={`https://x.com/${developer}`}>
             <ExternalLink className="w-4 h-4" />
             <span>X</span>
           </Link>
