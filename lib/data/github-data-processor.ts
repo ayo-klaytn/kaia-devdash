@@ -140,13 +140,13 @@ export async function getCommits(owner: string, repo: string) {
 }
 
 
-export async function getCommitsFromRepositoriesInJson() {
-  const jsonContent = JSON.parse(fs.readFileSync('./lib/data/kaia.json', 'utf-8'));
-  // get the commits from each repository
-  for (const repo of jsonContent.repositories) {
-    const commits = await getCommits(repo.owner, repo.repository);
-  }
-}
+// export async function getCommitsFromRepositoriesInJson() {
+//   const jsonContent = JSON.parse(fs.readFileSync('./lib/data/kaia.json', 'utf-8'));
+//   // get the commits from each repository
+//   for (const repo of jsonContent.repositories) {
+//     const commits = await getCommits(repo.owner, repo.repository);
+//   }
+// }
 
 
 export async function test() {

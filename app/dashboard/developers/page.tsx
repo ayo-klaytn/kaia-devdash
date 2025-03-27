@@ -3,7 +3,7 @@
 import { Package, UserPen, Users } from "lucide-react";
 import { useMemo } from "react";
 import kaia from "@/lib/mocks/kaia.json";
-import { Developer, columns } from "@/app/dashboard/developers/columns"
+import { columns } from "@/app/dashboard/developers/columns"
 import { DataTable } from "@/app/dashboard/developers/data-table"
 
 export default function DevelopersPage() {

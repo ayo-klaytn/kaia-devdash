@@ -82,7 +82,7 @@ export default async function Page({
           <h1 className="text-2xl font-bold">{Math.floor((Date.now() - new Date(firstCommitDate).getTime()) / (1000 * 60 * 60 * 24))} <span className="text-sm">days since first contribution</span></h1>
           <div className="flex items-center gap-2">
             <Calendar className="w-4 h-4" />
-            8
+            {Math.floor((Date.now() - new Date(lastCommitDate).getTime()) / (1000 * 60 * 60 * 24))}
             <p className="text-sm">days since last contribution</p>
           </div>
         </div>
