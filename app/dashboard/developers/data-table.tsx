@@ -44,7 +44,7 @@ export function DataTable<TData, TValue>({
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
-  const [selectedColumn, setSelectedColumn] = useState("repository");
+  const [selectedColumn, setSelectedColumn] = useState("name");
   const [isFiltering, setIsFiltering] = useState(false);
 
   const table = useReactTable({
@@ -79,12 +79,11 @@ export function DataTable<TData, TValue>({
           onValueChange={setSelectedColumn}
         >
           <SelectTrigger className="w-[180px]">
-            <SelectValue defaultValue="repository" />
+            <SelectValue defaultValue="name" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="repository">Repository</SelectItem>
-            <SelectItem value="owner">Owner</SelectItem>
-            <SelectItem value="contributors">Contributors</SelectItem>
+            <SelectItem value="name">Name</SelectItem>
+            <SelectItem value="repositories">Repositories</SelectItem>
           </SelectContent>
         </Select>
         <Input
@@ -124,9 +123,9 @@ export function DataTable<TData, TValue>({
                     <TableCell key={column.id}>
                       <Skeleton 
                         className={`h-6 ${
-                          column.id === 'contributors' 
+                          column.id === 'repositories' 
                             ? 'w-[300px]'
-                            : column.id === 'repository' 
+                            : column.id === 'name' 
                               ? 'w-[400px]'
                               : 'w-[120px]'
                         }`} 

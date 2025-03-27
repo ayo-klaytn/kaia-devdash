@@ -12,6 +12,15 @@ export type Repository = {
   repository: string
   owner: string
   contributors: string[]
+  commits: {
+    committer: {
+      name: string
+      email: string
+      date: string
+    }
+    timestamp: string
+    url: string
+  }[]
 }
  
 export const columns: ColumnDef<Repository>[] = [
@@ -91,6 +100,13 @@ export const columns: ColumnDef<Repository>[] = [
           ))}
         </div>
       );
+    },
+  },
+  {
+    accessorKey: "commits",
+    header: "Commits",
+    cell: ({ row }) => {
+      return <div>{row.original.commits.length}</div>;
     },
   },
 ]

@@ -6,7 +6,8 @@
     "dev": "next dev --port 3006 --turbopack",
     "build": "next build",
     "start": "next start --port 3006",
-    "lint": "next lint"
+    "lint": "next lint",
+    "data": "tsx lib/data/run.ts"
   },
   "overrides": {
     "react-is": "^19.0.0"

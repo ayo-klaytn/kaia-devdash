@@ -9,9 +9,18 @@ import { Button } from "@/components/ui/button"
 // You can use a Zod schema here if you want.
 export type DeveloperRepository = {
   id: number
-  owner: string
   repository: string
-  relations: string
+  owner: string
+  contributors: string[]
+  commits: {
+    committer: {
+      name: string
+      email: string
+      date: string
+    }
+    timestamp: string
+    url: string
+  }[]
 }
  
 export const columns: ColumnDef<DeveloperRepository>[] = [
@@ -32,7 +41,7 @@ export const columns: ColumnDef<DeveloperRepository>[] = [
       return (
         <div className="w-[400px]">
           <Link
-            href={`https://github.com/${row.original.owner}/${row.original.repository}`}
+            href={`/dashboard/projects/${row.original.repository}`}
             className="text-blue-500 underline underline-offset-4"
           >
             {row.original.repository}
@@ -42,14 +51,14 @@ export const columns: ColumnDef<DeveloperRepository>[] = [
     }
   },
   {
-    accessorKey: "relations",
+    accessorKey: "owner",
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Relations
+          Owner
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       )
@@ -57,9 +66,47 @@ export const columns: ColumnDef<DeveloperRepository>[] = [
     cell: ({ row }) => {
       return (
         <div className="w-[120px]">
-          {row.original.relations}
+          <Link
+            href={`/dashboard/developers/${row.original.owner}`}
+            className="text-blue-500 underline underline-offset-4"
+          >
+            {row.original.owner}
+          </Link>
         </div>
       )
     }
-  }
+  },
+  {
+    accessorKey: "contributors",
+    header: "Contributors",
+    filterFn: (row, columnId, value) => {
+      const contributors = row.getValue<string[]>(columnId);
+      const searchTerm = String(value).toLowerCase();
+      return contributors.some(contributor => 
+        contributor.toLowerCase().includes(searchTerm)
+      );
+    },
+    cell: ({ row }) => {
+      return (
+        <div className="flex flex-wrap gap-1 w-full">
+          {row.original.contributors.map((contributor) => (
+            <Link
+              key={contributor}
+              href={`/dashboard/developers/${contributor}`}
+              className="inline-flex items-center rounded-md p-2 text-xs font-medium bg-secondary hover:bg-secondary/80 text-blue-500 underline underline-offset-4"
+            >
+              {contributor}
+            </Link>
+          ))}
+        </div>
+      );
+    },
+  },
+  {
+    accessorKey: "commits",
+    header: "Commits",
+    cell: ({ row }) => {
+      return <div>{row.original.commits.length}</div>;
+    },
+  },
 ]

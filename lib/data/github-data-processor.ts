@@ -70,7 +70,7 @@ export async function convertTomlToJson() {
     repositories: repos
   };
 
-  fs.writeFileSync('src/kaia.json', JSON.stringify(jsonContent, null, 2));
+  fs.writeFileSync('./lib/data/kaia.json', JSON.stringify(jsonContent, null, 2));
   console.log('Successfully created kaia.json');
 }
 
@@ -95,12 +95,12 @@ export async function getContributors(owner: string, repo: string) {
 }
 
 export async function getNumberOfRepositoriesInJson() {
-  const jsonContent = JSON.parse(fs.readFileSync('src/kaia.json', 'utf-8'));
+  const jsonContent = JSON.parse(fs.readFileSync('./lib/data/kaia.json', 'utf-8'));
   console.log('Total number of repositories: ', jsonContent.repositories.length);
 }
 
 export async function getNumberOfAuthorsInJson() {
-  const jsonContent = JSON.parse(fs.readFileSync('src/kaia.json', 'utf-8'));
+  const jsonContent = JSON.parse(fs.readFileSync('./lib/data/kaia.json', 'utf-8'));
   // get all owners of repositories with no duplicates
   const owners = jsonContent.repositories.map((repo: RepositoryRecord) => repo.owner);
   const uniqueOwners = [...new Set(owners)];
@@ -108,7 +108,7 @@ export async function getNumberOfAuthorsInJson() {
 }
 
 export async function getContributorsFromRepositoriesInJson() {
-  const jsonContent = JSON.parse(fs.readFileSync('src/kaia.json', 'utf-8'));
+  const jsonContent = JSON.parse(fs.readFileSync('./lib/data/kaia.json', 'utf-8'));
   // use getContributors for each repository and get the contributors login names, add them to the kaia.json file as a new field called contributors
   for (const repo of jsonContent.repositories) {
     const contributors = await getContributors(repo.owner, repo.repository);
@@ -117,19 +117,39 @@ export async function getContributorsFromRepositoriesInJson() {
       : [];
     console.log(repo);
   }
-  fs.writeFileSync('src/kaia.json', JSON.stringify(jsonContent, null, 2));
+  fs.writeFileSync('./lib/data/kaia.json', JSON.stringify(jsonContent, null, 2));
 }
 
 export async function getNumberOfContributorsInJson() {
-  const jsonContent = JSON.parse(fs.readFileSync('src/kaia.json', 'utf-8'));
+  const jsonContent = JSON.parse(fs.readFileSync('./lib/data/kaia.json', 'utf-8'));
   // get the total number of unique contributors in the kaia.json file
   const contributors = jsonContent.repositories.map((repo: RepositoryRecord) => repo.contributors);
   const uniqueContributors = [...new Set(contributors.flat())];
   console.log('Total number of unique contributors: ', uniqueContributors.length);
 }
 
+export async function getCommits(owner: string, repo: string) {
+  const result = await octokit.request('GET /repos/{owner}/{repo}/commits', {
+    owner: owner,
+    repo: repo,
+    headers: {
+      'X-GitHub-Api-Version': '2022-11-28'
+    }
+  });
+  return result.data;
+}
+
+
+export async function getCommitsFromRepositoriesInJson() {
+  const jsonContent = JSON.parse(fs.readFileSync('./lib/data/kaia.json', 'utf-8'));
+  // get the commits from each repository
+  for (const repo of jsonContent.repositories) {
+    const commits = await getCommits(repo.owner, repo.repository);
+  }
+}
+
 
 export async function test() {
-  const contributors = await getContributors('kaiachain', 'kaia-kairos-setup-workshop');
-  console.log(contributors);
+  const commits = await getCommits('kaiachain', 'kaia-dapp-mono');
+  console.log(commits);
 }

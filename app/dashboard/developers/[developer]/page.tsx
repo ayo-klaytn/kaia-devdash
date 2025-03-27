@@ -21,6 +21,8 @@ export default async function Page({
     id: repo.id,
     owner: repo.owner,
     repository: repo.repository,
+    contributors: repo.contributors,
+    commits: repo.commits,
     relations: repo.owner === developer ? "owner" : repo.contributors.includes(developer) ? "contributor" : "both"
   }))
 
@@ -28,8 +30,18 @@ export default async function Page({
   const totalAuthoredRepositories = ownedRepositories.length
   const totalContributedRepositories = contributedRepositories.length
 
-  // find 
-
+  // find the first commit date of the developer
+  const firstCommitDate = kaia.repositories
+    .filter(repo => repo.owner === developer)
+    .flatMap(repo => repo.commits)
+    .map(commit => commit.timestamp)
+    .sort()[0]
+  const lastCommitDate = kaia.repositories
+    .filter(repo => repo.owner === developer)
+    .flatMap(repo => repo.commits)
+    .map(commit => commit.timestamp)
+    .sort()
+    .slice(-1)[0]
   return (
     <div className="flex flex-col gap-4 p-4">
       <div className="flex flex-row items-center gap-4">
@@ -67,7 +79,7 @@ export default async function Page({
           </div>
         </div>
         <div className="flex flex-col gap-4 border rounded-md p-4">
-          <h1 className="text-2xl font-bold">172 <span className="text-sm">days since first contribution</span></h1>
+          <h1 className="text-2xl font-bold">{Math.floor((Date.now() - new Date(firstCommitDate).getTime()) / (1000 * 60 * 60 * 24))} <span className="text-sm">days since first contribution</span></h1>
           <div className="flex items-center gap-2">
             <Calendar className="w-4 h-4" />
             8
