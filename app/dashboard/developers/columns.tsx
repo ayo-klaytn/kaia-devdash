@@ -70,6 +70,27 @@ export const columns: ColumnDef<Developer>[] = [
     }
   },
   {
+    accessorKey: "totalCommits",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Total Commits
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      )
+    },
+    cell: ({ row }) => {
+      return (
+        <div>
+          {row.original.totalCommits}
+        </div>
+      )
+    }
+  },
+  {
     accessorKey: "repositories",
     header: "Repositories",
     filterFn: (row, columnId, value) => {

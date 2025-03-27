@@ -29,54 +29,40 @@ export default function DevelopersPage() {
   }, []);
 
   const data = useMemo(() => {
-    // go through kaia.json the repositories, create an array of unique developers based on the owner field and the contributors field
-    const developers = kaia.repositories.map(repo => ({
-      name: repo.owner,
-      repositories: repo.contributors,
-    }));
-    // remove duplicates from the developers array with set
-    const uniqueDevelopers = Array.from(new Set(developers));
+    // Extract unique developers from both owners and contributors
+    const allDevelopers = new Set([
+      ...kaia.repositories.map(repo => repo.owner),
+      ...kaia.repositories.flatMap(repo => repo.contributors)
+    ]);
 
-    // turn back into array of developers
-    const developersArray = Array.from(uniqueDevelopers);
+    // Create developer objects with complete repository data
+    const developersWithAllData = Array.from(allDevelopers).map((developerName, index) => {
+      // Find all repositories where developer is either owner or contributor
+      const developerRepos = kaia.repositories.filter(repo => 
+        repo.owner === developerName || repo.contributors.includes(developerName)
+      );
 
-    // go through the developers array and get the repositories for each developer
-    const developersWithRepositories = developersArray.map(dev => ({
-      name: dev.name,
-      repositories: dev.repositories,
-    }));
-
-    // calculate the total commits for each developer based on the commits field in the repositories that has the developer name in the committer field
-    const developersWithTotalCommits = developersWithRepositories.map(dev => ({
-      name: dev.name,
-      totalCommits: kaia.repositories
-        .filter(repo => repo.contributors.includes(dev.name))
-        .reduce((acc, repo) => acc + repo.commits.filter(commit => commit.committer.name === dev.name).length, 0),
-    }));
-
-    // calculate how many times each developer has contributed to a repository based on the original kaia.json object
-    const developersWithTotalContributions = developersWithRepositories.map(dev => ({
-      name: dev.name,
-      totalContributions: kaia.repositories
-        .filter(repo => repo.contributors.includes(dev.name))
-        .length,
-    }));
-
-    // merge the developersWithRepositories, developersWithTotalCommits and developersWithTotalContributions arrays
-    const developersWithAllData = developersWithRepositories.map((dev, index) => ({
-      id: index + 1,
-      name: dev.name,
-      repositories: kaia.repositories
-        .filter(repo => repo.contributors.includes(dev.name))
-        .map(repo => ({
+      return {
+        id: index + 1,
+        name: developerName,
+        repositories: developerRepos.map(repo => ({
           name: repo.repository,
           owner: repo.owner,
-          commitCount: repo.commits.filter(commit => commit.committer.name === dev.name).length,
-          lastCommitDate: repo.commits[0]?.timestamp
+          commitCount: repo.commits.filter(commit => 
+            commit.committer.name === developerName
+          ).length,
+          lastCommitDate: repo.commits
+            .filter(commit => commit.committer.name === developerName)
+            .sort((a,b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime())[0]?.timestamp
         })),
-      totalContributions: developersWithTotalContributions.find(c => c.name === dev.name)?.totalContributions || 0,
-      totalCommits: developersWithTotalCommits.find(c => c.name === dev.name)?.totalCommits || 0,
-    }));
+        totalContributions: developerRepos.length,
+        totalCommits: developerRepos.reduce((total, repo) => 
+          total + repo.commits.filter(commit => 
+            commit.committer.name === developerName
+          ).length, 
+        0)
+      };
+    });
 
     // return the developersWithAllData array
     return developersWithAllData;
