@@ -3018,7 +3018,7 @@
       "owner": "blockcmd",
       "repository": "blockcmd-app",
       "contributors": [
-        "zxstim"
+        "ZxStim"
       ],
       "stats": {
         "stars": 0,
@@ -3699,7 +3699,7 @@
       "owner": "blockcmd",
       "repository": "dexcmd",
       "contributors": [
-        "zxstim",
+        "ZxStim",
         "haxxsniper"
       ],
       "stats": {
@@ -3796,7 +3796,7 @@
       "owner": "blockcmd",
       "repository": "drop",
       "contributors": [
-        "zxstim",
+        "ZxStim",
         "haxxsniper"
       ],
       "stats": {
@@ -4019,7 +4019,7 @@
       "owner": "blockcmd",
       "repository": "inspect",
       "contributors": [
-        "zxstim"
+        "ZxStim"
       ],
       "stats": {
         "stars": 0,
@@ -4502,7 +4502,7 @@
       "owner": "blockcmd",
       "repository": "kaia-foundry-template",
       "contributors": [
-        "zxstim",
+        "ZxStim",
         "haxxsniper"
       ],
       "stats": {
@@ -5058,7 +5058,7 @@
       "owner": "blockcmd",
       "repository": "oklink-ts",
       "contributors": [
-        "zxstim",
+        "ZxStim",
         "haxxsniper"
       ],
       "stats": {
@@ -5360,7 +5360,7 @@
       "owner": "buildstationorg",
       "repository": "hq-dashboard",
       "contributors": [
-        "zxstim"
+        "ZxStim"
       ],
       "stats": {
         "stars": 1,
@@ -14601,7 +14601,7 @@
       "owner": "gammarix",
       "repository": "uni-v2-core",
       "contributors": [
-        "zxstim"
+        "ZxStim"
       ],
       "stats": {
         "stars": 0,
@@ -14661,7 +14661,7 @@
       "owner": "gammarix",
       "repository": "uni-v2-periphery",
       "contributors": [
-        "zxstim"
+        "ZxStim"
       ],
       "stats": {
         "stars": 0,
@@ -14775,7 +14775,7 @@
       "owner": "gmgn-app",
       "repository": "gmgn",
       "contributors": [
-        "zxstim"
+        "ZxStim"
       ],
       "stats": {
         "stars": 5,
@@ -20990,7 +20990,7 @@
       "owner": "haxxsniper",
       "repository": "gaslite-drop-contracts",
       "contributors": [
-        "zxstim",
+        "ZxStim",
         "haxxsniper"
       ],
       "stats": {
@@ -21033,7 +21033,7 @@
       "owner": "haxxsniper",
       "repository": "gaslite-ui",
       "contributors": [
-        "zxstim",
+        "ZxStim",
         "haxxsniper"
       ],
       "stats": {
@@ -21328,7 +21328,7 @@
       "owner": "haxxsniper",
       "repository": "kaia-foundry-template",
       "contributors": [
-        "zxstim",
+        "ZxStim",
         "haxxsniper"
       ],
       "stats": {
@@ -44699,7 +44699,7 @@
       "owner": "PaulElisha",
       "repository": "kaiachain-foundry-kit",
       "contributors": [
-        "zxstim",
+        "ZxStim",
         "haxxsniper",
         "PaulElisha"
       ],
@@ -45446,7 +45446,7 @@
       "owner": "PaulElisha",
       "repository": "oklink-sdk-kaiachain-ts",
       "contributors": [
-        "zxstim",
+        "ZxStim",
         "haxxsniper",
         "PaulElisha"
       ],
@@ -54041,10 +54041,10 @@
     },
     {
       "id": 103,
-      "owner": "zxstim",
+      "owner": "ZxStim",
       "repository": "klaytn-fee-delegation-js",
       "contributors": [
-        "zxstim",
+        "ZxStim",
         "PaulElisha"
       ],
       "stats": {
@@ -54060,7 +54060,7 @@
             "date": "2024-06-17T01:24:05Z"
           },
           "timestamp": "2024-06-17T01:24:05Z",
-          "url": "https://github.com/zxstim/klaytn-fee-delegation-js/commit/3c5f938c1f00c8954177cf3b7250d29c31325d69"
+          "url": "https://github.com/ZxStim/klaytn-fee-delegation-js/commit/3c5f938c1f00c8954177cf3b7250d29c31325d69"
         },
         {
           "committer": {
@@ -54069,7 +54069,7 @@
             "date": "2024-05-30T06:11:28Z"
           },
           "timestamp": "2024-05-30T06:11:28Z",
-          "url": "https://github.com/zxstim/klaytn-fee-delegation-js/commit/927eea47d6f7e7f8bfe1ae2bb3b74e11873a0c41"
+          "url": "https://github.com/ZxStim/klaytn-fee-delegation-js/commit/927eea47d6f7e7f8bfe1ae2bb3b74e11873a0c41"
         },
         {
           "committer": {
@@ -54078,7 +54078,7 @@
             "date": "2024-05-23T06:03:03Z"
           },
           "timestamp": "2024-05-23T06:03:03Z",
-          "url": "https://github.com/zxstim/klaytn-fee-delegation-js/commit/2ef887e25078b12845d7b9432877926a1cea7b41"
+          "url": "https://github.com/ZxStim/klaytn-fee-delegation-js/commit/2ef887e25078b12845d7b9432877926a1cea7b41"
         },
         {
           "committer": {
@@ -54087,52 +54087,52 @@
             "date": "2024-05-23T06:01:52Z"
           },
           "timestamp": "2024-05-23T06:01:52Z",
-          "url": "https://github.com/zxstim/klaytn-fee-delegation-js/commit/d4ad7807091ac72446f1fd7ce7920abb0650948f"
+          "url": "https://github.com/ZxStim/klaytn-fee-delegation-js/commit/d4ad7807091ac72446f1fd7ce7920abb0650948f"
         },
         {
           "committer": {
-            "name": "0xstim",
+            "name": "haxxsniper",
             "email": "haxxsniper@gmail.com",
             "date": "2023-12-27T06:42:37Z"
           },
           "timestamp": "2023-12-27T06:42:37Z",
-          "url": "https://github.com/zxstim/klaytn-fee-delegation-js/commit/3d0a204f8fa7b2eedc2993dfd100d877c8d9835a"
+          "url": "https://github.com/ZxStim/klaytn-fee-delegation-js/commit/3d0a204f8fa7b2eedc2993dfd100d877c8d9835a"
         },
         {
           "committer": {
-            "name": "0xstim",
+            "name": "haxxsniper",
             "email": "haxxsniper@gmail.com",
             "date": "2023-12-14T15:18:14Z"
           },
           "timestamp": "2023-12-14T15:18:14Z",
-          "url": "https://github.com/zxstim/klaytn-fee-delegation-js/commit/01ce201e2504e3e5f5b78261e2a48a358fd030f1"
+          "url": "https://github.com/ZxStim/klaytn-fee-delegation-js/commit/01ce201e2504e3e5f5b78261e2a48a358fd030f1"
         },
         {
           "committer": {
-            "name": "0xstim",
+            "name": "haxxsniper",
             "email": "haxxsniper@gmail.com",
             "date": "2023-11-01T04:25:46Z"
           },
           "timestamp": "2023-11-01T04:25:46Z",
-          "url": "https://github.com/zxstim/klaytn-fee-delegation-js/commit/6570289de541f5716074482735864978cb690843"
+          "url": "https://github.com/ZxStim/klaytn-fee-delegation-js/commit/6570289de541f5716074482735864978cb690843"
         },
         {
           "committer": {
-            "name": "0xstim",
+            "name": "haxxsniper",
             "email": "haxxsniper@gmail.com",
             "date": "2023-10-31T18:14:38Z"
           },
           "timestamp": "2023-10-31T18:14:38Z",
-          "url": "https://github.com/zxstim/klaytn-fee-delegation-js/commit/f8e83d28d08568b160dae8611ea516a097bfcd8c"
+          "url": "https://github.com/ZxStim/klaytn-fee-delegation-js/commit/f8e83d28d08568b160dae8611ea516a097bfcd8c"
         }
       ]
     },
     {
       "id": 104,
-      "owner": "zxstim",
+      "owner": "ZxStim",
       "repository": "web3-frontend-kit",
       "contributors": [
-        "zxstim"
+        "ZxStim"
       ],
       "stats": {
         "stars": 0,

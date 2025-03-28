@@ -23,12 +23,18 @@ export default async function Page({
     repository: repo.repository,
     contributors: repo.contributors,
     commits: repo.commits,
-    relations: repo.owner === developer ? "owner" : repo.contributors.includes(developer) ? "contributor" : "both"
+    relations: repo.owner === developer.toLowerCase() ? "owner" : repo.contributors.includes(developer.toLowerCase()) ? "contributor" : "both"
   }))
 
   const totalRepositoriesOfAccount = ownedRepositories.length + contributedRepositories.length
   const totalAuthoredRepositories = ownedRepositories.length
   const totalContributedRepositories = contributedRepositories.length
+  // count the total commits of the developer
+  const totalCommits = kaia.repositories
+    .filter(repo => repo.owner === developer.toLowerCase() || repo.contributors.includes(developer.toLowerCase()))
+    .flatMap(repo => repo.commits)
+    .filter(commit => commit.committer.name === developer.toLowerCase())
+    .length
 
   // find the first commit date of the developer
   const firstCommitDate = kaia.repositories
@@ -36,12 +42,16 @@ export default async function Page({
     .flatMap(repo => repo.commits)
     .map(commit => commit.timestamp)
     .sort()[0]
+
+
   const lastCommitDate = kaia.repositories
     .filter(repo => repo.owner === developer)
     .flatMap(repo => repo.commits)
     .map(commit => commit.timestamp)
     .sort()
     .slice(-1)[0]
+
+
   return (
     <div className="flex flex-col gap-4 p-4">
       <div className="flex flex-row items-center gap-4">
@@ -74,7 +84,7 @@ export default async function Page({
           </div>
           <div className="flex flex-row items-center gap-2">
             <GitCommitVertical className="w-4 h-4" />
-            58
+            {totalCommits}
             <p className="text-sm">Commits</p>
           </div>
         </div>

@@ -49,16 +49,16 @@ export default function DevelopersPage() {
           name: repo.repository,
           owner: repo.owner,
           commitCount: repo.commits.filter(commit => 
-            commit.committer.name === developerName
+            commit.committer.name === developerName.toLowerCase()
           ).length,
           lastCommitDate: repo.commits
-            .filter(commit => commit.committer.name === developerName)
+            .filter(commit => commit.committer.name === developerName.toLowerCase())
             .sort((a,b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime())[0]?.timestamp
         })),
         totalContributions: developerRepos.length,
         totalCommits: developerRepos.reduce((total, repo) => 
           total + repo.commits.filter(commit => 
-            commit.committer.name === developerName
+            commit.committer.name === developerName.toLowerCase()
           ).length, 
         0)
       };
