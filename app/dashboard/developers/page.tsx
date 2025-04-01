@@ -3,6 +3,7 @@
 import { Package, UserPen, Users } from "lucide-react";
 import { useMemo } from "react";
 import kaia from "@/lib/mocks/kaia.json";
+import kaiaDevelopers from "@/lib/mocks/kaia-developers.json";
 import { columns } from "@/app/dashboard/developers/columns"
 import { DataTable } from "@/app/dashboard/developers/data-table"
 
@@ -18,13 +19,18 @@ export default function DevelopersPage() {
     const authorsWithAtLeast1RepoWithAtLeast3Stars = kaia.repositories.filter(repo => repo.stats.stars >= 3).map(repo => repo.owner);
     const uniqueAuthorsWithAtLeast1RepoWithAtLeast3Stars = new Set(authorsWithAtLeast1RepoWithAtLeast3Stars);
     
+    // go through kaia-developers.json and get the number of developers graduating bootcamp
+    const developersGraduatingBootcamp = kaiaDevelopers.filter(dev => dev.bootcamp.graduated);
+    const developersGraduatingBootcampWithContributions = developersGraduatingBootcamp.filter(dev => dev.bootcamp.contributor);
+
     return {
       totalAuthorsWithMoreThan3Repos: authorsWithMoreThan3Repos.length,
       totalDevelopersWithAtLeast1Rank3Repo: 5,
       totalDevelopersWithNftBadges: 10,
-      totalDevelopersGraduatingBootcamp: 21,
-      totalDevelopersGraduatingBootcampWithContributions: 18,
+      totalDevelopersGraduatingBootcamp: developersGraduatingBootcamp.length,
+      totalDevelopersGraduatingBootcampWithContributions: developersGraduatingBootcampWithContributions.length,
       totalDevelopersWithAtLeast1RepoWithAtLeast3Stars: uniqueAuthorsWithAtLeast1RepoWithAtLeast3Stars.size,
+      totalDevelopers: kaiaDevelopers.length
     }
   }, []);
 
@@ -117,6 +123,13 @@ export default function DevelopersPage() {
           <div className="flex items-center gap-2">
             <Users className="w-4 h-4" />
             <p className="text-sm">Devs with at least 1 repo with at least 3 stars</p>
+          </div>
+        </div>
+        <div className="flex flex-col gap-4 border rounded-md p-4">
+          <h1 className="text-2xl font-bold">{stats.totalDevelopers}</h1>
+          <div className="flex items-center gap-2">
+            <Users className="w-4 h-4" />
+            <p className="text-sm">Total developers</p>
           </div>
         </div>
       </div>

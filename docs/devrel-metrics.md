@@ -36,11 +36,11 @@
 
 ### Developer
 > prob some automation and some manual input
-- [ ] Number of developers Kaia related NFT badges (released with our marketing campaigns)
+- [x] Number of developers Kaia related NFT badges (released with our marketing campaigns)
 - [x] Number of developers that have more than 3 projects on Kaia
 - [x] Number of developers that have at least a level 3 ranked project on Kaia
-- [ ] Number of developers graduating through the bootcamp
-- [ ] Number of developers making it through the bootcamp and becoming contributor (with NFT badges, with 3 projects or with a level 3 ranked project)
+- [x] Number of developers graduating through the bootcamp
+- [x] Number of developers making it through the bootcamp and becoming contributor (with NFT badges, with 3 projects or with a level 3 ranked project)
 - [x] Number of developers that have open source project with more than 3 github stars and community recognition
 - [ ] Number of developers active on X within Kaia community (judged based on observation)
 
