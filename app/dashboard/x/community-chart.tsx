@@ -16,41 +16,51 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart"
-import kaiadevintern_account_overview_analytics from "@/lib/data/kaiadevintern_account_overview_analytics.json"
-
+// import kaiadevintern_account_overview_analytics from "@/lib/data/kaiadevintern_account_overview_analytics.json"
+import kaiaDevSocial from "@/lib/mocks/kaia-dev-social.json"
 export const description = "An interactive bar chart"
 
-const chartData = kaiadevintern_account_overview_analytics.analytics
+const chartData = kaiaDevSocial.community
 
 const chartConfig = {
-  impressions: {
-    label: "Impressions",
+  members: {
+    label: "Members",
     color: "hsl(var(--chart-1))",
   },
-  engagements: {
-    label: "Engagements",
+  new_posts: {
+    label: "New Posts",
     color: "hsl(var(--chart-2))",
   },
-  likes: {
-    label: "Likes",
+  new_likes: {
+    label: "New Likes",
     color: "hsl(var(--chart-3))",
   },
-  profileVisits: {
-    label: "Profile Visits",
+  new_replies: {
+    label: "New Replies",
     color: "hsl(var(--chart-4))",
+  },
+  new_unique_posters: {
+    label: "New Unique Posters",
+    color: "hsl(var(--chart-5))",
+  },
+  new_members: {
+    label: "New Members",
+    color: "hsl(var(--chart-6))",
   }
 } satisfies ChartConfig
 
-export function XChart() {
+export function XCommunityChart() {
   const [activeChart, setActiveChart] =
-    React.useState<keyof typeof chartConfig>("impressions")
+    React.useState<keyof typeof chartConfig>("members")
 
   const total = React.useMemo(
     () => ({
-      impressions: chartData.reduce((acc, curr) => acc + curr.impressions, 0),
-      engagements: chartData.reduce((acc, curr) => acc + curr.engagements, 0),
-      likes: chartData.reduce((acc, curr) => acc + curr.likes, 0),
-      profileVisits: chartData.reduce((acc, curr) => acc + curr.profileVisits, 0),
+      members: chartData.reduce((acc, curr) => acc + curr.members, 0),
+      new_posts: chartData.reduce((acc, curr) => acc + curr.new_posts, 0),
+      new_likes: chartData.reduce((acc, curr) => acc + curr.new_likes, 0),
+      new_replies: chartData.reduce((acc, curr) => acc + curr.new_replies, 0),
+      new_unique_posters: chartData.reduce((acc, curr) => acc + curr.new_unique_posters, 0),
+      new_members: chartData.reduce((acc, curr) => acc + curr.new_members, 0),
     }),
     []
   )
@@ -59,13 +69,13 @@ export function XChart() {
     <Card>
       <CardHeader className="flex flex-col items-stretch space-y-0 border-b p-0 sm:flex-row">
         <div className="flex flex-1 flex-col justify-center gap-1 px-6 py-5 sm:py-6">
-          <CardTitle>Kaia Dev Intern</CardTitle>
+          <CardTitle>Kaia Dev community on X</CardTitle>
           <CardDescription>
-            Showing total traffic in the last year
+            Showing all analytics
           </CardDescription>
         </div>
         <div className="flex">
-          {["impressions", "engagements", "likes", "profileVisits"].map((key) => {
+          {["members", "new_posts", "new_likes", "new_replies", "new_unique_posters", "new_members"].map((key) => {
             const chart = key as keyof typeof chartConfig
             return (
               <button
@@ -100,13 +110,13 @@ export function XChart() {
           >
             <CartesianGrid vertical={false} />
             <XAxis
-              dataKey="date"
+              dataKey="timestamp"
               tickLine={false}
               axisLine={false}
               tickMargin={8}
               minTickGap={32}
               tickFormatter={(value) => {
-                const date = new Date(value)
+                const date = new Date(value * 1000) // Convert Unix timestamp to milliseconds
                 return date.toLocaleDateString("en-US", {
                   month: "short",
                   day: "numeric",
@@ -119,7 +129,7 @@ export function XChart() {
                   className="w-[150px]"
                   nameKey={activeChart}
                   labelFormatter={(value) => {
-                    return new Date(value).toLocaleDateString("en-US", {
+                    return new Date(value * 1000).toLocaleDateString("en-US", { // Convert Unix timestamp to milliseconds
                       month: "short",
                       day: "numeric",
                       year: "numeric",
