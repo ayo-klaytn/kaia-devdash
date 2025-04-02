@@ -22,6 +22,7 @@ export default function DevelopersPage() {
     // go through kaia-developers.json and get the number of developers graduating bootcamp
     const developersGraduatingBootcamp = kaiaDevelopers.filter(dev => dev.bootcamp.graduated);
     const developersGraduatingBootcampWithContributions = developersGraduatingBootcamp.filter(dev => dev.bootcamp.contributor);
+    const developersWithCommunityRankMoreThan3 = kaiaDevelopers.filter(dev => dev.community_rank >= 3);
 
     return {
       totalAuthorsWithMoreThan3Repos: authorsWithMoreThan3Repos.length,
@@ -30,6 +31,7 @@ export default function DevelopersPage() {
       totalDevelopersGraduatingBootcamp: developersGraduatingBootcamp.length,
       totalDevelopersGraduatingBootcampWithContributions: developersGraduatingBootcampWithContributions.length,
       totalDevelopersWithAtLeast1RepoWithAtLeast3Stars: uniqueAuthorsWithAtLeast1RepoWithAtLeast3Stars.size,
+      totalDevelopersWithCommunityRankMoreThan3: developersWithCommunityRankMoreThan3.length,
       totalDevelopers: kaiaDevelopers.length
     }
   }, []);
@@ -130,6 +132,13 @@ export default function DevelopersPage() {
           <div className="flex items-center gap-2">
             <Users className="w-4 h-4" />
             <p className="text-sm">Total developers</p>
+          </div>
+        </div>
+        <div className="flex flex-col gap-4 border rounded-md p-4">
+          <h1 className="text-2xl font-bold">{stats.totalDevelopersWithCommunityRankMoreThan3}</h1>
+          <div className="flex items-center gap-2">
+            <Users className="w-4 h-4" />
+            <p className="text-sm">Developers with community rank more than 3</p>
           </div>
         </div>
       </div>

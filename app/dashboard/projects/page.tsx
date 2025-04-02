@@ -8,7 +8,7 @@ import { ProjectData } from "@/app/dashboard/projects/columns";
 
 export default function ProjectsPage() {
   const data = useMemo(() => 
-    kaiaProjects.projects as ProjectData[],
+    kaiaProjects as ProjectData[],
     []
   );
 
