@@ -11,45 +11,25 @@ interface Developer {
     contributor: number;
   };
   xrank: number;
+  x_handle: string | null;
 }
 
-// Generate a random Ethereum address
-const generateRandomAddress = () => {
-  return '0x' + Array(40).fill('0123456789abcdef').map(x => x[Math.floor(Math.random() * x.length)]).join('');
-};
+const kaiaJsonPath = path.join(__dirname, '../lib/mocks/kaia.json');
+const kaiaDevelopersJsonPath = path.join(__dirname, '../lib/mocks/kaia-developers.json');
 
-// Generate a random timestamp within the last year
-const generateRandomTimestamp = () => {
-  const now = Date.now();
-  const oneYearAgo = now - (365 * 24 * 60 * 60 * 1000);
-  return Math.floor(Math.random() * (now - oneYearAgo) + oneYearAgo);
-};
+const kaiaJson = JSON.parse(fs.readFileSync(kaiaJsonPath, 'utf8'));
+const kaiaDevelopersJson = JSON.parse(fs.readFileSync(kaiaDevelopersJsonPath, 'utf8'));
 
-// Read existing data
-const inputPath = path.join(__dirname, '../lib/mocks/kaia-developers.json');
-const existingData = JSON.parse(fs.readFileSync(inputPath, 'utf8'));
+// add the x_handle to the kaiaDevelopersJson
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const kaiaDevelopers = kaiaDevelopersJson as Developer[];
 
-// Generate mock developers while preserving existing names and GitHub URLs
-const generateMockDevelopers = (existingDevelopers: Developer[]): Developer[] => {
-  return existingDevelopers.map((dev, index) => {
-    const graduated = generateRandomTimestamp();
-    const contributor = graduated + Math.floor(Math.random() * (30 * 24 * 60 * 60 * 1000)); // Up to 30 days after graduation
-    
-    return {
-      id: index + 1,
-      name: dev.name,
-      github: dev.github,
-      address: generateRandomAddress(),
-      bootcamp: {
-        graduated,
-        contributor
-      },
-      xrank: Math.floor(Math.random() * 5) + 1
-    };
-  });
-};
+// add the x_handle field with null to all the developers in the kaiaDevelopersJson
+const kaiaDevelopersWithXHandle = kaiaDevelopers.map((developer) => ({
+  ...developer,
+  x_handle: null
+}));
 
-const outputPath = path.join(__dirname, '../lib/mocks/kaia-developers.json');
-const mockDevelopers = generateMockDevelopers(existingData);
+// write the kaiaDevelopersWithXHandle to the kaiaDevelopersJsonPath
+fs.writeFileSync(kaiaDevelopersJsonPath, JSON.stringify(kaiaDevelopersWithXHandle, null, 2));
 
-fs.writeFileSync(outputPath, JSON.stringify(mockDevelopers, null, 2));

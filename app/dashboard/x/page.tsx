@@ -1,11 +1,8 @@
 import { XChart } from "@/app/dashboard/x/chart";
-import kaiaDevSocial from "@/lib/mocks/kaia-dev-social.json";
 import { XCommunityChart } from "@/app/dashboard/x/community-chart";
 
 
 export default function XPage() {
-  const kaiaDevSocialData = kaiaDevSocial.community;
-
 
   return (
     <div className="flex flex-col gap-4 p-4">

@@ -55,7 +55,7 @@ export function XCommunityChart() {
 
   const total = React.useMemo(
     () => ({
-      members: chartData.reduce((acc, curr) => acc + curr.members, 0),
+      members: chartData[chartData.length - 1].members,
       new_posts: chartData.reduce((acc, curr) => acc + curr.new_posts, 0),
       new_likes: chartData.reduce((acc, curr) => acc + curr.new_likes, 0),
       new_replies: chartData.reduce((acc, curr) => acc + curr.new_replies, 0),
@@ -129,7 +129,7 @@ export function XCommunityChart() {
                   className="w-[150px]"
                   nameKey={activeChart}
                   labelFormatter={(value) => {
-                    return new Date(value * 1000).toLocaleDateString("en-US", { // Convert Unix timestamp to milliseconds
+                    return new Date(value).toLocaleDateString("en-US", {
                       month: "short",
                       day: "numeric",
                       year: "numeric",

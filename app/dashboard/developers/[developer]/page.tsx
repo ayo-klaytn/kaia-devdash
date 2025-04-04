@@ -5,6 +5,20 @@ import { ExternalLink, GitCommitVertical, UserPen, Users, Calendar, LayoutGrid }
 import { DataTable } from "@/app/dashboard/developers/[developer]/data-table"
 import { columns } from "@/app/dashboard/developers/[developer]/columns"
 import { DeveloperRepository } from "@/app/dashboard/developers/[developer]/columns"
+import kaiaDevelopers from "@/lib/mocks/kaia-developers.json"
+
+interface Developer {
+  id: number;
+  name: string;
+  github: string;
+  address: string;
+  bootcamp: {
+    graduated: number;
+    contributor: number;
+  };
+  community_rank: number;
+  x_handle: string | null;
+}
 
 export default async function Page({
   params,
@@ -12,6 +26,7 @@ export default async function Page({
   params: Promise<{ developer: string }>
 }) {
   const { developer } = await params
+  const developerData = kaiaDevelopers.find((dev: Developer) => dev.name.toLowerCase() === developer.toLowerCase())
   const ownedRepositories = kaia.repositories.filter(repo => repo.owner === developer)
   const contributedRepositories = kaia.repositories.filter(repo => repo.contributors.includes(developer))
   // from the kaia object filter the repositores that have the developer in the owner or contributors array
@@ -29,12 +44,19 @@ export default async function Page({
   const totalRepositoriesOfAccount = ownedRepositories.length + contributedRepositories.length
   const totalAuthoredRepositories = ownedRepositories.length
   const totalContributedRepositories = contributedRepositories.length
-  // count the total commits of the developer
-  const totalCommits = kaia.repositories
-    .filter(repo => repo.owner === developer.toLowerCase() || repo.contributors.includes(developer.toLowerCase()))
+  
+  // count the total commits of the developer in all repositories regardless if the developers is the owner or contributor
+  const totalCommitsInOwnedRepositories = ownedRepositories
     .flatMap(repo => repo.commits)
-    .filter(commit => commit.committer.name === developer.toLowerCase())
+    .filter(commit => commit.committer.name.replace(/\s/g, '').toLowerCase() === developer.toLowerCase())
     .length
+
+  const totalCommitsInContributedRepositories = contributedRepositories
+    .flatMap(repo => repo.commits)
+    .filter(commit => commit.committer.name.replace(/\s/g, '').toLowerCase() === developer.toLowerCase())
+    .length
+
+  const totalCommits = totalCommitsInOwnedRepositories + totalCommitsInContributedRepositories
 
   // find the first commit date of the developer
   const firstCommitDate = kaia.repositories
@@ -63,7 +85,7 @@ export default async function Page({
           </Link>
         </Button>
         <Button variant="outline" asChild>
-          <Link target="_blank" href={`https://x.com/${developer}`}>
+          <Link target="_blank" href={`https://x.com/${developerData?.x_handle}`}>
             <ExternalLink className="w-4 h-4" />
             <span>X</span>
           </Link>

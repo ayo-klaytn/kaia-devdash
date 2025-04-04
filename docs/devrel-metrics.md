@@ -9,19 +9,19 @@
 - [x] Time of first contribution related to Kaia of a Github account
 - [x] Number of Github repositories related to Kaia that is related to each Github account
 - [x] Number of commits and timestamp of each Github account in each Github repository related to Kaia
-- [ ] Number of traffic going to the one DevRel repository (needed permission)
-- [ ] Sources of traffic going to the one DevRel repository (needed permission)
+- [ ] Number of traffic going to the one DevRel repository (needed permission from org)
+- [ ] Sources of traffic going to the one DevRel repository (needed permission from org)
 
 ### X
 > manual export
 - [x] Number of views of DevRel social accounts (KaiaDevIntern, BuildOnKaia)
 - [x] Number of followers of DevRel social accounts (KaiaDevIntern, BuildOnKaia)
 - [x] Number of engagements of DevRel social accounts (KaiaDevIntern, BuildOnKaia)
-- [ ] Number of members inside X Dev community (manual input)
-- [ ] Number of new posts inside X Dev community (manual input)
-- [ ] Number of like inside X Dev community (manual input)
-- [ ] Number of reply inside X Dev community (manual input)
-- [ ] Number of unique posters inside X Dev community (manual input)
+- [x] Number of members inside X Dev community (manual input)
+- [x] Number of new posts inside X Dev community (manual input)
+- [x] Number of like inside X Dev community (manual input)
+- [x] Number of reply inside X Dev community (manual input)
+- [x] Number of unique posters inside X Dev community (manual input)
 
 
 ## Impact metrics
@@ -42,6 +42,6 @@
 - [x] Number of developers graduating through the bootcamp
 - [x] Number of developers making it through the bootcamp and becoming contributor (with NFT badges, with 3 projects or with a level 3 ranked project)
 - [x] Number of developers that have open source project with more than 3 github stars and community recognition
-- [ ] Number of developers active on X within Kaia community (judged based on observation)
+- [x] Number of developers with community rank equal or more than 3.
 
 
