@@ -90,6 +90,7 @@ export async function getContributors(owner: string, repo: string) {
     }
   } catch (error) {
     console.log(`No contributors found for ${owner}/${repo}`);
+    console.error(error);
     return [];
   }
 }
@@ -196,6 +197,7 @@ export async function getCommits(owner: string, repo: string) {
     return allCommits;
   } catch (error) {
     console.log(`No commits found for ${owner}/${repo}`);
+    console.error(error);
     return [];
   }
 }
