@@ -19,7 +19,6 @@ const kaiaDevelopersJsonPath = path.join(__dirname, '../lib/mocks/kaia-developer
 const kaiaDevelopersJson = JSON.parse(fs.readFileSync(kaiaDevelopersJsonPath, 'utf8'));
 
 // add the x_handle to the kaiaDevelopersJson
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const kaiaDevelopers = kaiaDevelopersJson as Developer[];
 
 // add the x_handle field with null to all the developers in the kaiaDevelopersJson
