@@ -14,10 +14,8 @@ interface Developer {
   x_handle: string | null;
 }
 
-const kaiaJsonPath = path.join(__dirname, '../lib/mocks/kaia.json');
 const kaiaDevelopersJsonPath = path.join(__dirname, '../lib/mocks/kaia-developers.json');
 
-const kaiaJson = JSON.parse(fs.readFileSync(kaiaJsonPath, 'utf8'));
 const kaiaDevelopersJson = JSON.parse(fs.readFileSync(kaiaDevelopersJsonPath, 'utf8'));
 
 // add the x_handle to the kaiaDevelopersJson
