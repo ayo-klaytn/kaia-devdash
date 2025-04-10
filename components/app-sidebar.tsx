@@ -1,6 +1,6 @@
 "use client"
 
-import { Home, Code, Radio} from "lucide-react"
+import { Home, Code, Radio, MessageSquareText, Gamepad2 } from "lucide-react"
 import { usePathname } from 'next/navigation';
 
 import {
@@ -37,6 +37,16 @@ const data = {
           title: "X / Twitter",
           url: "/dashboard/x",
           icon: Radio,
+        },
+        {
+          title: "DevForum",
+          url: "/dashboard/devforum",
+          icon: MessageSquareText,
+        },
+        {
+          title: "Discord",
+          url: "/dashboard/discord",
+          icon: Gamepad2,
         },
       ],
     },
