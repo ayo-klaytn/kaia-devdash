@@ -16,41 +16,31 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart"
-import kaiadevintern_account_overview_analytics from "@/lib/data/kaiadevintern_account_overview_analytics.json"
+import kaiadevforum from "@/lib/mocks/kaia-devforum.json"
 
 export const description = "An interactive bar chart"
 
-const chartData = kaiadevintern_account_overview_analytics.analytics
+const chartData = kaiadevforum.daily_stats
 
 const chartConfig = {
-  impressions: {
-    label: "Impressions",
+  posts: {
+    label: "Posts",
     color: "hsl(var(--chart-1))",
   },
-  engagements: {
-    label: "Engagements",
+  members: {
+    label: "Members",
     color: "hsl(var(--chart-2))",
   },
-  likes: {
-    label: "Likes",
-    color: "hsl(var(--chart-3))",
-  },
-  profileVisits: {
-    label: "Profile Visits",
-    color: "hsl(var(--chart-4))",
-  }
 } satisfies ChartConfig
 
 export function DevForumChart() {
   const [activeChart, setActiveChart] =
-    React.useState<keyof typeof chartConfig>("impressions")
+    React.useState<keyof typeof chartConfig>("posts")
 
   const total = React.useMemo(
     () => ({
-      impressions: chartData.reduce((acc, curr) => acc + curr.impressions, 0),
-      engagements: chartData.reduce((acc, curr) => acc + curr.engagements, 0),
-      likes: chartData.reduce((acc, curr) => acc + curr.likes, 0),
-      profileVisits: chartData.reduce((acc, curr) => acc + curr.profileVisits, 0),
+      posts: chartData.reduce((acc, curr) => acc + curr.posts, 0),
+      members: chartData.reduce((acc, curr) => acc + curr.members, 0),
     }),
     []
   )
@@ -61,11 +51,11 @@ export function DevForumChart() {
         <div className="flex flex-1 flex-col justify-center gap-1 px-6 py-5 sm:py-6">
           <CardTitle>Dev Forum Stats</CardTitle>
           <CardDescription>
-            Showing total traffic in the last year
+            Showing daily stats for the last 30 days
           </CardDescription>
         </div>
         <div className="flex">
-          {["impressions", "engagements", "likes", "profileVisits"].map((key) => {
+          {["posts", "members"].map((key) => {
             const chart = key as keyof typeof chartConfig
             return (
               <button
