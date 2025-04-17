@@ -8,32 +8,26 @@ type DevForumPost = {
   url: string;
 }
 
-const stats = {
-  totalPosts: 3492,
-  totalMembers: 1970,
-  totalAdminsMods: 13,
-}
-
 export default function DevForumPage() {
   return (
     <div className="flex flex-col gap-4 p-4">
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
         <div className="flex flex-col gap-4 border rounded-md p-4">
-          <h1 className="text-2xl font-bold">{stats.totalPosts}</h1>
+          <h1 className="text-2xl font-bold">{devForum.overview.totalPosts}</h1>
           <div className="flex items-center gap-2">
             <Package className="w-4 h-4" />
             <p className="text-sm">Total posts</p>
           </div>
         </div>
         <div className="flex flex-col gap-4 border rounded-md p-4">
-          <h1 className="text-2xl font-bold">{stats.totalMembers}</h1>
+          <h1 className="text-2xl font-bold">{devForum.overview.totalMembers}</h1>
           <div className="flex items-center gap-2">
             <UserPen className="w-4 h-4" />
             <p className="text-sm">Total members</p>
           </div>
         </div>
         <div className="flex flex-col gap-4 border rounded-md p-4">
-          <h1 className="text-2xl font-bold">{stats.totalAdminsMods}</h1>
+          <h1 className="text-2xl font-bold">{devForum.overview.totalAdminsMods}</h1>
           <div className="flex items-center gap-2">
             <Users className="w-4 h-4" />
             <p className="text-sm">Total admins + mods</p>
