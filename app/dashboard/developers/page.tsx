@@ -32,7 +32,26 @@ export default function DevelopersPage() {
       totalDevelopersGraduatingBootcampWithContributions: developersGraduatingBootcampWithContributions.length,
       totalDevelopersWithAtLeast1RepoWithAtLeast3Stars: uniqueAuthorsWithAtLeast1RepoWithAtLeast3Stars.size,
       totalDevelopersWithCommunityRankMoreThan3: developersWithCommunityRankMoreThan3.length,
-      totalDevelopers: kaiaDevelopers.length
+      totalDevelopers: kaiaDevelopers.length,
+      totalMonthlyActiveDevelopers: (() => {
+        const now = new Date();
+        const firstDayOfMonth = new Date(now.getFullYear(), now.getMonth(), 1, 0, 0, 1);
+        
+        // Get all commits from the current month
+        const monthlyCommits = kaia.repositories.flatMap(repo => 
+          repo.commits.filter(commit => {
+            const commitDate = new Date(commit.timestamp);
+            return commitDate >= firstDayOfMonth && commitDate <= now;
+          })
+        );
+
+        // Get unique committers from these commits
+        const monthlyCommitters = new Set(
+          monthlyCommits.map(commit => commit.committer.name.toLowerCase())
+        );
+
+        return monthlyCommitters.size;
+      })()
     }
   }, []);
 
@@ -139,6 +158,13 @@ export default function DevelopersPage() {
           <div className="flex items-center gap-2">
             <Users className="w-4 h-4" />
             <p className="text-sm">Developers with community rank more than 3</p>
+          </div>
+        </div>
+        <div className="flex flex-col gap-4 border rounded-md p-4">
+          <h1 className="text-2xl font-bold">{stats.totalMonthlyActiveDevelopers}</h1>
+          <div className="flex items-center gap-2">
+            <Users className="w-4 h-4" />
+            <p className="text-sm">Monthly active developers</p>
           </div>
         </div>
       </div>
