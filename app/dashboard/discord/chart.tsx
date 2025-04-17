@@ -16,31 +16,31 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart"
-import kaiadevforum from "@/lib/mocks/kaia-devforum.json"
+import kaia_discord from "@/lib/mocks/kaia-discord.json"
 
 export const description = "An interactive bar chart"
 
-const chartData = kaiadevforum.daily_stats
+const chartData = kaia_discord.daily_stats
 
 const chartConfig = {
-  posts: {
-    label: "Posts",
+  developers: {
+    label: "Developers",
     color: "hsl(var(--chart-1))",
   },
-  members: {
-    label: "Members",
+  messages: {
+    label: "Messages",
     color: "hsl(var(--chart-2))",
   },
 } satisfies ChartConfig
 
-export function DevForumChart() {
+export function DiscordChart() {
   const [activeChart, setActiveChart] =
-    React.useState<keyof typeof chartConfig>("posts")
+    React.useState<keyof typeof chartConfig>("messages")
 
   const total = React.useMemo(
     () => ({
-      posts: chartData.reduce((acc, curr) => acc + curr.posts, 0),
-      members: chartData.reduce((acc, curr) => acc + curr.members, 0),
+      developers: chartData.reduce((acc, curr) => acc + curr.developers, 0),
+      messages: chartData.reduce((acc, curr) => acc + curr.messages, 0),
     }),
     []
   )
@@ -55,7 +55,7 @@ export function DevForumChart() {
           </CardDescription>
         </div>
         <div className="flex">
-          {["posts", "members"].map((key) => {
+          {["developers", "messages"].map((key) => {
             const chart = key as keyof typeof chartConfig
             return (
               <button
