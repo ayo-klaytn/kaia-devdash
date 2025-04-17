@@ -1,0 +1,309 @@
+{
+  "overview": {
+    "totalDevelopers": 293,
+    "totalMessages": 20382,
+    "totalDevChannels": 7
+  },
+  "daily_stats": [
+    {
+      "date": "2024-01-20",
+      "developers": 1,
+      "messages": 3
+    },
+    {
+      "date": "2024-01-21",
+      "developers": 2,
+      "messages": 4
+    },
+    {
+      "date": "2024-01-22",
+      "developers": 0,
+      "messages": 1
+    },
+    {
+      "date": "2024-01-23",
+      "developers": 1,
+      "messages": 2
+    },
+    {
+      "date": "2024-01-24",
+      "developers": 2,
+      "messages": 5
+    },
+    {
+      "date": "2024-01-25",
+      "developers": 1,
+      "messages": 3
+    },
+    {
+      "date": "2024-01-26",
+      "developers": 0,
+      "messages": 0
+    },
+    {
+      "date": "2024-01-27",
+      "developers": 1,
+      "messages": 2
+    },
+    {
+      "date": "2024-01-28",
+      "developers": 2,
+      "messages": 4
+    },
+    {
+      "date": "2024-01-29",
+      "developers": 1,
+      "messages": 3
+    },
+    {
+      "date": "2024-01-30",
+      "developers": 0,
+      "messages": 1
+    },
+    {
+      "date": "2024-01-31",
+      "developers": 2,
+      "messages": 5
+    },
+    {
+      "date": "2024-02-01",
+      "developers": 1,
+      "messages": 2
+    },
+    {
+      "date": "2024-02-02",
+      "developers": 2,
+      "messages": 4
+    },
+    {
+      "date": "2024-02-03",
+      "developers": 0,
+      "messages": 0
+    },
+    {
+      "date": "2024-02-04",
+      "developers": 1,
+      "messages": 3
+    },
+    {
+      "date": "2024-02-05",
+      "developers": 2,
+      "messages": 5
+    },
+    {
+      "date": "2024-02-06",
+      "developers": 1,
+      "messages": 2
+    },
+    {
+      "date": "2024-02-07",
+      "developers": 0,
+      "messages": 1
+    },
+    {
+      "date": "2024-02-08",
+      "developers": 2,
+      "messages": 4
+    },
+    {
+      "date": "2024-02-09",
+      "developers": 1,
+      "messages": 3
+    },
+    {
+      "date": "2024-02-10",
+      "developers": 2,
+      "messages": 5
+    },
+    {
+      "date": "2024-02-11",
+      "developers": 0,
+      "messages": 0
+    },
+    {
+      "date": "2024-02-12",
+      "developers": 1,
+      "messages": 2
+    },
+    {
+      "date": "2024-02-13",
+      "developers": 2,
+      "messages": 4
+    },
+    {
+      "date": "2024-02-14",
+      "developers": 1,
+      "messages": 3
+    },
+    {
+      "date": "2024-02-15",
+      "developers": 0,
+      "messages": 1
+    },
+    {
+      "date": "2024-02-16",
+      "developers": 2,
+      "messages": 5
+    },
+    {
+      "date": "2024-02-17",
+      "developers": 1,
+      "messages": 2
+    },
+    {
+      "date": "2024-02-18",
+      "developers": 2,
+      "messages": 4
+    },
+    {
+      "date": "2024-02-19",
+      "developers": 0,
+      "messages": 0
+    },
+    {
+      "date": "2024-02-20",
+      "developers": 1,
+      "messages": 3
+    },
+    {
+      "date": "2024-02-21",
+      "developers": 2,
+      "messages": 5
+    },
+    {
+      "date": "2024-02-22",
+      "developers": 1,
+      "messages": 2
+    },
+    {
+      "date": "2024-02-23",
+      "developers": 0,
+      "messages": 1
+    },
+    {
+      "date": "2024-02-24",
+      "developers": 2,
+      "messages": 4
+    },
+    {
+      "date": "2024-02-25",
+      "developers": 1,
+      "messages": 3
+    },
+    {
+      "date": "2024-02-26",
+      "developers": 2,
+      "messages": 5
+    },
+    {
+      "date": "2024-02-27",
+      "developers": 0,
+      "messages": 0
+    },
+    {
+      "date": "2024-02-28",
+      "developers": 1,
+      "messages": 2
+    },
+    {
+      "date": "2024-02-29",
+      "developers": 2,
+      "messages": 4
+    },
+    {
+      "date": "2024-03-01",
+      "developers": 1,
+      "messages": 3
+    },
+    {
+      "date": "2024-03-02",
+      "developers": 0,
+      "messages": 1
+    },
+    {
+      "date": "2024-03-03",
+      "developers": 2,
+      "messages": 5
+    },
+    {
+      "date": "2024-03-04",
+      "developers": 1,
+      "messages": 2
+    },
+    {
+      "date": "2024-03-05",
+      "developers": 2,
+      "messages": 4
+    },
+    {
+      "date": "2024-03-06",
+      "developers": 0,
+      "messages": 0
+    },
+    {
+      "date": "2024-03-07",
+      "developers": 1,
+      "messages": 3
+    },
+    {
+      "date": "2024-03-08",
+      "developers": 2,
+      "messages": 5
+    },
+    {
+      "date": "2024-03-09",
+      "developers": 1,
+      "messages": 2
+    },
+    {
+      "date": "2024-03-10",
+      "developers": 0,
+      "messages": 1
+    },
+    {
+      "date": "2024-03-11",
+      "developers": 2,
+      "messages": 4
+    },
+    {
+      "date": "2024-03-12",
+      "developers": 1,
+      "messages": 3
+    },
+    {
+      "date": "2024-03-13",
+      "developers": 2,
+      "messages": 5
+    },
+    {
+      "date": "2024-03-14",
+      "developers": 0,
+      "messages": 0
+    },
+    {
+      "date": "2024-03-15",
+      "developers": 1,
+      "messages": 2
+    },
+    {
+      "date": "2024-03-16",
+      "developers": 2,
+      "messages": 4
+    },
+    {
+      "date": "2024-03-17",
+      "developers": 1,
+      "messages": 3
+    },
+    {
+      "date": "2024-03-18",
+      "developers": 0,
+      "messages": 1
+    },
+    {
+      "date": "2024-03-19",
+      "developers": 2,
+      "messages": 5
+    }
+  ]
+}
