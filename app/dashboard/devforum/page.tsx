@@ -1,5 +1,6 @@
 import devForum from "@/lib/mocks/kaia-devforum.json";
 import { ExternalLink, Package, UserPen, Users } from "lucide-react";
+import { DevForumChart } from "@/app/dashboard/devforum/chart";
 
 type DevForumPost = {
   id: number;
@@ -38,6 +39,10 @@ export default function DevForumPage() {
             <p className="text-sm">Total admins + mods</p>
           </div>
         </div>
+      </div>
+      <div className="flex flex-col gap-4">
+        <h2 className="text-lg font-bold">Kaia Dev Intern</h2>
+        <DevForumChart />
       </div>
       <h1 className="text-2xl font-bold">Latest Posts</h1>
       <div className="flex flex-col gap-4">

@@ -1,0 +1,305 @@
+{
+  "overview": {
+    "views": {
+      "value": 32800,
+      "change": -20
+    },
+    "visits": {
+      "value": 8870,
+      "change": -28
+    },
+    "visitors": {
+      "value": 6420,
+      "change": -27
+    },
+    "bounce_rate": {
+      "value": 57,
+      "change": 0
+    },
+    "visit_duration": {
+      "value": "3m 32s",
+      "change": -7
+    }
+  },
+  "daily_stats": [
+    {"date": "Mar 19", "visitors": 300, "views": 2000},
+    {"date": "Mar 20", "visitors": 275, "views": 1550},
+    {"date": "Mar 21", "visitors": 250, "views": 1100},
+    {"date": "Mar 22", "visitors": 225, "views": 725},
+    {"date": "Mar 23", "visitors": 200, "views": 350},
+    {"date": "Mar 24", "visitors": 250, "views": 1075},
+    {"date": "Mar 25", "visitors": 300, "views": 1800},
+    {"date": "Mar 26", "visitors": 350, "views": 1550},
+    {"date": "Mar 27", "visitors": 400, "views": 1300},
+    {"date": "Mar 28", "visitors": 325, "views": 825},
+    {"date": "Mar 29", "visitors": 250, "views": 350},
+    {"date": "Mar 30", "visitors": 325, "views": 925},
+    {"date": "Mar 31", "visitors": 400, "views": 1500},
+    {"date": "Apr 1", "visitors": 375, "views": 1350},
+    {"date": "Apr 2", "visitors": 350, "views": 1200},
+    {"date": "Apr 3", "visitors": 325, "views": 1100},
+    {"date": "Apr 4", "visitors": 300, "views": 1000},
+    {"date": "Apr 5", "visitors": 275, "views": 750},
+    {"date": "Apr 6", "visitors": 250, "views": 500},
+    {"date": "Apr 7", "visitors": 275, "views": 700},
+    {"date": "Apr 8", "visitors": 300, "views": 900},
+    {"date": "Apr 9", "visitors": 350, "views": 1450},
+    {"date": "Apr 10", "visitors": 400, "views": 2000},
+    {"date": "Apr 11", "visitors": 375, "views": 1950},
+    {"date": "Apr 12", "visitors": 350, "views": 1900},
+    {"date": "Apr 13", "visitors": 325, "views": 1650},
+    {"date": "Apr 14", "visitors": 300, "views": 1400},
+    {"date": "Apr 15", "visitors": 325, "views": 1450},
+    {"date": "Apr 16", "visitors": 350, "views": 1500}
+  ],
+  "pages": [
+    {
+      "path": "/",
+      "views": 1670,
+      "percentage": 22,
+      "visitors": 2130,
+      "visitor_percentage": 47
+    },
+    {
+      "path": "/learn/",
+      "views": 1370,
+      "percentage": 18,
+      "visitors": 1760,
+      "visitor_percentage": 39
+    },
+    {
+      "path": "/kaia-tech/kaia-white-paper/",
+      "views": 776,
+      "percentage": 10,
+      "visitors": 190,
+      "visitor_percentage": 4
+    },
+    {
+      "path": "/mindapps/",
+      "views": 775,
+      "percentage": 10,
+      "visitors": 106,
+      "visitor_percentage": 2
+    },
+    {
+      "path": "/build/tutorial-connecting-metamask/",
+      "views": 702,
+      "percentage": 9,
+      "visitors": 84,
+      "visitor_percentage": 2
+    },
+    {
+      "path": "/build/get-started/",
+      "views": 650,
+      "percentage": 8,
+      "visitors": 75,
+      "visitor_percentage": 2
+    },
+    {
+      "path": "/references/public-en/",
+      "views": 635,
+      "percentage": 8,
+      "visitors": 59,
+      "visitor_percentage": 1
+    },
+    {
+      "path": "/learn/accounts/",
+      "views": 409,
+      "percentage": 5,
+      "visitors": 53,
+      "visitor_percentage": 1
+    },
+    {
+      "path": "/misc/kaia-transition/faq-chain-transition/",
+      "views": 344,
+      "percentage": 4,
+      "visitors": 52,
+      "visitor_percentage": 1
+    },
+    {
+      "path": "/build/get-started/before-you-start/",
+      "views": 331,
+      "percentage": 4,
+      "visitors": 40,
+      "visitor_percentage": 1
+    }
+  ],
+  "referrers": [
+    {
+      "source": "google.com",
+      "visitors": 2130,
+      "percentage": 47
+    },
+    {
+      "source": "kaia.io",
+      "visitors": 1760,
+      "percentage": 39
+    },
+    {
+      "source": "docs.dappportal.io",
+      "visitors": 190,
+      "percentage": 4
+    },
+    {
+      "source": "bing.com",
+      "visitors": 106,
+      "percentage": 2
+    },
+    {
+      "source": "coinmarketcap.com",
+      "visitors": 84,
+      "percentage": 2
+    },
+    {
+      "source": "yandex.ru",
+      "visitors": 75,
+      "percentage": 2
+    },
+    {
+      "source": "google.com.hk",
+      "visitors": 59,
+      "percentage": 1
+    },
+    {
+      "source": "chatgpt.com",
+      "visitors": 53,
+      "percentage": 1
+    },
+    {
+      "source": "t.co",
+      "visitors": 52,
+      "percentage": 1
+    },
+    {
+      "source": "google.co.kr",
+      "visitors": 40,
+      "percentage": 1
+    }
+  ],
+  "browsers": [
+    {
+      "name": "Chrome",
+      "visitors": 4530,
+      "percentage": 72
+    },
+    {
+      "name": "iOS",
+      "visitors": 565,
+      "percentage": 9
+    },
+    {
+      "name": "Edge (Chromium)",
+      "visitors": 299,
+      "percentage": 5
+    },
+    {
+      "name": "Samsung",
+      "visitors": 195,
+      "percentage": 3
+    },
+    {
+      "name": "Firefox",
+      "visitors": 152,
+      "percentage": 2
+    },
+    {
+      "name": "Chrome (webview)",
+      "visitors": 146,
+      "percentage": 2
+    },
+    {
+      "name": "Safari",
+      "visitors": 129,
+      "percentage": 2
+    },
+    {
+      "name": "Chrome (iOS)",
+      "visitors": 128,
+      "percentage": 2
+    },
+    {
+      "name": "Yandex",
+      "visitors": 60,
+      "percentage": 1
+    },
+    {
+      "name": "iOS (webview)",
+      "visitors": 52,
+      "percentage": 1
+    }
+  ],
+  "operating_systems": [
+    {
+      "name": "Windows 10/11",
+      "visitors": 2250,
+      "percentage": 36
+    },
+    {
+      "name": "macOS",
+      "visitors": 1710,
+      "percentage": 27
+    },
+    {
+      "name": "Android",
+      "visitors": 1330,
+      "percentage": 21
+    },
+    {
+      "name": "iOS",
+      "visitors": 756,
+      "percentage": 12
+    },
+    {
+      "name": "Linux",
+      "visitors": 236,
+      "percentage": 4
+    },
+    {
+      "name": "Windows 7",
+      "visitors": 13,
+      "percentage": 0
+    },
+    {
+      "name": "ChromeOS",
+      "visitors": 5,
+      "percentage": 0
+    },
+    {
+      "name": "Windows 8.1",
+      "visitors": 2,
+      "percentage": 0
+    },
+    {
+      "name": "Windows 8",
+      "visitors": 1,
+      "percentage": 0
+    },
+    {
+      "name": "Windows Server 2003",
+      "visitors": 1,
+      "percentage": 0
+    }
+  ],
+  "devices": [
+    {
+      "type": "Desktop",
+      "visitors": 2220,
+      "percentage": 35
+    },
+    {
+      "type": "Laptop",
+      "visitors": 2000,
+      "percentage": 32
+    },
+    {
+      "type": "Mobile",
+      "visitors": 1970,
+      "percentage": 31
+    },
+    {
+      "type": "Tablet",
+      "visitors": 120,
+      "percentage": 2
+    }
+  ]
+} 
