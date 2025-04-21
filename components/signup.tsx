@@ -103,7 +103,7 @@ export default function SignUp() {
             Already have an account?
             <Link
               className="ml-2 font-medium text-gray-900 underline-offset-4 hover:underline dark:text-gray-500"
-              href="/login"
+              href="/signin"
             >
               Sign In
             </Link>

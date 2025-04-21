@@ -2,7 +2,7 @@ module.exports = {
   apps: [{
     name: "devrel-dashboard",
     script: "node_modules/next/dist/bin/next",
-    args: "start",
+    args: "start --port 3006",
     interpreter: "bun",
     env: {
       PATH: `${process.env.HOME}/.bun/bin:${process.env.PATH}`,
