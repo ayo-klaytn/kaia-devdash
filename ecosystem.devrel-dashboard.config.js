@@ -1,35 +1,17 @@
 module.exports = {
-  apps: [{
-    name: "devrel-dashboard",
-    script: "node_modules/next/dist/bin/next",
-    args: "start --port 3006",
-    interpreter: "bun",
-    env: {
-      PATH: `${process.env.HOME}/.bun/bin:${process.env.PATH}`,
-      NODE_ENV: "production",
-      PORT: 3006
-    },
-    env_production: {
-      NODE_ENV: "production",
-      PORT: 3006
-    },
-    env_development: {
-      NODE_ENV: "development",
-      PORT: 3006
-    },
-    // Load .env.local file
-    env_file: ".env.local",
-    // Restart on file changes
-    watch: false,
-    // Auto restart on crash
-    autorestart: true,
-    // Max memory usage before restart
-    max_memory_restart: "1G",
-    // Error log file
-    error_file: "logs/error.log",
-    // Output log file
-    out_file: "logs/out.log",
-    // Log time format
-    time: true
-  }]
+  name: "devrel-dashboard", // Name of your application
+  script: "node_modules/next/dist/bin/next", // Entry point of your application
+  args: "start --port 3006",
+  interpreter: "bun", // Bun interpreter
+  env: {
+    PATH: `${process.env.HOME}/.bun/bin:${process.env.PATH}`, // Add "~/.bun/bin/bun" to PATH
+  },
+  // Load .env.local file
+  env_file: ".env.local",
+  // Error log file
+  error_file: "logs/error.log",
+  // Output log file
+  out_file: "logs/out.log",
+  // Log time format
+  time: true
 };
