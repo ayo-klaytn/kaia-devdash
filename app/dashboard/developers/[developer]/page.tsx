@@ -6,6 +6,8 @@ import { DataTable } from "@/app/dashboard/developers/[developer]/data-table"
 import { columns } from "@/app/dashboard/developers/[developer]/columns"
 import { DeveloperRepository } from "@/app/dashboard/developers/[developer]/columns"
 import kaiaDevelopers from "@/lib/mocks/kaia-developers.json"
+import NotFoundComponent from "@/components/notfound"
+
 
 interface Developer {
   id: number;
@@ -27,6 +29,11 @@ export default async function Page({
 }) {
   const { developer } = await params
   const developerData = kaiaDevelopers.find((dev: Developer) => dev.name.toLowerCase() === developer.toLowerCase())
+
+  if (!developerData) {
+    return <NotFoundComponent />
+  }
+
   const ownedRepositories = kaia.repositories.filter(repo => repo.owner === developer)
   const contributedRepositories = kaia.repositories.filter(repo => repo.contributors.includes(developer))
   // from the kaia object filter the repositores that have the developer in the owner or contributors array

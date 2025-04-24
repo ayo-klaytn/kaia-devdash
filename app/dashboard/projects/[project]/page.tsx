@@ -3,6 +3,8 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { ProjectData } from "../columns";
 import kaiaProjects from "@/lib/mocks/kaia-projects.json";
+import NotFoundComponent from "@/components/notfound";
+
 
 export default async function ProjectPage({
   params,
@@ -15,7 +17,7 @@ export default async function ProjectPage({
   );
 
   if (!projectData) {
-    return <div>Project not found</div>;
+    return <NotFoundComponent />
   }
 
   return (
