@@ -22,23 +22,34 @@ export default async function ProjectPage({
 
   return (
     <div className="flex flex-col gap-4 p-4">
-      <div className="flex flex-row items-center gap-4">
+      <div className="flex flex-col items-start gap-4">
         <h1 className="text-2xl font-bold">{projectData.name}</h1>
-        <Button variant="outline" asChild>
-          <Link
-            target="_blank"
-            href={`https://github.com/${projectData.github}`}
-          >
-            <ExternalLink className="w-4 h-4" />
-            <span>GitHub</span>
-          </Link>
-        </Button>
-        <Button variant="outline" asChild>
-          <Link target="_blank" href={`https://x.com/${project}`}>
-            <ExternalLink className="w-4 h-4" />
-            <span>X</span>
-          </Link>
-        </Button>
+        <div className="flex flex-row items-center gap-4">
+          <Button variant="outline" asChild>
+            <Link
+              target="_blank"
+              href={projectData.url}
+            >
+              <span>Web</span>
+              <ExternalLink className="w-4 h-4" />
+            </Link>
+          </Button>
+          <Button variant="outline" asChild>
+            <Link
+              target="_blank"
+              href={`https://github.com/${projectData.github}`}
+            >
+              <span>GitHub</span>
+              <ExternalLink className="w-4 h-4" />
+            </Link>
+          </Button>
+          <Button variant="outline" asChild>
+            <Link target="_blank" href={`https://x.com/${project}`}>
+              <span>X</span>
+              <ExternalLink className="w-4 h-4" />
+            </Link>
+          </Button>
+        </div>
       </div>
       <div className="flex flex-row flex-wrap gap-4">
         {projectData.dune_dashboard_urls.map((duneDashboard) => (
