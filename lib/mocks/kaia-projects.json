@@ -58,6 +58,13 @@
         "description": "Total volume",
         "width": "400px",
         "height": "200px"
+      },
+      {
+        "id": "6",
+        "url": "https://dune.com/embeds/4861400/8051223",
+        "description": "TVL",
+        "width": "400px",
+        "height": "200px"
       }
     ],
     "community_rank": 3,

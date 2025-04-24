@@ -42,15 +42,15 @@ export default async function ProjectPage({
         {projectData.dune_dashboard_urls.map((duneDashboard) => (
           <div
             key={duneDashboard.id}
-            className={`flex flex-col gap-2 w-[${duneDashboard.width}]`}
+            className={`flex flex-col gap-2 ${duneDashboard.width === "100%" ? "w-full" : `w-[${duneDashboard.width}]`}`}
           >
             <h2 className="text-lg font-medium">{duneDashboard.description}</h2>
-            <div className={`w-[${duneDashboard.width}] h-[${duneDashboard.height}]`}>
+            <div className={`${duneDashboard.width === "100%" ? "w-full" : `w-[${duneDashboard.width}]`} h-[${duneDashboard.height}]`}>
               <iframe 
                 src={duneDashboard.url} 
                 width={duneDashboard.width} 
                 height={duneDashboard.height}
-                className="border-0"
+                className="border-1 border-orange-500"
               />
             </div>
           </div>
