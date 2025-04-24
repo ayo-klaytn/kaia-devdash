@@ -19,6 +19,13 @@ export type ProjectData = {
     id: string
     url: string
   }[]
+  dune_dashboard_urls: {
+    id: string
+    url: string
+    description: string
+    width: string
+    height: string
+  }[]
   categories: string[]
   community_rank: number
   maturity_rank: number

@@ -23,16 +23,53 @@
     "categories": [
       "DeFi"
     ],
+    "dune_dashboard_urls": [
+      {
+        "id": "1",
+        "url": "https://dune.com/embeds/4870553/8065789",
+        "description": "Dragonswap Market share",
+        "width": "100%",
+        "height": "400px"
+      },
+      {
+        "id": "2",
+        "url": "https://dune.com/embeds/4860578/8049963/",
+        "description": "Dragonswap Daily volume",
+        "width": "100%",
+        "height": "400px"
+      },
+      {
+        "id": "3",
+        "url": "https://dune.com/embeds/4870708/8066091/",
+        "description": "Total traders",
+        "width": "400px",
+        "height": "200px"
+      },
+      {
+        "id": "4",
+        "url": "https://dune.com/embeds/4868294/8066079",
+        "description": "Total volume",
+        "width": "400px",
+        "height": "200px"
+      },
+      {
+        "id": "5",
+        "url": "https://dune.com/embeds/4870708/8066093",
+        "description": "Total volume",
+        "width": "400px",
+        "height": "200px"
+      }
+    ],
     "community_rank": 3,
     "maturity_rank": 5
   },
   {
     "id": 2,
-    "name": "KaiaAI",
+    "name": "Swapscanner",
     "description": "AI-powered Smart Contract Analysis Tool",
-    "url": "https://kaiai.dev",
-    "twitter": "https://x.com/KaiaAI",
-    "github": "https://github.com/kaia-ai",
+    "url": "https://swapscanner.io",
+    "twitter": "https://x.com/Swapscanner",
+    "github": "https://github.com/swapscanner",
     "repositories": [
       {
         "id": "4",
@@ -44,207 +81,25 @@
       }
     ],
     "categories": [
-      "AI",
-      "Developer Tooling"
+      "DeFi"
+    ],
+    "dune_dashboard_urls": [
+      {
+        "id": "1",
+        "url": "https://dune.com/embeds/4207329/7081444",
+        "description": "Activity By Day",
+        "width": "100%",
+        "height": "400px"
+      },
+      {
+        "id": "2",
+        "url": "https://dune.com/embeds/4207329/7081445",
+        "description": "Activity By Day",
+        "width": "100%",
+        "height": "400px"
+      }
     ],
     "community_rank": 4,
     "maturity_rank": 3
-  },
-  {
-    "id": 3,
-    "name": "NFTBridge",
-    "description": "Cross-chain NFT Bridge Protocol",
-    "url": "https://nftbridge.kaia.io",
-    "twitter": "https://x.com/NFTBridge",
-    "github": "https://github.com/nft-bridge",
-    "repositories": [
-      {
-        "id": "6",
-        "url": "https://github.com/nft-bridge/contracts"
-      }
-    ],
-    "categories": [
-      "NFT",
-      "Developer Tooling"
-    ],
-    "community_rank": 3,
-    "maturity_rank": 2
-  },
-  {
-    "id": 4,
-    "name": "KaiaDAO",
-    "description": "Community Governance Platform",
-    "url": "https://kaiadao.org",
-    "twitter": "https://x.com/KaiaDAO",
-    "github": "https://github.com/kaia-dao",
-    "repositories": [
-      {
-        "id": "7",
-        "url": "https://github.com/kaia-dao/governance"
-      },
-      {
-        "id": "8",
-        "url": "https://github.com/kaia-dao/interface"
-      }
-    ],
-    "categories": [
-      "Community",
-      "DeFi"
-    ],
-    "community_rank": 5,
-    "maturity_rank": 1
-  },
-  {
-    "id": 5,
-    "name": "DevKit",
-    "description": "Developer Toolkit for Kaia Integration",
-    "url": "https://devkit.kaia.dev",
-    "twitter": "https://x.com/KaiaDevKit",
-    "github": "https://github.com/kaia-devkit",
-    "repositories": [
-      {
-        "id": "9",
-        "url": "https://github.com/kaia-devkit/sdk"
-      }
-    ],
-    "categories": [
-      "Developer Tooling"
-    ],
-    "community_rank": 4,
-    "maturity_rank": 5
-  },
-  {
-    "id": 6,
-    "name": "KaiaWallet",
-    "description": "Consumer-friendly Web3 Wallet",
-    "url": "https://wallet.kaia.app",
-    "twitter": "https://x.com/KaiaWallet",
-    "github": "https://github.com/kaia-wallet",
-    "repositories": [
-      {
-        "id": "10",
-        "url": "https://github.com/kaia-wallet/mobile-app"
-      },
-      {
-        "id": "11",
-        "url": "https://github.com/kaia-wallet/browser-extension"
-      }
-    ],
-    "categories": [
-      "Consumer"
-    ],
-    "community_rank": 5,
-    "maturity_rank": 4
-  },
-  {
-    "id": 7,
-    "name": "ArtGen",
-    "description": "AI-powered NFT Generation Platform",
-    "url": "https://artgen.ai",
-    "twitter": "https://x.com/ArtGenAI",
-    "github": "https://github.com/artgen-ai",
-    "repositories": [
-      {
-        "id": "12",
-        "url": "https://github.com/artgen-ai/generator"
-      }
-    ],
-    "categories": [
-      "AI",
-      "NFT"
-    ],
-    "community_rank": 2,
-    "maturity_rank": 2
-  },
-  {
-    "id": 8,
-    "name": "KaiaLend",
-    "description": "Decentralized Lending Protocol",
-    "url": "https://kaialend.finance",
-    "twitter": "https://x.com/KaiaLend",
-    "github": "https://github.com/kaia-lend",
-    "repositories": [
-      {
-        "id": "13",
-        "url": "https://github.com/kaia-lend/protocol"
-      },
-      {
-        "id": "14",
-        "url": "https://github.com/kaia-lend/interface"
-      }
-    ],
-    "categories": [
-      "DeFi"
-    ],
-    "community_rank": 3,
-    "maturity_rank": 4
-  },
-  {
-    "id": 9,
-    "name": "KaiaChat",
-    "description": "Web3 Social Platform",
-    "url": "https://kaiachat.social",
-    "twitter": "https://x.com/KaiaChat",
-    "github": "https://github.com/kaia-chat",
-    "repositories": [
-      {
-        "id": "15",
-        "url": "https://github.com/kaia-chat/app"
-      }
-    ],
-    "categories": [
-      "Consumer",
-      "Community"
-    ],
-    "community_rank": 4,
-    "maturity_rank": 3
-  },
-  {
-    "id": 10,
-    "name": "SmartAudit",
-    "description": "Automated Smart Contract Auditing",
-    "url": "https://smartaudit.security",
-    "twitter": "https://x.com/SmartAudit",
-    "github": "https://github.com/smart-audit",
-    "repositories": [
-      {
-        "id": "16",
-        "url": "https://github.com/smart-audit/engine"
-      },
-      {
-        "id": "17",
-        "url": "https://github.com/smart-audit/dashboard"
-      }
-    ],
-    "categories": [
-      "Developer Tooling",
-      "AI"
-    ],
-    "community_rank": 3,
-    "maturity_rank": 4
-  },
-  {
-    "id": 11,
-    "name": "KaiaVerse",
-    "description": "Web3 Metaverse Platform",
-    "url": "https://kaiaverse.world",
-    "twitter": "https://x.com/KaiaVerse",
-    "github": "https://github.com/kaia-verse",
-    "repositories": [
-      {
-        "id": "18",
-        "url": "https://github.com/kaia-verse/engine"
-      },
-      {
-        "id": "19",
-        "url": "https://github.com/kaia-verse/assets"
-      }
-    ],
-    "categories": [
-      "Consumer",
-      "NFT"
-    ],
-    "community_rank": 2,
-    "maturity_rank": 1
   }
 ]
