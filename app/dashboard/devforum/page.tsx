@@ -11,6 +11,12 @@ type DevForumPost = {
 export default function DevForumPage() {
   return (
     <div className="flex flex-col gap-4 p-4">
+      <div className="flex flex-col gap-4">
+        <h1 className="text-2xl font-bold">Dev Forum</h1>
+        <p className="text-sm text-muted-foreground">
+          View dev forum data.
+        </p>
+      </div>
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
         <div className="flex flex-col gap-4 border rounded-md p-4">
           <h1 className="text-2xl font-bold">{devForum.overview.totalPosts}</h1>
