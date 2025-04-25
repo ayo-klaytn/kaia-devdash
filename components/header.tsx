@@ -65,7 +65,7 @@ export default function Header() {
           </BreadcrumbList>
         </Breadcrumb>
       </div>
-      <Button variant="outline" size="icon" onClick={signOut}>
+      <Button variant="outline" size="icon" onClick={signOut} className="hover:cursor-pointer">
         <LogOut />
       </Button>
     </div>
