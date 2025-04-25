@@ -13,6 +13,12 @@ export default function WebTrafficPage() {
 
   return (
     <div className="flex flex-col gap-4 p-4">
+      <div className="flex flex-col gap-4">
+        <h1 className="text-2xl font-bold">Web Traffic</h1>
+        <p className="text-sm text-muted-foreground">
+          View web traffic data.
+        </p>
+      </div>
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
         <div className="flex flex-col gap-4 border rounded-md p-4">
           <h1 className="text-2xl font-bold">{overview.views.value}</h1>
