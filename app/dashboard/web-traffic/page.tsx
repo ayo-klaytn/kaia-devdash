@@ -1,6 +1,6 @@
 import { UserPen, Package, Users } from "lucide-react";
 import webTrafficData from "@/lib/mocks/kaia-docs-webtraffic.json";
-import { WebTrafficChart } from "@/app/dashboard/webtraffic/chart";
+import { WebTrafficChart } from "@/app/dashboard/web-traffic/chart";
 export default function WebTrafficPage() {
   const {
     overview,

@@ -52,10 +52,10 @@ export default function Header() {
                   <BreadcrumbSeparator />
                   <BreadcrumbItem key={path}>
                     {isLast ? (
-                      <BreadcrumbPage>{segment}</BreadcrumbPage>
+                      <BreadcrumbPage>{segment.charAt(0).toUpperCase() + segment.slice(1).replace(/-/g, ' ')}</BreadcrumbPage>
                     ) : (
                       <BreadcrumbLink href={path}>
-                        {segment}
+                        {segment.charAt(0).toUpperCase() + segment.slice(1).replace(/-/g, ' ')}
                       </BreadcrumbLink>
                     )}
                   </BreadcrumbItem>

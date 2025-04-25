@@ -1,8 +1,7 @@
 "use client"
 
-import { Home, Code, Radio, MessageSquareText, Gamepad2, Earth } from "lucide-react"
+import { Home, Code, Radio, MessageSquareText, Gamepad2, Earth, ChartLine, Ship, Users } from "lucide-react"
 import { usePathname } from 'next/navigation';
-
 import {
   Sidebar,
   SidebarContent,
@@ -15,8 +14,10 @@ import {
   SidebarMenuSub,
   SidebarMenuSubItem,
   SidebarMenuSubButton,
-} from "@/components/ui/sidebar"
+} from "@/components/ui/sidebar";
+import Link from "next/link";
  
+
 // Menu items.
 const data = {
   navMain: [
@@ -50,8 +51,13 @@ const data = {
         },
         {
           title: "Web Traffic",
-          url: "/dashboard/webtraffic",
+          url: "/dashboard/web-traffic",
           icon: Earth,
+        },
+        {
+          title: "Onchain Metrics",
+          url: "/dashboard/onchain-metrics",
+          icon: ChartLine,
         },
       ],
     },
@@ -61,10 +67,12 @@ const data = {
         {
           title: "Projects",
           url: "/dashboard/projects",
+          icon: Ship,
         },
         {
           title: "Developers",
           url: "/dashboard/developers",
+          icon: Users,
         },
       ],
     },
@@ -84,16 +92,26 @@ export function AppSidebar() {
               {data.navMain.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
-                    <a href={item.url} className="font-medium">
-                      {item.title}
-                    </a>
+                    {
+                      item.title === "Home" ? (
+                        <Link className="font-medium" href="/dashboard">
+                          {item.icon && <item.icon className="w-4 h-4" />}
+                          {item.title}
+                        </Link>
+                      ) : (
+                        <p className="font-medium">{item.title}</p>
+                      )
+                    }
                   </SidebarMenuButton>
                   {item.items?.length ? (
                     <SidebarMenuSub>
                       {item.items.map((item) => (
                         <SidebarMenuSubItem key={item.title}>
                           <SidebarMenuSubButton asChild isActive={pathname === item.url}>
-                            <a href={item.url}>{item.title}</a>
+                            <Link href={item.url ?? "/"}>
+                              {'icon' in item && <item.icon className="w-4 h-4" />}
+                              {item.title}
+                            </Link>
                           </SidebarMenuSubButton>
                         </SidebarMenuSubItem>
                       ))}
