@@ -41,7 +41,7 @@ export default function Header() {
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem>
-              <BreadcrumbLink href="/">Home</BreadcrumbLink>
+              <BreadcrumbLink href="/dashboard">Home</BreadcrumbLink>
             </BreadcrumbItem>
             {segments.map((segment, index) => {
               const path = `/${segments.slice(0, index + 1).join('/')}`;
