@@ -41,7 +41,7 @@ export const columns: ColumnDef<DeveloperRepository>[] = [
       return (
         <div className="w-[400px]">
           <Link
-            href={`/dashboard/projects/${row.original.repository}`}
+            href={`https://github.com/${row.original.owner}/${row.original.repository}`}
             className="text-blue-500 underline underline-offset-4"
           >
             {row.original.repository}
