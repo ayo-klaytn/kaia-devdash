@@ -85,9 +85,7 @@ export const repository = pgTable("repository", {
   id: text("id").primaryKey(),
   owner: text("owner").notNull(),
   name: text("name").notNull(),
-  url: text("url").$defaultFn((): string => {
-    return `https://github.com/${repository.owner}/${repository.name}`;
-  }),
+  url: text("url"),
   status: text("status").default("inactive"),
   createdAt: timestamp("created_at").notNull(),
   updatedAt: timestamp("updated_at").notNull(),
