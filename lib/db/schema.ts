@@ -119,3 +119,57 @@ export const commit = pgTable("commit", {
   createdAt: timestamp("created_at").notNull(),
   updatedAt: timestamp("updated_at").notNull(),
 });
+
+// Developer
+export const developer = pgTable("developer", {
+  id: integer("id").primaryKey(),
+  name: text("name").notNull(),
+  github: text("github").notNull(),
+  address: text("address").notNull(),
+  communityRank: integer("community_rank").notNull(),
+  xHandle: text("x_handle"),
+  bootcampGraduated: timestamp("bootcamp_graduated"),
+  bootcampContributor: timestamp("bootcamp_contributor"),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+  updatedAt: timestamp("updated_at").notNull().defaultNow(),
+});
+
+// Project Repository
+export const projectRepository = pgTable("project_repository", {
+  id: text("id").primaryKey(),
+  url: text("url").notNull(),
+  projectId: integer("project_id")
+    .notNull()
+    .references(() => project.id, { onDelete: "cascade" }),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+  updatedAt: timestamp("updated_at").notNull().defaultNow(),
+});
+
+// Project Dune Dashboard
+export const projectDuneDashboard = pgTable("project_dune_dashboard", {
+  id: text("id").primaryKey(),
+  url: text("url").notNull(),
+  description: text("description").notNull(),
+  width: text("width").notNull(),
+  height: text("height").notNull(),
+  projectId: integer("project_id")
+    .notNull()
+    .references(() => project.id, { onDelete: "cascade" }),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+  updatedAt: timestamp("updated_at").notNull().defaultNow(),
+});
+
+// Project
+export const project = pgTable("project", {
+  id: integer("id").primaryKey(),
+  name: text("name").notNull(),
+  description: text("description").notNull(),
+  url: text("url").notNull(),
+  twitter: text("twitter"),
+  github: text("github"),
+  communityRank: integer("community_rank").notNull(),
+  maturityRank: integer("maturity_rank").notNull(),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+  updatedAt: timestamp("updated_at").notNull().defaultNow(),
+});
+
