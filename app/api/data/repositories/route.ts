@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import db from "@/lib/db";
-import { repository as repositoryTable } from "@/lib/db/schema";
+import { repository } from "@/lib/db/schema";
 import { headers } from 'next/headers';
 import { createId } from '@paralleldrive/cuid2';
 import { eq, and, asc } from "drizzle-orm";
@@ -24,8 +24,8 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
   const limit = searchParams.get('limit') || '100';
   const offset = (parseInt(page) - 1) * parseInt(limit);
   const repositories = await db.select()
-    .from(repositoryTable)
-    .orderBy(asc(repositoryTable.owner))
+    .from(repository)
+    .orderBy(asc(repository.owner))
     .limit(parseInt(limit))
     .offset(offset);
 
@@ -49,11 +49,11 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 
   // check if repository already exists
   const existingRepository = await db.select()
-    .from(repositoryTable)
+    .from(repository)
     .where(
       and(
-        eq(repositoryTable.owner, owner),
-        eq(repositoryTable.name, repoName)
+        eq(repository.owner, owner),
+        eq(repository.name, repoName)
       )
     )
     .limit(1);
@@ -63,7 +63,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
   }
 
   // add to db
-  const newRepository = await db.insert(repositoryTable).values({
+  const newRepository = await db.insert(repository).values({
     id: createId(),
     owner,
     name: repoName,
@@ -88,7 +88,7 @@ export async function DELETE(request: NextRequest): Promise<NextResponse> {
   
   const { id } = await request.json();
 
-  await db.delete(repositoryTable).where(eq(repositoryTable.id, id));
+  await db.delete(repository).where(eq(repository.id, id));
 
   return NextResponse.json({ message: "Repository deleted" }, { status: 200 });
 }
@@ -120,9 +120,9 @@ export async function PATCH(request: NextRequest): Promise<NextResponse> {
   if (owner !== undefined) updateData.owner = owner;
   if (repoName !== undefined) updateData.name = repoName;
 
-  const updatedRepository = await db.update(repositoryTable)
+  const updatedRepository = await db.update(repository)
     .set(updateData)
-    .where(eq(repositoryTable.id, id))
+    .where(eq(repository.id, id))
     .returning();
 
   return NextResponse.json(updatedRepository);
