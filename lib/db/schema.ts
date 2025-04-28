@@ -3,7 +3,8 @@ import {
   timestamp,
   pgTable,
   text,
-  integer
+  integer,
+  jsonb
 } from "drizzle-orm/pg-core";
 
 
@@ -190,6 +191,16 @@ export const project = pgTable("project", {
   github: text("github"),
   communityRank: integer("community_rank").notNull(),
   maturityRank: integer("maturity_rank").notNull(),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+  updatedAt: timestamp("updated_at").notNull().defaultNow(),
+});
+
+// Logs
+export const log = pgTable("log", {
+  id: text("id").primaryKey(),
+  logCode: text("log_code").notNull(),
+  message: text("message").notNull(),
+  rawData: jsonb("raw_data"),
   createdAt: timestamp("created_at").notNull().defaultNow(),
   updatedAt: timestamp("updated_at").notNull().defaultNow(),
 });

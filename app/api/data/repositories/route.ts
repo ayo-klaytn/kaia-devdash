@@ -3,7 +3,7 @@ import db from "@/lib/db";
 import { repository as repositoryTable } from "@/lib/db/schema";
 import { headers } from 'next/headers';
 import { createId } from '@paralleldrive/cuid2';
-import { eq, and } from "drizzle-orm";
+import { eq, and, asc } from "drizzle-orm";
 
 
 export async function GET(request: NextRequest): Promise<NextResponse> {
@@ -25,6 +25,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
   const offset = (parseInt(page) - 1) * parseInt(limit);
   const repositories = await db.select()
     .from(repositoryTable)
+    .orderBy(asc(repositoryTable.owner))
     .limit(parseInt(limit))
     .offset(offset);
 
