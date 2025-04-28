@@ -1,0 +1,57 @@
+import { NextRequest, NextResponse } from "next/server";
+import db from "@/lib/db";
+import { repositoryStats } from "@/lib/db/schema";
+import { headers } from 'next/headers';
+import { createId } from '@paralleldrive/cuid2';
+
+export async function GET(request: NextRequest): Promise<NextResponse> {
+  const headersList = await headers();
+  const apiSecret = headersList.get('apiSecret');
+
+  if (!apiSecret) {
+    return NextResponse.json({ error: "No API secret provided" }, { status: 401 });
+  }
+
+  if (apiSecret !== process.env.API_SECRET) {
+    return NextResponse.json({ error: "Invalid API secret" }, { status: 401 });
+  }
+
+  const searchParams = request.nextUrl.searchParams;
+  const page = searchParams.get('page') || '1';
+  const limit = searchParams.get('limit') || '100';
+  const offset = (parseInt(page) - 1) * parseInt(limit);
+
+  const repositoryStatsList = await db.select()
+    .from(repositoryStats)
+    .limit(parseInt(limit))
+    .offset(offset);
+
+  return NextResponse.json(repositoryStatsList);
+}
+
+export async function POST(request: NextRequest): Promise<NextResponse> {
+  const headersList = await headers();
+  const apiSecret = headersList.get('apiSecret');
+
+  if (!apiSecret) {
+    return NextResponse.json({ error: "No API secret provided" }, { status: 401 });
+  }
+
+  if (apiSecret !== process.env.API_SECRET) {
+    return NextResponse.json({ error: "Invalid API secret" }, { status: 401 });
+  }
+  
+  const { repositoryId, stars, forks, watchers } = await request.json();
+
+  const newRepositoryStats = await db.insert(repositoryStats).values({
+    id: createId(),
+    repositoryId: repositoryId,
+    stars,
+    forks,
+    watchers,
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  }).returning();
+
+  return NextResponse.json(newRepositoryStats);
+}

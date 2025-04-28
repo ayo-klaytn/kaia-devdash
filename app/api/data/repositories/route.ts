@@ -72,3 +72,45 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
  
   return NextResponse.json(newRepository);
 }
+
+export async function DELETE(request: NextRequest): Promise<NextResponse> {
+  const headersList = await headers();
+  const apiSecret = headersList.get('apiSecret');
+
+  if (!apiSecret) {
+    return NextResponse.json({ error: "No API secret provided" }, { status: 401 });
+  }
+
+  if (apiSecret !== process.env.API_SECRET) {
+    return NextResponse.json({ error: "Invalid API secret" }, { status: 401 });
+  }
+  
+  const { id } = await request.json();
+
+  await db.delete(repositoryTable).where(eq(repositoryTable.id, id));
+
+  return NextResponse.json({ message: "Repository deleted" }, { status: 200 });
+}
+
+export async function PATCH(request: NextRequest): Promise<NextResponse> {
+  const headersList = await headers();
+  const apiSecret = headersList.get('apiSecret');
+
+  if (!apiSecret) {
+    return NextResponse.json({ error: "No API secret provided" }, { status: 401 });
+  }
+
+  if (apiSecret !== process.env.API_SECRET) {
+    return NextResponse.json({ error: "Invalid API secret" }, { status: 401 });
+  }
+  
+  const { id, owner, repository: repoName } = await request.json();
+
+  const updatedRepository = await db.update(repositoryTable).set({
+    owner,
+    name: repoName,
+    updatedAt: new Date(),
+  }).where(eq(repositoryTable.id, id)).returning();
+
+  return NextResponse.json(updatedRepository);
+}

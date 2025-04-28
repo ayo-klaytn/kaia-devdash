@@ -1,6 +1,6 @@
 "use client"
 
-import { Home, Code, Radio, MessageSquareText, Gamepad2, Earth, ChartLine, Ship, Users } from "lucide-react"
+import { Home, Code, Radio, MessageSquareText, Gamepad2, Earth, ChartLine, Ship, Users, ShieldUser } from "lucide-react"
 import { usePathname } from 'next/navigation';
 import {
   Sidebar,
@@ -58,7 +58,7 @@ const data = {
           title: "Onchain Metrics",
           url: "/dashboard/onchain-metrics",
           icon: ChartLine,
-        },
+        }
       ],
     },
     {
@@ -76,6 +76,16 @@ const data = {
         },
       ],
     },
+    {
+      title: "Admin",
+      items: [
+        {
+          title: "Repositories",
+          url: "/dashboard/repositories",
+          icon: ShieldUser,
+        }
+      ],
+    }
   ],
 }
  
