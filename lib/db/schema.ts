@@ -3,7 +3,7 @@ import {
   timestamp,
   pgTable,
   text,
-  integer,
+  integer
 } from "drizzle-orm/pg-core";
 
 
@@ -62,11 +62,32 @@ export const verification = pgTable("verification", {
 });
 
 
+// Sub ecosystem
+export const subEcosystem = pgTable("sub_ecosystem", {
+  id: text("id").primaryKey(),
+  name: text("name").notNull(),
+  createdAt: timestamp("created_at").notNull(),
+  updatedAt: timestamp("updated_at").notNull(),
+});
+
+// Github Organization
+export const githubOrganization = pgTable("github_organization", {
+  id: text("id").primaryKey(),
+  username: text("username").notNull(),
+  url: text("url").notNull(),
+  createdAt: timestamp("created_at").notNull(),
+  updatedAt: timestamp("updated_at").notNull(),
+});
+
 // Repository
 export const repository = pgTable("repository", {
   id: text("id").primaryKey(),
   owner: text("owner").notNull(),
   name: text("name").notNull(),
+  url: text("url").$defaultFn((): string => {
+    return `https://github.com/${repository.owner}/${repository.name}`;
+  }),
+  status: text("status").default("inactive"),
   createdAt: timestamp("created_at").notNull(),
   updatedAt: timestamp("updated_at").notNull(),
 });

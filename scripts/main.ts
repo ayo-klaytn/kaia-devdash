@@ -1,32 +1,7 @@
-import fs from 'fs';
-import path from 'path';
+import { getGithubMetricsForDevRelRepo } from './lib';
 
-interface Developer {
-  id: number;
-  name: string;
-  github: string;
-  address: string;
-  bootcamp: {
-    graduated: number;
-    contributor: number;
-  };
-  xrank: number;
-  x_handle: string | null;
+async function main() {
+  await getGithubMetricsForDevRelRepo();
 }
 
-const kaiaDevelopersJsonPath = path.join(__dirname, '../lib/mocks/kaia-developers.json');
-
-const kaiaDevelopersJson = JSON.parse(fs.readFileSync(kaiaDevelopersJsonPath, 'utf8'));
-
-// add the x_handle to the kaiaDevelopersJson
-const kaiaDevelopers = kaiaDevelopersJson as Developer[];
-
-// add the x_handle field with null to all the developers in the kaiaDevelopersJson
-const kaiaDevelopersWithXHandle = kaiaDevelopers.map((developer) => ({
-  ...developer,
-  x_handle: null
-}));
-
-// write the kaiaDevelopersWithXHandle to the kaiaDevelopersJsonPath
-fs.writeFileSync(kaiaDevelopersJsonPath, JSON.stringify(kaiaDevelopersWithXHandle, null, 2));
-
+main().catch(console.error);
