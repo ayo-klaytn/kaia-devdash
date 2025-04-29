@@ -16,7 +16,7 @@ async function getNumberOfStarsForksWatchers(owner: string, repo: string) {
 }
 
 async function getStatsForRepositories() {
-  const hostUrl = "http://localhost:3006";
+  const hostUrl = process.env.BETTER_AUTH_URL;
 
   const repositories = await fetch(`${hostUrl}/api/data/repositories?page=1&limit=1000`, {
     headers: {
