@@ -87,6 +87,7 @@ export const repository = pgTable("repository", {
   name: text("name").notNull(),
   url: text("url"),
   status: text("status").default("inactive"),
+  remark: text("remark").default("external"),
   createdAt: timestamp("created_at").notNull(),
   updatedAt: timestamp("updated_at").notNull(),
 });

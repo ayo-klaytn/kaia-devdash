@@ -105,15 +105,16 @@ export async function PATCH(request: NextRequest): Promise<NextResponse> {
     return NextResponse.json({ error: "Invalid API secret" }, { status: 401 });
   }
   
-  const { id, owner, repository: repoName, status } = await request.json();
+  const { id, owner, repository: repoName, url, remark, status } = await request.json();
 
   if (!id) {
     return NextResponse.json({ error: "Repository ID is required" }, { status: 400 });
   }
 
-  const updateData: { owner?: string; name?: string; url?: string; status?: string; updatedAt: Date } = {
+  const updateData: { owner?: string; name?: string; url?: string; remark?: string; status?: string; updatedAt: Date } = {
     status: status || "inactive",
-    url: `https://github.com/${owner}/${repoName}`,
+    url: url,
+    remark: remark || "external",
     updatedAt: new Date(),
   };
 
