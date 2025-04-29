@@ -3,6 +3,7 @@ import db from "@/lib/db";
 import { repositoryStats } from "@/lib/db/schema";
 import { headers } from 'next/headers';
 import { createId } from '@paralleldrive/cuid2';
+import { eq } from "drizzle-orm";
 
 export async function GET(request: NextRequest): Promise<NextResponse> {
   const headersList = await headers();
@@ -54,4 +55,31 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
   }).returning();
 
   return NextResponse.json(newRepositoryStats);
+}
+
+export async function PATCH(request: NextRequest): Promise<NextResponse> {
+  const headersList = await headers();
+  const apiSecret = headersList.get('apiSecret');
+
+  if (!apiSecret) {
+    return NextResponse.json({ error: "No API secret provided" }, { status: 401 });
+  }
+
+  if (apiSecret !== process.env.API_SECRET) {
+    return NextResponse.json({ error: "Invalid API secret" }, { status: 401 });
+  }
+
+  const { repositoryId, stars, forks, watchers } = await request.json();
+
+  const updatedRepositoryStats = await db.update(repositoryStats)
+    .set({
+      stars,
+      forks,
+      watchers,
+      updatedAt: new Date(),
+    })
+    .where(eq(repositoryStats.repositoryId, repositoryId))
+    .returning();
+
+  return NextResponse.json(updatedRepositoryStats);
 }
