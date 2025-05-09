@@ -112,10 +112,12 @@ export const contributor = pgTable("contributor", {
   repositoryId: text("repository_id")
     .notNull()
     .references(() => repository.id, { onDelete: "cascade" }),
+  contributorId: text("contributor_id"),
+  contributorNodeId: text("contributor_node_id"),
   username: text("username"),
   email: text("email"),
   htmlUrl: text("html_url"),
-  profileUrl: text("profile_url"),
+  profilePictureUrl: text("profile_picture_url"),
   accountType: text("account_type"),
   createdAt: timestamp("created_at").notNull(),
   updatedAt: timestamp("updated_at").notNull(),

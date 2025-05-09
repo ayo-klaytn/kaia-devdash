@@ -45,7 +45,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     return NextResponse.json({ error: "Invalid API secret" }, { status: 401 });
   }
 
-  const { repositoryId, username, email, htmlUrl, profileUrl, accountType, rawResponse } = await request.json();
+  const { repositoryId, username, email, htmlUrl, profilePictureUrl, contributorId, contributorNodeId, accountType, rawResponse } = await request.json();
 
   // check if contributor already exists
   const existingContributor = await db.select()
@@ -69,7 +69,9 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     username,
     email,
     htmlUrl,
-    profileUrl,
+    profilePictureUrl,
+    contributorId,
+    contributorNodeId,
     accountType,
     rawResponse,
     createdAt: new Date(),
@@ -110,21 +112,23 @@ export async function PATCH(request: NextRequest): Promise<NextResponse> {
     return NextResponse.json({ error: "Invalid API secret" }, { status: 401 });
   }
   
-  const { id, username, email, htmlUrl, profileUrl, accountType, rawResponse } = await request.json();
+  const { id, username, email, htmlUrl, profilePictureUrl, contributorId, contributorNodeId, accountType, rawResponse } = await request.json();
 
   if (!id) {
     return NextResponse.json({ error: "Contributor ID is required" }, { status: 400 });
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const updateData: { username?: string; email?: string; htmlUrl?: string; profileUrl?: string; accountType?: string; rawResponse?: any; updatedAt: Date } = {
+  const updateData: { username?: string; email?: string; htmlUrl?: string; profilePictureUrl?: string; contributorId?: string; contributorNodeId?: string; accountType?: string; rawResponse?: any; updatedAt: Date } = {
     updatedAt: new Date(),
   };
 
   if (username !== undefined) updateData.username = username;
   if (email !== undefined) updateData.email = email;
   if (htmlUrl !== undefined) updateData.htmlUrl = htmlUrl;
-  if (profileUrl !== undefined) updateData.profileUrl = profileUrl;
+  if (profilePictureUrl !== undefined) updateData.profilePictureUrl = profilePictureUrl;
+  if (contributorId !== undefined) updateData.contributorId = contributorId;
+  if (contributorNodeId !== undefined) updateData.contributorNodeId = contributorNodeId;
   if (accountType !== undefined) updateData.accountType = accountType;
   if (rawResponse !== undefined) updateData.rawResponse = rawResponse;
 

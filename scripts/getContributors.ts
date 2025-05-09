@@ -44,8 +44,30 @@ export async function getContributorsFromRepositories() {
       const contributors = await getContributors(repo.owner, repo.name);
       console.log(`Found ${contributors.length} contributors`);
       console.log(contributors);
-      // Insert commits directly into the database
       
+      for (const contributor of contributors) {
+        const contributorData = {
+          repositoryId: repo.id,
+          username: contributor.login,
+          contributorId: contributor.id,
+          contributorNodeId: contributor.node_id,
+          email: contributor.email,
+          htmlUrl: contributor.html_url,
+          profilePictureUrl: contributor.avatar_url,
+          accountType: contributor.type,
+          rawResponse: contributor
+        }
+        console.log(contributorData);
+        const response = await fetch(`${process.env.BETTER_AUTH_URL}/api/data/contributors`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'apiSecret': process.env.API_SECRET!
+          },
+          body: JSON.stringify(contributorData)
+        });
+        console.log(response);
+      }
       console.log(`Processed contributors for ${repo.owner}/${repo.name}`);
     } catch (error) {
       console.error(`Error processing ${repo.owner}/${repo.name}:`, error);

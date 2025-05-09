@@ -1,0 +1,1 @@
+ALTER TABLE "contributor" RENAME COLUMN "profile_url" TO "profile_picture_url";

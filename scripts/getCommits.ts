@@ -73,8 +73,7 @@ export async function getCommitsFromRepositories() {
           sha: commit.sha,
           rawResponse: commit
         }
-        console.log()
-        // console.log(commitData);
+        console.log(commitData);
         const response = await fetch(`${process.env.BETTER_AUTH_URL}/api/data/github-commits`, {
           method: 'POST',
           headers: {
