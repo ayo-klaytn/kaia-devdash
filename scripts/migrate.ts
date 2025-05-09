@@ -1,8 +1,8 @@
 async function migrate() {
-  // const hostUrl = "http://localhost:3006";
-  const prodHostUrl = "https://devdash.kaia.io"; 
+  const hostUrl = "http://localhost:3006";
+  // const prodHostUrl = "https://devdash.kaia.io"; 
 
-  const devRepositoryStats = await fetch(`${prodHostUrl}/api/data/repository-stats?page=1&limit=800`, {
+  const devRepositoryStats = await fetch(`${hostUrl}/api/data/repository-stats?page=1&limit=800`, {
     headers: {
       "Content-Type": "application/json",
       "apiSecret": process.env.API_SECRET!,
@@ -14,12 +14,11 @@ async function migrate() {
   for (const repository of devRepositoryStatsData) {
     const repositoryId = repository.repositoryId;
 
-    const updateRepository = await fetch(`${prodHostUrl}/api/data/repositories`, {
+    const updateRepository = await fetch(`${hostUrl}/api/data/repositories`, {
       method: "PATCH",
       body: JSON.stringify({
         id: repositoryId,
         status: "active",
-        remark: "internal",
       }),
       headers: {
         "Content-Type": "application/json",

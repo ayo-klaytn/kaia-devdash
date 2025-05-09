@@ -4,7 +4,8 @@ import {
   pgTable,
   text,
   integer,
-  jsonb
+  jsonb,
+  json
 } from "drizzle-orm/pg-core";
 
 
@@ -139,6 +140,7 @@ export const commit = pgTable("commit", {
   url: text("url").notNull(),
   createdAt: timestamp("created_at").notNull(),
   updatedAt: timestamp("updated_at").notNull(),
+  rawResponse: json("raw_response"),
 });
 
 // Developer
