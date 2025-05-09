@@ -44,7 +44,7 @@ export async function getCommits(owner: string, repo: string) {
 }
 
 
-export async function getCommitsFromRepositoriesInJson() {
+export async function getCommitsFromRepositories() {
   // call the API to get all the repositories
   const repositories = await fetch(`${process.env.BETTER_AUTH_URL}/api/data/repositories?page=1&limit=1000&status=active`, {
     headers: {
@@ -95,4 +95,4 @@ export async function getCommitsFromRepositoriesInJson() {
   }
 }
 
-getCommitsFromRepositoriesInJson();
+getCommitsFromRepositories();

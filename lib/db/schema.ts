@@ -109,10 +109,17 @@ export const repositoryStats = pgTable("repository_stats", {
 // Contributor
 export const contributor = pgTable("contributor", {
   id: text("id").primaryKey(),
-  username: text("username").notNull(),
+  repositoryId: text("repository_id")
+    .notNull()
+    .references(() => repository.id, { onDelete: "cascade" }),
+  username: text("username"),
   email: text("email"),
+  htmlUrl: text("html_url"),
+  profileUrl: text("profile_url"),
+  accountType: text("account_type"),
   createdAt: timestamp("created_at").notNull(),
   updatedAt: timestamp("updated_at").notNull(),
+  rawResponse: json("raw_response"),
 });
 
 // Repository Contributors (junction table)
