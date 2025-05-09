@@ -1,0 +1,1 @@
+ALTER TABLE "commit" ADD COLUMN "sha" text;

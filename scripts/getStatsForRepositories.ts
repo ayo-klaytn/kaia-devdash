@@ -53,5 +53,5 @@ async function getStatsForRepositories() {
     await new Promise(resolve => setTimeout(resolve, 1000));
   }
 }
-
 getStatsForRepositories();
+

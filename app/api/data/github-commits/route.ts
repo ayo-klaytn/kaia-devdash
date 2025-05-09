@@ -3,7 +3,7 @@ import db from "@/lib/db";
 import { commit } from "@/lib/db/schema";
 import { headers } from 'next/headers';
 import { createId } from '@paralleldrive/cuid2';
-import { eq, and, asc } from "drizzle-orm";
+import { eq, asc } from "drizzle-orm";
 
 
 export async function GET(request: NextRequest): Promise<NextResponse> {
@@ -45,16 +45,12 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     return NextResponse.json({ error: "Invalid API secret" }, { status: 401 });
   }
 
-  const { repositoryId, committerName, committerEmail, timestamp, url, rawResponse } = await request.json();
+  const { repositoryId, committerName, committerEmail, timestamp, url, rawResponse, sha } = await request.json();
 
   // check if repository already exists
   const existingCommit = await db.select()
     .from(commit)
-    .where(
-      and(
-        eq(commit.repositoryId, repositoryId)
-      )
-    )
+    .where(eq(commit.sha, sha))
     .limit(1);
 
   if (existingCommit.length > 0) {
@@ -69,6 +65,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     committerEmail,
     timestamp,
     url,
+    sha,
     createdAt: new Date(),
     updatedAt: new Date(),
     rawResponse,
@@ -108,24 +105,26 @@ export async function PATCH(request: NextRequest): Promise<NextResponse> {
     return NextResponse.json({ error: "Invalid API secret" }, { status: 401 });
   }
   
-  const { id, committerName, committerEmail, timestamp, url, rawResponse } = await request.json();
+  const { id, committerName, committerEmail, timestamp, url, rawResponse, sha } = await request.json();
 
   if (!id) {
     return NextResponse.json({ error: "Commit ID is required" }, { status: 400 });
   }
 
-  const updateData: { committerName?: string; committerEmail?: string; timestamp?: Date; url?: string; rawResponse?: string; updatedAt: Date } = {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const updateData: { committerName?: string; committerEmail?: string; timestamp?: string; url?: string; rawResponse?: any; updatedAt: Date, sha?: string } = {
     committerName: committerName,
     committerEmail: committerEmail,
-    timestamp: new Date(timestamp),
+    timestamp: timestamp,
     url: url,
+    sha: sha,
     rawResponse: rawResponse,
     updatedAt: new Date(),
   };
 
   if (committerName !== undefined) updateData.committerName = committerName;
   if (committerEmail !== undefined) updateData.committerEmail = committerEmail;
-  if (timestamp !== undefined) updateData.timestamp = new Date(timestamp);
+  if (timestamp !== undefined) updateData.timestamp = timestamp;
   if (url !== undefined) updateData.url = url;
   if (rawResponse !== undefined) updateData.rawResponse = rawResponse;
 

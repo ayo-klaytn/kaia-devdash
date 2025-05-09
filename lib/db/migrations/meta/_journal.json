@@ -57,6 +57,27 @@
       "when": 1746766910722,
       "tag": "0007_crazy_stryfe",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1746780020960,
+      "tag": "0008_powerful_captain_cross",
+      "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1746780072668,
+      "tag": "0009_mature_nuke",
+      "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1746780504820,
+      "tag": "0010_stiff_owl",
+      "breakpoints": true
     }
   ]
 }

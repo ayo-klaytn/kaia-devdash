@@ -131,13 +131,14 @@ export const repositoryContributors = pgTable("repository_contributors", {
 // Commit
 export const commit = pgTable("commit", {
   id: text("id").primaryKey(),
+  sha: text("sha"),
   repositoryId: text("repository_id")
     .notNull()
     .references(() => repository.id, { onDelete: "cascade" }),
-  committerName: text("committer_name").notNull(),
-  committerEmail: text("committer_email").notNull(),
-  timestamp: timestamp("timestamp").notNull(),
-  url: text("url").notNull(),
+  committerName: text("committer_name"),
+  committerEmail: text("committer_email"),
+  timestamp: text("timestamp"),
+  url: text("url"),
   createdAt: timestamp("created_at").notNull(),
   updatedAt: timestamp("updated_at").notNull(),
   rawResponse: json("raw_response"),

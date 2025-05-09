@@ -22,9 +22,11 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
   const searchParams = request.nextUrl.searchParams
   const page = searchParams.get('page') || '1';
   const limit = searchParams.get('limit') || '100';
+  const status = searchParams.get('status') || 'active';
   const offset = (parseInt(page) - 1) * parseInt(limit);
   const repositories = await db.select()
     .from(repository)
+    .where(eq(repository.status, status))
     .orderBy(asc(repository.owner))
     .limit(parseInt(limit))
     .offset(offset);

@@ -1,0 +1,1 @@
+ALTER TABLE "commit" ALTER COLUMN "timestamp" SET DATA TYPE text;
