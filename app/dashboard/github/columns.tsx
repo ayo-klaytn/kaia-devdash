@@ -32,7 +32,6 @@ export const columns: ColumnDef<Repository>[] = [
       return (
         <div className="flex flex-row gap-2 w-[400px]">
           <Link
-            target="_blank"
             href={`/dashboard/github/${row.original.id}`}
             className="text-blue-500 underline underline-offset-4"
           >
@@ -66,7 +65,6 @@ export const columns: ColumnDef<Repository>[] = [
       return (
         <div className="flex flex-row gap-2 w-[200px]">
           <Link
-            target="_blank"
             href={`/dashboard/developers/${row.original.owner}`}
             className="text-blue-500 underline underline-offset-4"
           >
