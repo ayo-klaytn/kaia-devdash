@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import db from "@/lib/db";
-import { repository, contributor, commit } from "@/lib/db/schema";
+import { repository, contributor, commit, repositoryStats } from "@/lib/db/schema";
 import { headers } from 'next/headers';
 import { eq } from "drizzle-orm";
 
@@ -28,10 +28,12 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
     repository: typeof repository.$inferSelect;
     contributors: typeof contributor.$inferSelect[];
     commits: typeof commit.$inferSelect[];
+    repositoryStats: typeof repositoryStats.$inferSelect[];
   } = {
     repository: {} as typeof repository.$inferSelect,
     contributors: [] as typeof contributor.$inferSelect[],
-    commits: [] as typeof commit.$inferSelect[]
+    commits: [] as typeof commit.$inferSelect[],
+    repositoryStats: [] as typeof repositoryStats.$inferSelect[]
   };
 
   if (id) {
@@ -48,9 +50,14 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
       .from(commit)
       .where(eq(commit.repositoryId, id));
 
+    const repositoryStatsData = await db.select()
+      .from(repositoryStats)
+      .where(eq(repositoryStats.repositoryId, id));
+
     responseData.repository = repositoryData[0];
     responseData.contributors = contributorOfRepository;
     responseData.commits = commitOfRepository;
+    responseData.repositoryStats = repositoryStatsData;
   }
 
   return NextResponse.json(responseData);
