@@ -1,29 +1,28 @@
-"use client";
-
-import kaia from "@/lib/mocks/kaia.json"
+// import kaia from "@/lib/mocks/kaia.json"
 import { Package, UserPen, Users } from "lucide-react";
-import { Repository, columns } from "@/app/dashboard/github/columns"
+import { columns } from "@/app/dashboard/github/columns"
 import { DataTable } from "@/app/dashboard/github/data-table"
-import { useMemo } from 'react';
 
 
-export default function GitHub() {
+export default async function GitHub() {
 
-  const data = useMemo(() => 
-    kaia.repositories as Repository[],
-    [] // Empty dependency array since kaia is static
-  );
+  const response = await fetch("http://localhost:3006/api/view/github?page=1&limit=1000&status=active", {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      "apiSecret": process.env.API_SECRET!
+    }
+  })
+  const data = await response.json()
 
-  const stats = useMemo(() => {
-    const uniqueOwners = new Set(data.map(repo => repo.owner));
-    const uniqueContributors = new Set(data.flatMap(repo => repo.contributors));
+  const repositories = data.repositories
 
-    return {
-      totalRepositories: data.length,
-      totalAuthors: uniqueOwners.size,
-      totalContributors: uniqueContributors.size
-    };
-  }, [data]);
+  const stats = {
+    totalRepositories: data.numberOfRepositories,
+    totalContributors: data.numberOfContributors,
+    totalAuthors: data.numberOfAuthors,
+  }
+
 
   return (
     <div className="flex flex-col gap-4 p-4">
@@ -57,7 +56,7 @@ export default function GitHub() {
         </div>
       </div>
       <div className="container mx-auto py-10">
-        <DataTable columns={columns} data={data} />
+        <DataTable columns={columns} data={repositories} />
       </div>
     </div>
     
