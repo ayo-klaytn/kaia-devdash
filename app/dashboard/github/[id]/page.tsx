@@ -4,6 +4,8 @@ import {
   commit as CommitSchema,
 } from "@/lib/db/schema";
 
+export const dynamic = 'force-dynamic'
+
 type Params = Promise<{ id: string }>
 
 export default async function RepositoryPage(props: {
@@ -13,7 +15,7 @@ export default async function RepositoryPage(props: {
   const id = params.id;
 
   const response = await fetch(
-    `http://localhost:3006/api/view/repository?id=${id}`,
+    `/api/view/repository?id=${id}`,
     {
       method: "GET",
       headers: {

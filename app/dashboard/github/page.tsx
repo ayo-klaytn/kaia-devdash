@@ -1,12 +1,12 @@
-// import kaia from "@/lib/mocks/kaia.json"
 import { Package, UserPen, Users } from "lucide-react";
 import { columns } from "@/app/dashboard/github/columns"
 import { DataTable } from "@/app/dashboard/github/data-table"
 
+export const dynamic = 'force-dynamic'
 
 export default async function GitHub() {
 
-  const response = await fetch("http://localhost:3006/api/view/github?page=1&limit=1000&status=active", {
+  const response = await fetch("/api/view/github?page=1&limit=1000&status=active", {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
