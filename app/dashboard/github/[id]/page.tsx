@@ -15,7 +15,7 @@ export default async function RepositoryPage(props: {
   const id = params.id;
 
   const response = await fetch(
-    `/api/view/repository?id=${id}`,
+    `http://localhost:3006/api/view/repository?id=${id}`,
     {
       method: "GET",
       headers: {

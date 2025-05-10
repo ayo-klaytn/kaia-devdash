@@ -6,7 +6,7 @@ export const dynamic = 'force-dynamic'
 
 export default async function GitHub() {
 
-  const response = await fetch("/api/view/github?page=1&limit=1000&status=active", {
+  const response = await fetch("http://localhost:3006/api/view/github?page=1&limit=1000&status=active", {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
