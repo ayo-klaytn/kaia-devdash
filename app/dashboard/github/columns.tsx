@@ -30,13 +30,20 @@ export const columns: ColumnDef<Repository>[] = [
     },
     cell: ({ row }) => {
       return (
-        <div className="w-[400px]">
+        <div className="flex flex-row gap-2 w-[400px]">
+          <Link
+            target="_blank"
+            href={`/dashboard/github/${row.original.id}`}
+            className="text-blue-500 underline underline-offset-4"
+          >
+            {row.original.name}
+          </Link>
           <Link
             target="_blank"
             href={`https://github.com/${row.original.owner}/${row.original.name}`}
             className="text-blue-500 underline underline-offset-4"
           >
-            {row.original.name}
+            GitHub
           </Link>
         </div>
       )
@@ -57,13 +64,20 @@ export const columns: ColumnDef<Repository>[] = [
     },
     cell: ({ row }) => {
       return (
-        <div className="w-[120px]">
+        <div className="flex flex-row gap-2 w-[200px]">
+          <Link
+            target="_blank"
+            href={`/dashboard/developers/${row.original.owner}`}
+            className="text-blue-500 underline underline-offset-4"
+          >
+            {row.original.owner}
+          </Link>
           <Link
             target="_blank"
             href={`https://github.com/${row.original.owner}`}
             className="text-blue-500 underline underline-offset-4"
           >
-            {row.original.owner}
+            GitHub
           </Link>
         </div>
       )
