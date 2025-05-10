@@ -20,6 +20,9 @@ export default async function RepositoryPage({ params }: { params: { id: string 
         <p className="text-sm text-muted-foreground">
           ID: {data.repository.id}
         </p>
+        <p className="text-sm text-muted-foreground">
+          URL: <a className="text-blue-500 underline underline-offset-4" href={data.repository.url} target="_blank" rel="noopener noreferrer">{data.repository.url}</a>
+        </p>
       </div>
       <div className="flex flex-col gap-4">
         <h2 className="text-lg font-bold">Information</h2>
@@ -62,7 +65,7 @@ export default async function RepositoryPage({ params }: { params: { id: string 
       </div>
       <div className="flex flex-col gap-4">
         <h2 className="text-lg font-bold">Commits (Total: {data.commits.length})</h2>
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-col gap-2">
           {data.commits.map((commit: typeof CommitSchema.$inferSelect) => (
             <a key={commit.id} className="text-sm underline underline-offset-4 text-blue-500" target="_blank" rel="noopener noreferrer" href={commit.url || '#'}>{commit.url || 'No URL'}</a>
           ))}
