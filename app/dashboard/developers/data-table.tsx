@@ -83,7 +83,6 @@ export function DataTable<TData, TValue>({
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="name">Name</SelectItem>
-            <SelectItem value="repositories">Repositories</SelectItem>
           </SelectContent>
         </Select>
         <Input

@@ -22,9 +22,13 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
   const searchParams = request.nextUrl.searchParams
   const page = searchParams.get('page') || '1';
   const limit = searchParams.get('limit') || '100';
+  const owner = searchParams.get('owner') || '';
   const offset = (parseInt(page) - 1) * parseInt(limit);
   const contributors = await db.select()
     .from(contributor)
+    .where(
+      owner ? eq(contributor.username, owner) : undefined
+    )
     .orderBy(asc(contributor.username))
     .limit(parseInt(limit))
     .offset(offset);

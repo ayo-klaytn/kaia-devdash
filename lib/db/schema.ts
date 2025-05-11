@@ -155,16 +155,20 @@ export const commit = pgTable("commit", {
 
 // Developer
 export const developer = pgTable("developer", {
-  id: integer("id").primaryKey(),
+  id: text("id").primaryKey(),
   name: text("name").notNull(),
   github: text("github").notNull(),
-  address: text("address").notNull(),
-  communityRank: integer("community_rank").notNull(),
+  address: text("address"),
+  communityRank: integer("community_rank"),
   xHandle: text("x_handle"),
   bootcampGraduated: timestamp("bootcamp_graduated"),
   bootcampContributor: timestamp("bootcamp_contributor"),
-  createdAt: timestamp("created_at").notNull().defaultNow(),
-  updatedAt: timestamp("updated_at").notNull().defaultNow(),
+  nftBadges: json("nft_badges"),
+  ownerOf: json("owner_of"),
+  contributorIn: json("contributor_in"),
+  commitsIn: json("commits_in"),
+  createdAt: timestamp("created_at").notNull(),
+  updatedAt: timestamp("updated_at").notNull(),
 });
 
 // Project Repository
@@ -174,8 +178,8 @@ export const projectRepository = pgTable("project_repository", {
   projectId: integer("project_id")
     .notNull()
     .references(() => project.id, { onDelete: "cascade" }),
-  createdAt: timestamp("created_at").notNull().defaultNow(),
-  updatedAt: timestamp("updated_at").notNull().defaultNow(),
+  createdAt: timestamp("created_at").notNull(),
+  updatedAt: timestamp("updated_at").notNull(),
 });
 
 // Project Dune Dashboard
@@ -188,22 +192,22 @@ export const projectDuneDashboard = pgTable("project_dune_dashboard", {
   projectId: integer("project_id")
     .notNull()
     .references(() => project.id, { onDelete: "cascade" }),
-  createdAt: timestamp("created_at").notNull().defaultNow(),
-  updatedAt: timestamp("updated_at").notNull().defaultNow(),
+  createdAt: timestamp("created_at").notNull(),
+  updatedAt: timestamp("updated_at").notNull(),
 });
 
 // Project
 export const project = pgTable("project", {
   id: integer("id").primaryKey(),
   name: text("name").notNull(),
-  description: text("description").notNull(),
-  url: text("url").notNull(),
+  description: text("description"),
+  url: text("url"),
   twitter: text("twitter"),
   github: text("github"),
-  communityRank: integer("community_rank").notNull(),
-  maturityRank: integer("maturity_rank").notNull(),
-  createdAt: timestamp("created_at").notNull().defaultNow(),
-  updatedAt: timestamp("updated_at").notNull().defaultNow(),
+  communityRank: integer("community_rank"),
+  maturityRank: integer("maturity_rank"),
+  createdAt: timestamp("created_at").notNull(),
+  updatedAt: timestamp("updated_at").notNull(),
 });
 
 // Logs
@@ -212,7 +216,7 @@ export const log = pgTable("log", {
   logCode: text("log_code").notNull(),
   message: text("message").notNull(),
   rawData: jsonb("raw_data"),
-  createdAt: timestamp("created_at").notNull().defaultNow(),
-  updatedAt: timestamp("updated_at").notNull().defaultNow(),
+  createdAt: timestamp("created_at").notNull(),
+  updatedAt: timestamp("updated_at").notNull(),
 });
 

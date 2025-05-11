@@ -1,34 +1,52 @@
 async function migrate() {
   const hostUrl = "http://localhost:3006";
-  // const prodHostUrl = "https://devdash.kaia.io"; 
+  const prodHostUrl = "https://devdash.kaia.io";
 
-  const devRepositoryStats = await fetch(`${hostUrl}/api/data/repository-stats?page=1&limit=800`, {
+  const devRepositories = await fetch(`${hostUrl}/api/data/repositories?page=1&limit=1000&status=active`, {
+    method: "GET",
     headers: {
       "Content-Type": "application/json",
       "apiSecret": process.env.API_SECRET!,
     },
   });
 
-  const devRepositoryStatsData = await devRepositoryStats.json();
+  const devRepositoriesData = await devRepositories.json();
+  
+  const prodRepositories = await fetch(`${prodHostUrl}/api/data/repositories?page=1&limit=1000&status=active`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      "apiSecret": process.env.API_SECRET!,
+    },
+  });
 
-  for (const repository of devRepositoryStatsData) {
-    const repositoryId = repository.repositoryId;
+  const prodRepositoriesData = await prodRepositories.json();
+  
 
-    const updateRepository = await fetch(`${hostUrl}/api/data/repositories`, {
-      method: "PATCH",
-      body: JSON.stringify({
-        id: repositoryId,
-        status: "active",
-      }),
-      headers: {
-        "Content-Type": "application/json",
-        "apiSecret": process.env.API_SECRET!,
-      },
-    });
+  for (const devRepo of devRepositoriesData) {
+    const prodRepo = (prodRepositoriesData as any).find(
+      (pr: any) => pr.owner === devRepo.owner && pr.name === devRepo.name
+    );
 
-    const updateRepositoryData = await updateRepository.json();
+    if (prodRepo) {
+      const updateRepository = await fetch(`${prodHostUrl}/api/data/repositories`, {
+        method: "PATCH",
+        body: JSON.stringify({
+          id: prodRepo.id,
+          url: devRepo.url,
+          status: "active",
+          remark: "external"
+        }),
+        headers: {
+          "Content-Type": "application/json",
+          "apiSecret": process.env.API_SECRET!,
+        },
+      });
 
-    console.log(updateRepositoryData);
+      const updateRepositoryData = await updateRepository.json();
+
+      console.log(updateRepositoryData);
+    }
   }
 }
 

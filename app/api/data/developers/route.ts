@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import db from "@/lib/db";
-import { repository } from "@/lib/db/schema";
+import { developer, repository } from "@/lib/db/schema";
 import { headers } from 'next/headers';
 import { createId } from '@paralleldrive/cuid2';
 import { eq, and, asc } from "drizzle-orm";
@@ -22,22 +22,14 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
   const searchParams = request.nextUrl.searchParams
   const page = searchParams.get('page') || '1';
   const limit = searchParams.get('limit') || '100';
-  const status = searchParams.get('status') || 'active';
-  const owner = searchParams.get('owner') || '';
   const offset = (parseInt(page) - 1) * parseInt(limit);
-  const repositories = await db.select()
-    .from(repository)
-    .where(
-      and(
-        eq(repository.status, status),
-        owner ? eq(repository.owner, owner) : undefined
-      )
-    )
-    .orderBy(asc(repository.owner))
+  const developers = await db.select()
+    .from(developer)
+    .orderBy(asc(developer.name))
     .limit(parseInt(limit))
     .offset(offset);
 
-  return NextResponse.json(repositories);
+  return NextResponse.json(developers);
 }
 
 
@@ -53,33 +45,42 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     return NextResponse.json({ error: "Invalid API secret" }, { status: 401 });
   }
 
-  const { owner, repository: repoName } = await request.json();
+  const { name, github, address, communityRank, xHandle, bootcampGraduated, bootcampContributor, nftBadges, ownerOf, contributorIn, commitsIn } = await request.json();
 
   // check if repository already exists
-  const existingRepository = await db.select()
-    .from(repository)
+  const existingDeveloper = await db.select()
+    .from(developer)
     .where(
       and(
-        eq(repository.owner, owner),
-        eq(repository.name, repoName)
+        eq(developer.name, name),
+        eq(developer.github, github)
       )
     )
     .limit(1);
 
-  if (existingRepository.length > 0) {
-    return NextResponse.json({ error: "Repository already exists" }, { status: 400 });
+  if (existingDeveloper.length > 0) {
+    return NextResponse.json({ error: "Developer already exists" }, { status: 400 });
   }
 
   // add to db
-  const newRepository = await db.insert(repository).values({
+  const newDeveloper = await db.insert(developer).values({
     id: createId(),
-    owner,
-    name: repoName,
+    name,
+    github,
+    address,
+    communityRank,
+    xHandle,
+    nftBadges,
+    ownerOf,
+    contributorIn,
+    commitsIn,
+    bootcampGraduated,
+    bootcampContributor,
     createdAt: new Date(),
     updatedAt: new Date(),
   }).returning();
  
-  return NextResponse.json(newRepository);
+  return NextResponse.json(newDeveloper);
 }
 
 export async function DELETE(request: NextRequest): Promise<NextResponse> {
@@ -113,26 +114,33 @@ export async function PATCH(request: NextRequest): Promise<NextResponse> {
     return NextResponse.json({ error: "Invalid API secret" }, { status: 401 });
   }
   
-  const { id, owner, repository: repoName, url, remark, status } = await request.json();
+  const { id, name, github, address, communityRank, xHandle, bootcampGraduated, bootcampContributor, nftBadges, ownerOf, contributorIn, commitsIn } = await request.json();
 
   if (!id) {
-    return NextResponse.json({ error: "Repository ID is required" }, { status: 400 });
+    return NextResponse.json({ error: "Developer ID is required" }, { status: 400 });
   }
 
-  const updateData: { owner?: string; name?: string; url?: string; remark?: string; status?: string; updatedAt: Date } = {
-    status: status || "inactive",
-    url: url,
-    remark: remark || "external",
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const updateData: { name?: string; github?: string; address?: string; communityRank?: number; xHandle?: string; bootcampGraduated?: Date; bootcampContributor?: Date; nftBadges?: any; ownerOf?: any; contributorIn?: any; commitsIn?: any; updatedAt: Date } = {
     updatedAt: new Date(),
   };
 
-  if (owner !== undefined) updateData.owner = owner;
-  if (repoName !== undefined) updateData.name = repoName;
+  if (name !== undefined) updateData.name = name;
+  if (github !== undefined) updateData.github = github;
+  if (address !== undefined) updateData.address = address;
+  if (communityRank !== undefined) updateData.communityRank = communityRank;
+  if (xHandle !== undefined) updateData.xHandle = xHandle;
+  if (bootcampGraduated !== undefined) updateData.bootcampGraduated = bootcampGraduated;
+  if (bootcampContributor !== undefined) updateData.bootcampContributor = bootcampContributor;
+  if (nftBadges !== undefined) updateData.nftBadges = nftBadges;
+  if (ownerOf !== undefined) updateData.ownerOf = ownerOf;
+  if (contributorIn !== undefined) updateData.contributorIn = contributorIn;
+  if (commitsIn !== undefined) updateData.commitsIn = commitsIn;
 
-  const updatedRepository = await db.update(repository)
+  const updatedDeveloper = await db.update(developer)
     .set(updateData)
-    .where(eq(repository.id, id))
+    .where(eq(developer.id, id))
     .returning();
 
-  return NextResponse.json(updatedRepository);
+  return NextResponse.json(updatedDeveloper);
 }
