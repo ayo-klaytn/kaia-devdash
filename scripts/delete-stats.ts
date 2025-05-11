@@ -12,14 +12,24 @@ export async function deleteStats() {
   const repositoryStatsData = await repositoryStats.json();
 
   for (const repoStat of repositoryStatsData) {
-    await fetch(`${prodHostUrl}/api/data/repository-stats/${repoStat.id}`, {
+    
+    console.log(repoStat);
+    console.log(repoStat.repositoryId);
+    const response = await fetch(`${prodHostUrl}/api/data/repository-stats`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
         "apiSecret": process.env.API_SECRET!,
       },
+      body: JSON.stringify({
+        repositoryId: repoStat.repositoryId,
+      }),
     });
-  }
 
-  console.log(repositoryStatsData);
+    const responseData = await response.json();
+
+    console.log(responseData);
+  }
 }
+
+deleteStats();

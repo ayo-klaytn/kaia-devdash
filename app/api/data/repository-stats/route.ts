@@ -102,13 +102,9 @@ export async function DELETE(request: NextRequest): Promise<NextResponse> {
     return NextResponse.json({ error: "Invalid API secret" }, { status: 401 });
   }
 
-  const { repositoryId } = await request.json();
+  const { id } = await request.json();
 
-  const deletedRepositoryStats = await db.delete(repositoryStats).where(eq(repositoryStats.repositoryId, repositoryId));
-
-  if (deletedRepositoryStats.length === 0) {
-    return NextResponse.json({ error: "Repository stats not found" }, { status: 404 });
-  }
+  const deletedRepositoryStats = await db.delete(repositoryStats).where(eq(repositoryStats.id, id)).returning();
 
   return NextResponse.json(deletedRepositoryStats);
 }
