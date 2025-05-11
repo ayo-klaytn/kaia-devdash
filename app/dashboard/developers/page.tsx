@@ -2,6 +2,8 @@ import { Package, UserPen, Users } from "lucide-react";
 import { columns } from "@/app/dashboard/developers/columns"
 import { DataTable } from "@/app/dashboard/developers/data-table"
 
+export const dynamic = 'force-dynamic'
+
 export default async function DevelopersPage() {
 
   const response = await fetch("http://localhost:3006/api/view/developers?page=1&limit=1000", {

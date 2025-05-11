@@ -8,7 +8,7 @@ import { DeveloperRepository } from "@/app/dashboard/developers/[developer]/colu
 import kaiaDevelopers from "@/lib/mocks/kaia-developers.json"
 import NotFoundComponent from "@/components/notfound"
 
-
+export const dynamic = 'force-dynamic'
 interface Developer {
   id: number;
   name: string;

@@ -62,6 +62,8 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
     } catch (error) {
       await db.insert(log).values({
         id: createId(),
+        createdAt: new Date(),
+        updatedAt: new Date(),
         logCode: "4020",
         message: `Error checking status of repository ${repo.id}: ${error}`,
         rawData: {
