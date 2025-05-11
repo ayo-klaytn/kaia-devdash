@@ -1,92 +1,44 @@
-import kaia from "@/lib/mocks/kaia.json"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { ExternalLink, GitCommitVertical, UserPen, Users, Calendar, LayoutGrid } from "lucide-react"
-import { DataTable } from "@/app/dashboard/developers/[developer]/data-table"
-import { columns } from "@/app/dashboard/developers/[developer]/columns"
-import { DeveloperRepository } from "@/app/dashboard/developers/[developer]/columns"
-import kaiaDevelopers from "@/lib/mocks/kaia-developers.json"
+// import { DataTable } from "@/app/dashboard/developers/[developer]/data-table"
+// import { columns } from "@/app/dashboard/developers/[developer]/columns"
 import NotFoundComponent from "@/components/notfound"
 
 export const dynamic = 'force-dynamic'
-interface Developer {
-  id: number;
-  name: string;
-  github: string;
-  address: string;
-  bootcamp: {
-    graduated: number;
-    contributor: number;
-  };
-  community_rank: number;
-  x_handle: string | null;
-}
+
+type Params = Promise<{ developer: string }>
 
 export default async function Page({
   params,
 }: {
-  params: Promise<{ developer: string }>
+  params: Params
 }) {
   const { developer } = await params
-  const developerData = kaiaDevelopers.find((dev: Developer) => dev.name.toLowerCase() === developer.toLowerCase())
+  
+  const developerResponse = await fetch(`http://localhost:3006/api/view/developer?name=${developer}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      "apiSecret": process.env.API_SECRET!
+    }
+  })
+
+  const developerData = await developerResponse.json()
+
+  console.log(developerData)
 
   if (!developerData) {
     return <NotFoundComponent />
   }
 
-  const ownedRepositories = kaia.repositories.filter(repo => repo.owner === developer)
-  const contributedRepositories = kaia.repositories.filter(repo => repo.contributors.includes(developer))
-  // from the kaia object filter the repositores that have the developer in the owner or contributors array
-  const relatedRepositories = kaia.repositories.filter(repo => repo.owner === developer || repo.contributors.includes(developer))
-  // construct a data array of the related repositories based on the type DeveloperRepository, for the relations field, if the repository is owned by the developer, then the relations should be "owner", if the repository is contributed to by the developer, then the relations should be "contributor", if the repository is both owned and contributed to by the developer, then the relations should be "both"
-  const data: DeveloperRepository[] = relatedRepositories.map(repo => ({
-    id: repo.id,
-    owner: repo.owner,
-    repository: repo.repository,
-    contributors: repo.contributors,
-    commits: repo.commits,
-    relations: repo.owner === developer.toLowerCase() ? "owner" : repo.contributors.includes(developer.toLowerCase()) ? "contributor" : "both"
-  }))
-
-  const totalRepositoriesOfAccount = ownedRepositories.length + contributedRepositories.length
-  const totalAuthoredRepositories = ownedRepositories.length
-  const totalContributedRepositories = contributedRepositories.length
-  
-  // count the total commits of the developer in all repositories regardless if the developers is the owner or contributor
-  const totalCommitsInOwnedRepositories = ownedRepositories
-    .flatMap(repo => repo.commits)
-    .filter(commit => commit.committer.name.replace(/\s/g, '').toLowerCase() === developer.toLowerCase())
-    .length
-
-  const totalCommitsInContributedRepositories = contributedRepositories
-    .flatMap(repo => repo.commits)
-    .filter(commit => commit.committer.name.replace(/\s/g, '').toLowerCase() === developer.toLowerCase())
-    .length
-
-  const totalCommits = totalCommitsInOwnedRepositories + totalCommitsInContributedRepositories
-
-  // find the first commit date of the developer
-  const firstCommitDate = kaia.repositories
-    .filter(repo => repo.owner === developer)
-    .flatMap(repo => repo.commits)
-    .map(commit => commit.timestamp)
-    .sort()[0]
-
-
-  const lastCommitDate = kaia.repositories
-    .filter(repo => repo.owner === developer)
-    .flatMap(repo => repo.commits)
-    .map(commit => commit.timestamp)
-    .sort()
-    .slice(-1)[0]
-
 
   return (
     <div className="flex flex-col gap-4 p-4">
       <div className="flex flex-row items-center gap-4">
-        <h1 className="text-2xl font-bold">{developer}</h1>
+        <h1 className="text-2xl font-bold">{developerData.name}</h1>
         <Button variant="outline" asChild>
-          <Link target="_blank" href={`https://github.com/${developer}`}>
+          <Link target="_blank" href={`https://github.com/${developerData.name}`}>
             <ExternalLink className="w-4 h-4" />
             <span>GitHub</span>
           </Link>
@@ -98,30 +50,31 @@ export default async function Page({
           </Link>
         </Button>
       </div>
+      <p className="text-sm text-muted-foreground">{developerData.id}</p>
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
         <div className="flex flex-col gap-4 border rounded-md p-4">
-          <h1 className="text-2xl font-bold">{totalRepositoriesOfAccount} <span className="text-sm">repositories</span></h1>
+          <h1 className="text-2xl font-bold">{developerData.totalRepositoriesOfAccount} <span className="text-sm">repositories</span></h1>
           <div className="flex flex-row items-center gap-2">
             <UserPen className="w-4 h-4" />
-            {totalAuthoredRepositories}
+            {developerData.totalAuthoredRepositories}
             <p className="text-sm">Authored</p>
           </div>
           <div className="flex flex-row items-center gap-2">
             <Users className="w-4 h-4" />
-            {totalContributedRepositories}
+            {developerData.totalContributedRepositories}
             <p className="text-sm">Contributed</p>
           </div>
           <div className="flex flex-row items-center gap-2">
             <GitCommitVertical className="w-4 h-4" />
-            {totalCommits}
+            {developerData.totalCommits}
             <p className="text-sm">Commits</p>
           </div>
         </div>
         <div className="flex flex-col gap-4 border rounded-md p-4">
-          <h1 className="text-2xl font-bold">{Math.floor((Date.now() - new Date(firstCommitDate).getTime()) / (1000 * 60 * 60 * 24))} <span className="text-sm">days since first contribution</span></h1>
+          <h1 className="text-2xl font-bold">{Math.floor((Date.now() - new Date(developerData.firstCommitDate).getTime()) / (1000 * 60 * 60 * 24))} <span className="text-sm">days since first contribution</span></h1>
           <div className="flex items-center gap-2">
             <Calendar className="w-4 h-4" />
-            {Math.floor((Date.now() - new Date(lastCommitDate).getTime()) / (1000 * 60 * 60 * 24))}
+            {Math.floor((Date.now() - new Date(developerData.lastCommitDate).getTime()) / (1000 * 60 * 60 * 24))}
             <p className="text-sm">days since last contribution</p>
           </div>
         </div>
@@ -134,9 +87,9 @@ export default async function Page({
           </div>
         </div>
       </div>
-      <div className="container mx-auto py-10">
-        <DataTable columns={columns} data={data} />
-      </div>
+      {/* <div className="container mx-auto py-10">
+        <DataTable columns={columns} data={developerData.repositories} />
+      </div> */}
     </div>
   )
 }
