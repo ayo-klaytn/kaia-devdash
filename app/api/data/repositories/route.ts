@@ -53,7 +53,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     return NextResponse.json({ error: "Invalid API secret" }, { status: 401 });
   }
 
-  const { owner, repository: repoName } = await request.json();
+  const { owner, name, url, status, remark } = await request.json();
 
   // check if repository already exists
   const existingRepository = await db.select()
@@ -61,7 +61,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     .where(
       and(
         eq(repository.owner, owner),
-        eq(repository.name, repoName)
+        eq(repository.name, name)
       )
     )
     .limit(1);
@@ -74,7 +74,10 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
   const newRepository = await db.insert(repository).values({
     id: createId(),
     owner,
-    name: repoName,
+    name,
+    url,
+    status,
+    remark,
     createdAt: new Date(),
     updatedAt: new Date(),
   }).returning();
