@@ -1,6 +1,7 @@
 import { XChart } from "@/app/dashboard/x/chart";
 import { XCommunityChart } from "@/app/dashboard/x/community-chart";
 
+export const dynamic = "force-dynamic";
 
 export default async function XPage() {
 

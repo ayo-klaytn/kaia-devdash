@@ -1,6 +1,8 @@
 import { ExternalLink, Package, UserPen, Users } from "lucide-react";
 // import { DevForumChart } from "@/app/dashboard/devforum/chart";
 
+export const dynamic = "force-dynamic";
+
 export default async function DevForumPage() {
 
   const latestPosts = await fetch("http://localhost:3006/api/view/devforum", {
