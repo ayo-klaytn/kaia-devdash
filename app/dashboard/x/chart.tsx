@@ -16,11 +16,29 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart"
-import kaiadevintern_account_overview_analytics from "@/lib/data/kaiadevintern_account_overview_analytics.json"
 
 export const description = "An interactive bar chart"
 
-const chartData = kaiadevintern_account_overview_analytics.analytics
+export type SocialMetric = {
+  id: string;
+  name: string;
+  date: string;
+  impressions: number;
+  engagements: number;
+  likes: number;
+  profileVisits: number;
+  mediaViews: number;
+  shares: number;
+  bookmarks: number;
+  newFollows: number;
+  unfollows: number;
+  replies: number;
+  reposts: number;
+  createPost: number;
+  videoViews: number;
+  createdAt: string;
+  updatedAt: string;
+};
 
 const chartConfig = {
   impressions: {
@@ -41,7 +59,7 @@ const chartConfig = {
   }
 } satisfies ChartConfig
 
-export function XChart() {
+export function XChart({ chartData }: { chartData: SocialMetric[] }) {
   const [activeChart, setActiveChart] =
     React.useState<keyof typeof chartConfig>("impressions")
 
@@ -52,7 +70,7 @@ export function XChart() {
       likes: chartData.reduce((acc, curr) => acc + curr.likes, 0),
       profileVisits: chartData.reduce((acc, curr) => acc + curr.profileVisits, 0),
     }),
-    []
+    [chartData]
   )
 
   return (
@@ -106,7 +124,7 @@ export function XChart() {
               tickMargin={8}
               minTickGap={32}
               tickFormatter={(value) => {
-                const date = new Date(value)
+                const date = new Date(Number(value))
                 return date.toLocaleDateString("en-US", {
                   month: "short",
                   day: "numeric",
@@ -119,7 +137,7 @@ export function XChart() {
                   className="w-[150px]"
                   nameKey={activeChart}
                   labelFormatter={(value) => {
-                    return new Date(value).toLocaleDateString("en-US", {
+                    return new Date(Number(value)).toLocaleDateString("en-US", {
                       month: "short",
                       day: "numeric",
                       year: "numeric",

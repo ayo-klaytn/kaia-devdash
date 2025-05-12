@@ -2,7 +2,17 @@ import { XChart } from "@/app/dashboard/x/chart";
 import { XCommunityChart } from "@/app/dashboard/x/community-chart";
 
 
-export default function XPage() {
+export default async function XPage() {
+
+  const chartDataResponse = await fetch("http://localhost:3006/api/view/social-media", {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      "apiSecret": process.env.API_SECRET!,
+    },
+  });
+
+  const chartData = await chartDataResponse.json();
 
   return (
     <div className="flex flex-col gap-4 p-4">
@@ -14,7 +24,7 @@ export default function XPage() {
       </div>
       <div className="flex flex-col gap-4">
         <h2 className="text-lg font-bold">Kaia Dev Intern</h2>
-        <XChart />
+        <XChart chartData={chartData.kaiaDevIntern} />
       </div>
       <div className="flex flex-col gap-4">
         <h2 className="text-lg font-bold">Kaia Dev Community</h2>
