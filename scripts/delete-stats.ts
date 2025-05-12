@@ -22,7 +22,7 @@ export async function deleteStats() {
         "apiSecret": process.env.API_SECRET!,
       },
       body: JSON.stringify({
-        repositoryId: repoStat.repositoryId,
+        id: repoStat.id,
       }),
     });
 

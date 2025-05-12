@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import db from "@/lib/db";
-import { developer } from "@/lib/db/schema";
+import { developer, githubOrganization } from "@/lib/db/schema";
 import { eq } from "drizzle-orm";
 import { headers } from "next/headers";
 
@@ -23,8 +23,19 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
   if (!name) {
     return NextResponse.json({ error: "No name provided" }, { status: 400 });
   }
+  const githubOrganizations = await db.select().from(githubOrganization).where(eq(githubOrganization.username, name));
 
-  const developerData = await db.select().from(developer).where(eq(developer.name, name));
+  let developerData = [];
+
+  if (githubOrganizations.length === 0) {
+    developerData = await db.select().from(developer).where(eq(developer.name, name));
+  } else {
+    developerData = await db.select().from(developer).where(eq(developer.name, githubOrganizations[0].username));
+  }
+
+  if (developerData.length === 0) {
+    return NextResponse.json({ error: "Developer not found" }, { status: 404 });
+  }
 
   return NextResponse.json(developerData[0]);
 }

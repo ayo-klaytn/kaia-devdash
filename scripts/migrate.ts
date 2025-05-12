@@ -36,15 +36,17 @@ async function migrate() {
   for (const devRepo of devRepositoriesData) {
     // find the corresponding repository stats
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    
     const devRepoStats = devRepositoryStatsData.find(
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (rs: any) => rs.repositoryId === devRepo.id
     );
 
     // find the corresponding repository
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    
     const prodRepo = prodRepositoriesData.find(
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (pr: any) => pr.owner === devRepo.owner && pr.name === devRepo.name
     );
 

@@ -106,5 +106,9 @@ export async function DELETE(request: NextRequest): Promise<NextResponse> {
 
   const deletedRepositoryStats = await db.delete(repositoryStats).where(eq(repositoryStats.id, id)).returning();
 
-  return NextResponse.json(deletedRepositoryStats);
+  if (deletedRepositoryStats.length === 0) {
+    return NextResponse.json({ error: "Repository stats not found with the provided ID" }, { status: 404 });
+  }
+
+  return NextResponse.json(deletedRepositoryStats[0]);
 }

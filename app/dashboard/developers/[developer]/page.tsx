@@ -26,7 +26,6 @@ export default async function Page({
 
   const developerData = await developerResponse.json()
 
-  console.log(developerData)
 
   if (!developerData) {
     return <NotFoundComponent />

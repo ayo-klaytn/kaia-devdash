@@ -136,7 +136,7 @@ export default async function RepositoryPage(props: {
               <div key={contributor.id} className="bg-muted rounded-md p-2">
                 <Link
                   className="text-sm underline underline-offset-4 text-blue-500"
-                  href={`/dashboard/developers/${contributor.id}`}
+                  href={`/dashboard/developers/${contributor.username}`}
                 >
                   {contributor.username}
                 </Link>
