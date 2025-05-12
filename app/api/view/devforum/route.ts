@@ -15,9 +15,28 @@ export async function GET(): Promise<NextResponse> {
     return NextResponse.json({ error: "Invalid API secret" }, { status: 401 });
   }
 
+  const latestData = {
+    users: [],
+    topic_list: {
+      topics: []
+    },
+    totalPosts: 0,
+    totalMembers: 0,
+    totalAdminAndMods: 0
+  }
+  
   const discourseClient = new DiscourseClient("https://devforum.kaia.io");
-  const latestPosts = await discourseClient.getLatestPosts();
+  const [latest, aboutData] = await Promise.all([
+    discourseClient.getLatestTopics(),
+    discourseClient.getAbout()
+  ]);
 
-  return NextResponse.json(latestPosts);
+  latestData.users = latest.users;
+  latestData.topic_list.topics = latest.topic_list.topics;
+  latestData.totalPosts = aboutData.about.stats.posts_count;
+  latestData.totalMembers = aboutData.about.stats.users_count;
+  latestData.totalAdminAndMods = aboutData.about.moderator_ids.length + aboutData.about.admin_ids.length;
+
+  return NextResponse.json(latestData);
 }
 
