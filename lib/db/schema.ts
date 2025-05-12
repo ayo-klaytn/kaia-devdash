@@ -4,7 +4,6 @@ import {
   pgTable,
   text,
   integer,
-  jsonb,
   json
 } from "drizzle-orm/pg-core";
 
@@ -215,8 +214,30 @@ export const log = pgTable("log", {
   id: text("id").primaryKey(),
   logCode: text("log_code").notNull(),
   message: text("message").notNull(),
-  rawData: jsonb("raw_data"),
+  rawData: json("raw_data"),
   createdAt: timestamp("created_at").notNull(),
   updatedAt: timestamp("updated_at").notNull(),
 });
 
+
+// social media
+export const socialMedia = pgTable("social_media", {
+  id: text("id").primaryKey(),
+  name: text("name").notNull(),
+  date: text("date"),
+  impressions: integer("impressions"),
+  likes: integer("likes"),
+  engagements: integer("engagements"),
+  bookmarks: integer("bookmarks"),
+  shares: integer("shares"),
+  newFollows: integer("new_follows"),
+  unfollows: integer("unfollows"),
+  replies: integer("replies"),
+  reposts: integer("reposts"),
+  profileVisits: integer("profile_visits"),
+  createPost: integer("create_post"),
+  videoViews: integer("video_views"),
+  mediaViews: integer("media_views"),
+  createdAt: timestamp("created_at").notNull(),
+  updatedAt: timestamp("updated_at").notNull(),
+});

@@ -127,6 +127,13 @@
       "when": 1746879416545,
       "tag": "0017_faulty_the_initiative",
       "breakpoints": true
+    },
+    {
+      "idx": 18,
+      "version": "7",
+      "when": 1747062945319,
+      "tag": "0018_sloppy_hellcat",
+      "breakpoints": true
     }
   ]
 }
