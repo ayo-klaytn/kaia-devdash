@@ -2,13 +2,19 @@ import devForum from "@/lib/mocks/kaia-devforum.json";
 import { ExternalLink, Package, UserPen, Users } from "lucide-react";
 import { DevForumChart } from "@/app/dashboard/devforum/chart";
 
-type DevForumPost = {
-  id: number;
-  title: string;
-  url: string;
-}
+export default async function DevForumPage() {
 
-export default function DevForumPage() {
+  const latestPosts = await fetch("http://localhost:3006/api/view/devforum", {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      "apiSecret": process.env.API_SECRET!
+    }
+  });
+
+  const latestPostsData = await latestPosts.json();
+
+
   return (
     <div className="flex flex-col gap-4 p-4">
       <div className="flex flex-col gap-4">
@@ -45,10 +51,11 @@ export default function DevForumPage() {
       </div>
       <h1 className="text-2xl font-bold">Latest Posts</h1>
       <div className="flex flex-col gap-4">
-        {devForum.devforum.map((post: DevForumPost) => (
+        {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+        {latestPostsData.map((post: any) => (
           <div key={post.id} className="flex flex-col gap-2 w-fit">
             <a href={post.url} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 underline underline-offset-4">
-              <h2 className="text-lg">{post.title}</h2>
+              <h2 className="text-lg">{post.topic_html_title}</h2>
               <ExternalLink className="w-4 h-4" />
             </a>
           </div>

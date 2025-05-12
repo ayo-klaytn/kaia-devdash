@@ -1,6 +1,4 @@
-import fs from "fs";
-
-class DiscourseClient {
+export class DiscourseClient {
   private baseUrl: string;
 
   constructor(baseUrl: string) {
@@ -27,13 +25,3 @@ class DiscourseClient {
     return data;
   }
 }
-
-async function main() {
-  const client = new DiscourseClient("https://devforum.kaia.io");
-  const latestPosts = await client.getLatestPosts();
-  fs.writeFileSync("scripts/latestPosts.json", JSON.stringify(latestPosts, null, 2));
-  console.log("Latest posts:", latestPosts);
-
-}
-
-main();

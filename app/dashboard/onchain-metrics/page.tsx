@@ -63,7 +63,6 @@ export default async function OnchainMetricsPage() {
             <iframe src="https://dune.com/embeds/4225892/7109149" className="w-full h-[400px] border-1 border-orange-500"/>
           </div>
         </div>
-        
       </div>
     </div>
   );
