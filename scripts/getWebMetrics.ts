@@ -48,11 +48,17 @@ class UmamiClient {
       },
     });
     const data = await response.json();
-    return data;
+    if (data.username === "admin" && data.isAdmin === true && data.role === "admin") {
+      return true;
+    }
+    return false;
   }
 
   async getWebsites() {
-
+    const isTokenValid = await this.checkToken();
+    if (!isTokenValid) {
+      await this.login();
+    }
     const response = await fetch(`${this.baseUrl}/api/websites`, {
       headers: {
         "Authorization": `Bearer ${this.token}`,
@@ -62,13 +68,56 @@ class UmamiClient {
     const data = await response.json();
     return data;
   }
+
+  async getWebsitePageviews(websiteId: string) {
+    const isTokenValid = await this.checkToken();
+    if (!isTokenValid) {
+      await this.login();
+    }
+    const response = await fetch(`${this.baseUrl}/api/websites/${websiteId}/pageviews?startAt=1746921600000&endAt=1747008000000&unit=day&timezone=Asia/Seoul`, {
+      headers: {
+        "Authorization": `Bearer ${this.token}`,
+      },
+    });
+    const data = await response.json();
+    return data;
+  }
+
+  async getWebsiteStats(websiteId: string) {
+    const isTokenValid = await this.checkToken();
+    if (!isTokenValid) {
+      await this.login();
+    }
+    const response = await fetch(`${this.baseUrl}/api/websites/${websiteId}/stats?startAt=1746921600000&endAt=1747008000000&unit=day&timezone=Asia/Seoul`, {
+      headers: {
+        "Authorization": `Bearer ${this.token}`,
+      },
+    });
+    const data = await response.json();
+    return data;
+  }
   
+
+  async getWebsiteMetrics(websiteId: string, type: string) {
+    const isTokenValid = await this.checkToken();
+    if (!isTokenValid) {
+      await this.login();
+    }
+
+    const response = await fetch(`${this.baseUrl}/api/websites/${websiteId}/metrics?startAt=1746921600000&endAt=1747008000000&unit=day&timezone=Asia/Seoul&type=${type}`, {
+      headers: {
+        "Authorization": `Bearer ${this.token}`,
+      },
+    });
+    const data = await response.json();
+    return data;
+  }
 }
 
 async function getWebMetrics() {
   const client = new UmamiClient(process.env.UMAMI_USERNAME!, process.env.UMAMI_PASSWORD!, process.env.UMAMI_BASE_URL!);
-  const tokenValidity = await client.checkToken();
-  console.log(tokenValidity);
+  const websites = await client.getWebsiteMetrics("ae21f682-27e8-4670-bf7f-8eec7a2097cf", "url");
+  console.log(websites);
 }
 
 getWebMetrics();
