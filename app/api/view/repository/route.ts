@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import db from "@/lib/db";
 import { repository, contributor, commit, repositoryStats } from "@/lib/db/schema";
-import { headers } from 'next/headers';
 import { eq } from "drizzle-orm";
 
 
