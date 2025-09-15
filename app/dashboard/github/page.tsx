@@ -5,8 +5,12 @@ import { DataTable } from "@/app/dashboard/github/data-table"
 export const dynamic = 'force-dynamic'
 
 export default async function GitHub() {
-  // Get the base URL for server-side fetch
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3006';
+  // Resolve absolute base URL from headers
+  const { headers } = await import('next/headers');
+  const headersList = await headers();
+  const host = headersList.get('host') || '';
+  const proto = headersList.get('x-forwarded-proto') || 'https';
+  const baseUrl = host ? `${proto}://${host}` : '';
 
   // Fetch GitHub data
   const githubResponse = await fetch(`${baseUrl}/api/view/github?page=1&limit=1000&status=active`, {
@@ -16,6 +20,9 @@ export default async function GitHub() {
       "apiSecret": process.env.API_SECRET!
     }
   })
+  if (!githubResponse.ok) {
+    throw new Error(`API call failed: ${githubResponse.status} ${githubResponse.statusText}`)
+  }
   const githubData = await githubResponse.json()
 
   // Fetch developers data for MAD and New Developers
@@ -26,6 +33,9 @@ export default async function GitHub() {
       "apiSecret": process.env.API_SECRET!
     }
   })
+  if (!developersResponse.ok) {
+    throw new Error(`API call failed: ${developersResponse.status} ${developersResponse.statusText}`)
+  }
   const developersData = await developersResponse.json()
 
   const repositories = githubData.repositories
