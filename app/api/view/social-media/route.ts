@@ -1,5 +1,4 @@
 import { NextResponse } from "next/server";
-import { headers } from "next/headers";
 import db from "@/lib/db";
 import { socialMedia } from "@/lib/db/schema";
 import { eq, asc } from "drizzle-orm";

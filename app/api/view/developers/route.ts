@@ -3,7 +3,6 @@ import { NextRequest, NextResponse } from "next/server";
 export const runtime = 'nodejs'
 import db from "@/lib/db";
 import { developer, commit } from "@/lib/db/schema";
-import { headers } from 'next/headers';
 import { asc, sql } from "drizzle-orm";
 
 
