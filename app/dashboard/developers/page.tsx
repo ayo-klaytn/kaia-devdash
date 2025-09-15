@@ -5,10 +5,10 @@ export const dynamic = 'force-dynamic'
 
 export default async function DevelopersPage() {
   // Get the base URL for server-side fetch
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3006';
+  const baseUrl = '';
 
   try {
-    const response = await fetch(`${baseUrl}/api/view/developers?page=1&limit=1000`, {
+    const response = await fetch(`/api/view/developers?page=1&limit=1000`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

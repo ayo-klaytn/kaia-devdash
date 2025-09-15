@@ -28,9 +28,7 @@ function toGithubUrl(handleOrUrl: string | null): string | null {
 
 export default async function DeveloperPage({ params }: { params: Promise<{ developer: string }> }) {
   const { developer: developerSlug } = await params;
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3006';
-  
-  const developerResponse = await fetch(`${baseUrl}/api/view/developer?name=${developerSlug}`, {
+  const developerResponse = await fetch(`/api/view/developer?name=${developerSlug}`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",

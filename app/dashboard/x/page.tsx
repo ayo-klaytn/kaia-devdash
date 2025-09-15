@@ -9,9 +9,7 @@ export const dynamic = "force-dynamic";
 
 export default async function XPage() {
   // Get the base URL for server-side fetch
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3006';
-
-  const chartDataResponse = await fetch(`${baseUrl}/api/view/social-media`, {
+  const chartDataResponse = await fetch(`/api/view/social-media`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
