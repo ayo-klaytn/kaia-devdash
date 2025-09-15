@@ -6,10 +6,31 @@ import { Github, Calendar, Award, Users } from "lucide-react";
 
 export const dynamic = "force-dynamic";
 
-export default async function DeveloperPage({ params }: { params: { developer: string } }) {
+type DeveloperRecord = {
+  id: string
+  name: string | null
+  github: string | null
+  address: string | null
+  communityRank: number | null
+  xHandle: string | null
+  nftBadges?: string[] | null
+  bootcampGraduated?: string | Date | null
+  bootcampContributor?: string | Date | null
+  createdAt: string | Date
+  updatedAt: string | Date
+}
+
+function toGithubUrl(handleOrUrl: string | null): string | null {
+  if (!handleOrUrl) return null
+  if (handleOrUrl.startsWith('http')) return handleOrUrl
+  return `https://github.com/${handleOrUrl}`
+}
+
+export default async function DeveloperPage({ params }: { params: Promise<{ developer: string }> }) {
+  const { developer: developerSlug } = await params;
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3006';
   
-  const developerResponse = await fetch(`${baseUrl}/api/view/developer?name=${params.developer}`, {
+  const developerResponse = await fetch(`${baseUrl}/api/view/developer?name=${developerSlug}`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -21,9 +42,9 @@ export default async function DeveloperPage({ params }: { params: { developer: s
     notFound();
   }
 
-  const developer = await developerResponse.json();
+  const developerData: DeveloperRecord = await developerResponse.json();
 
-  if (!developer) {
+  if (!developerData) {
     notFound();
   }
 
@@ -32,7 +53,7 @@ export default async function DeveloperPage({ params }: { params: { developer: s
       <div className="flex flex-col gap-4">
         <h1 className="text-2xl font-bold">Developer Profile</h1>
         <p className="text-sm text-muted-foreground">
-          View detailed information about {developer.name}.
+          View detailed information about {developerData.name}.
         </p>
       </div>
       
@@ -40,12 +61,12 @@ export default async function DeveloperPage({ params }: { params: { developer: s
         <CardHeader>
           <div className="flex items-center justify-between">
             <div>
-              <CardTitle className="text-xl">{developer.name}</CardTitle>
+              <CardTitle className="text-xl">{developerData.name}</CardTitle>
               <CardDescription>Developer Profile</CardDescription>
             </div>
-            {developer.github && (
+            {developerData.github && (
               <Button asChild variant="outline">
-                <a href={`https://github.com/${developer.github}`} target="_blank" rel="noopener noreferrer">
+                <a href={toGithubUrl(developerData.github) || '#'} target="_blank" rel="noopener noreferrer">
                   <Github className="w-4 h-4 mr-2" />
                   GitHub Profile
                 </a>
@@ -57,29 +78,29 @@ export default async function DeveloperPage({ params }: { params: { developer: s
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="flex items-center gap-2">
               <Award className="w-4 h-4 text-muted-foreground" />
-              <span className="text-sm">Community Rank: {developer.communityRank || 'N/A'}</span>
+              <span className="text-sm">Community Rank: {developerData.communityRank ?? 'N/A'}</span>
             </div>
             <div className="flex items-center gap-2">
               <Users className="w-4 h-4 text-muted-foreground" />
-              <span className="text-sm">X Handle: {developer.xHandle || 'N/A'}</span>
+              <span className="text-sm">X Handle: {developerData.xHandle || 'N/A'}</span>
             </div>
           </div>
           
           <div className="flex flex-wrap gap-2">
-            {developer.bootcampGraduated && (
+            {developerData.bootcampGraduated && (
               <Badge variant="default">
                 <Calendar className="w-3 h-3 mr-1" />
                 Bootcamp Graduate
               </Badge>
             )}
-            {developer.bootcampContributor && (
+            {developerData.bootcampContributor && (
               <Badge variant="secondary">
                 <Calendar className="w-3 h-3 mr-1" />
                 Bootcamp Contributor
               </Badge>
             )}
-            {developer.nftBadges && developer.nftBadges.length > 0 && (
-              developer.nftBadges.map((badge: string, index: number) => (
+            {developerData.nftBadges && developerData.nftBadges.length > 0 && (
+              developerData.nftBadges.map((badge: string, index: number) => (
                 <Badge key={index} variant="outline">
                   {badge}
                 </Badge>
@@ -87,20 +108,20 @@ export default async function DeveloperPage({ params }: { params: { developer: s
             )}
           </div>
           
-          {developer.address && (
+          {developerData.address && (
             <div className="pt-2 border-t">
               <p className="text-sm text-muted-foreground">
-                Address: {developer.address}
+                Address: {developerData.address}
               </p>
             </div>
           )}
           
           <div className="pt-2 border-t">
             <p className="text-sm text-muted-foreground">
-              Created: {new Date(developer.createdAt).toLocaleDateString()}
+              Created: {new Date(developerData.createdAt).toLocaleDateString()}
             </p>
             <p className="text-sm text-muted-foreground">
-              Last Updated: {new Date(developer.updatedAt).toLocaleDateString()}
+              Last Updated: {new Date(developerData.updatedAt).toLocaleDateString()}
             </p>
           </div>
         </CardContent>
