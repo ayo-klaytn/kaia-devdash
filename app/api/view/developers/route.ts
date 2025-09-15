@@ -65,7 +65,6 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
     developers: []
   }
 
-  try {
     // Names to exclude (shared between MAD and new devs)
     const excludedNames = [
       'ayo-klaytn', 'praveen-kaia', 'zxstim', 'scott lee', 'github', 'ollie', 
