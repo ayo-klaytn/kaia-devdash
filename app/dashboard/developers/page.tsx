@@ -4,9 +4,7 @@ import { MadProgressChart } from "@/app/dashboard/developers/mad-progress-chart"
 export const dynamic = 'force-dynamic'
 
 export default async function DevelopersPage() {
-  const hdrs = new Headers();
   // Resolve absolute base URL from headers at runtime
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
   const { headers } = await import('next/headers');
   const headersList = await headers();
   const host = headersList.get('host') || '';
