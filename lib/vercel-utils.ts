@@ -62,7 +62,7 @@ export const mockData = {
   ]
 };
 
-export function getMockResponse(data: any, message?: string) {
+export function getMockResponse<T>(data: T, message?: string) {
   return {
     data,
     message: message || "Mock data for Vercel testing",

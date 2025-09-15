@@ -1,9 +1,9 @@
 import { XChart } from "@/app/dashboard/x/chart";
-import { XCommunityChart } from "@/app/dashboard/x/community-chart";
+// import { XCommunityChart } from "@/app/dashboard/x/community-chart";
 import { BokChart } from "@/app/dashboard/x/bok-chart";
 import fs from "fs/promises";
 import path from "path";
-import { Eye, Heart, Repeat2, ExternalLink, TrendingUp } from "lucide-react";
+import { Eye, Heart, Repeat2, ExternalLink } from "lucide-react";
 
 export const dynamic = "force-dynamic";
 

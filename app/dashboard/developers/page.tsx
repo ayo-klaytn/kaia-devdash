@@ -1,4 +1,4 @@
-import { Users } from "lucide-react";
+//
 import { MadProgressChart } from "@/app/dashboard/developers/mad-progress-chart"
 
 export const dynamic = 'force-dynamic'
