@@ -1,4 +1,4 @@
-import { XChart } from "@/app/dashboard/x/chart";
+import { XChart, type SocialMetric } from "@/app/dashboard/x/chart";
 // import { XCommunityChart } from "@/app/dashboard/x/community-chart";
 import { BokChart } from "@/app/dashboard/x/bok-chart";
 import fs from "fs/promises";
@@ -14,7 +14,7 @@ export default async function XPage() {
   const host = headersList.get('host') || '';
   const proto = headersList.get('x-forwarded-proto') || 'https';
   const baseUrl = host ? `${proto}://${host}` : '';
-  let chartData: any[] = [];
+  let chartData: SocialMetric[] = [];
   try {
     const chartDataResponse = await fetch(`${baseUrl}/api/view/social-media`, {
       method: "GET",
