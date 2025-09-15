@@ -4,7 +4,12 @@ import { ExternalLink, Package, UserPen, Users } from "lucide-react";
 export const dynamic = "force-dynamic";
 
 export default async function DevForumPage() {
-  const latestPosts = await fetch(`/api/view/devforum`, {
+  const { headers } = await import('next/headers');
+  const headersList = await headers();
+  const host = headersList.get('host') || '';
+  const proto = headersList.get('x-forwarded-proto') || 'https';
+  const baseUrl = host ? `${proto}://${host}` : '';
+  const latestPosts = await fetch(`${baseUrl}/api/view/devforum`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",

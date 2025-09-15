@@ -8,8 +8,13 @@ export const dynamic = "force-dynamic";
 
 export default async function RepositoryPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
+  const { headers } = await import('next/headers');
+  const headersList = await headers();
+  const host = headersList.get('host') || '';
+  const proto = headersList.get('x-forwarded-proto') || 'https';
+  const baseUrl = host ? `${proto}://${host}` : '';
   const response = await fetch(
-    `/api/view/repository?id=${id}`,
+    `${baseUrl}/api/view/repository?id=${id}`,
     {
       method: "GET",
       headers: {

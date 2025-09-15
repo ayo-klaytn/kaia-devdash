@@ -4,9 +4,17 @@ import { MadProgressChart } from "@/app/dashboard/developers/mad-progress-chart"
 export const dynamic = 'force-dynamic'
 
 export default async function DevelopersPage() {
+  const hdrs = new Headers();
+  // Resolve absolute base URL from headers at runtime
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  const { headers } = await import('next/headers');
+  const headersList = await headers();
+  const host = headersList.get('host') || '';
+  const proto = headersList.get('x-forwarded-proto') || 'https';
+  const baseUrl = host ? `${proto}://${host}` : '';
 
   try {
-    const response = await fetch(`/api/view/developers?page=1&limit=1000`, {
+    const response = await fetch(`${baseUrl}/api/view/developers?page=1&limit=1000`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

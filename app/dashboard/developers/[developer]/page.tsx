@@ -28,7 +28,12 @@ function toGithubUrl(handleOrUrl: string | null): string | null {
 
 export default async function DeveloperPage({ params }: { params: Promise<{ developer: string }> }) {
   const { developer: developerSlug } = await params;
-  const developerResponse = await fetch(`/api/view/developer?name=${developerSlug}`, {
+  const { headers } = await import('next/headers');
+  const headersList = await headers();
+  const host = headersList.get('host') || '';
+  const proto = headersList.get('x-forwarded-proto') || 'https';
+  const baseUrl = host ? `${proto}://${host}` : '';
+  const developerResponse = await fetch(`${baseUrl}/api/view/developer?name=${developerSlug}`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
