@@ -19,7 +19,6 @@ export default async function RepositoryPage({ params }: { params: Promise<{ id:
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        "apiSecret": process.env.API_SECRET!,
       },
     }
   );

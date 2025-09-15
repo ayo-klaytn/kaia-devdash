@@ -17,7 +17,6 @@ export default async function GitHub() {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      "apiSecret": process.env.API_SECRET!
     }
   })
   if (!githubResponse.ok) {
@@ -30,7 +29,6 @@ export default async function GitHub() {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      "apiSecret": process.env.API_SECRET!
     }
   })
   if (!developersResponse.ok) {

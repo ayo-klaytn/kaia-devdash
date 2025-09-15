@@ -13,7 +13,6 @@ export default async function DevForumPage() {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      "apiSecret": process.env.API_SECRET!
     }
   });
 

@@ -14,16 +14,24 @@ export default async function XPage() {
   const host = headersList.get('host') || '';
   const proto = headersList.get('x-forwarded-proto') || 'https';
   const baseUrl = host ? `${proto}://${host}` : '';
-  const chartDataResponse = await fetch(`${baseUrl}/api/view/social-media`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      "apiSecret": process.env.API_SECRET!,
-    },
-  });
+  let chartData: any[] = [];
+  try {
+    const chartDataResponse = await fetch(`${baseUrl}/api/view/social-media`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
 
-  const chartDataResponse_json = await chartDataResponse.json();
-  const chartData = chartDataResponse_json.kaiaDevIntern || [];
+    if (chartDataResponse.ok) {
+      const chartDataResponse_json = await chartDataResponse.json();
+      chartData = chartDataResponse_json.kaiaDevIntern || [];
+    } else {
+      console.error('Failed to fetch social media data:', chartDataResponse.status, chartDataResponse.statusText);
+    }
+  } catch (error) {
+    console.error('Error fetching social media data:', error);
+  }
 
   // Load Build on Kaia CSV from mocks (server-side)
   const csvPath = path.join(process.cwd(), "lib", "mocks", "bok-analytics.csv");

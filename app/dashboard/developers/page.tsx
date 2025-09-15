@@ -16,7 +16,6 @@ export default async function DevelopersPage() {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        "apiSecret": process.env.API_SECRET!
       }
     });
 

@@ -37,7 +37,6 @@ export default async function DeveloperPage({ params }: { params: Promise<{ deve
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      "apiSecret": process.env.API_SECRET!,
     },
   });
 
