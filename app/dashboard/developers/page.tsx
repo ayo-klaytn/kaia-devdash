@@ -4,8 +4,6 @@ import { MadProgressChart } from "@/app/dashboard/developers/mad-progress-chart"
 export const dynamic = 'force-dynamic'
 
 export default async function DevelopersPage() {
-  // Get the base URL for server-side fetch
-  const baseUrl = '';
 
   try {
     const response = await fetch(`/api/view/developers?page=1&limit=1000`, {
