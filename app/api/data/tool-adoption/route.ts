@@ -100,8 +100,9 @@ export async function GET(req: NextRequest) {
       weekStart,
       data: results
     })
-  } catch (err: any) {
-    return NextResponse.json({ error: err?.message || 'Unexpected error' }, { status: 500 })
+  } catch (err) {
+    const message = err instanceof Error ? err.message : 'Unexpected error'
+    return NextResponse.json({ error: message }, { status: 500 })
   }
 }
 

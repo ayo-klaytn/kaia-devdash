@@ -333,7 +333,7 @@ export default function ProjectsPage() {
     []
   );
 
-  const stats = useMemo(() => ({
+  void useMemo(() => ({
     totalProjects: data.length,
     maturedProjects: data.filter(project => project.maturity_rank >= 3).length,
     activeProjects: data.filter(project => project.community_rank >= 3).length

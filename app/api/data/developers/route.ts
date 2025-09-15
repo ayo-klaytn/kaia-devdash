@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 export const runtime = 'nodejs'
 import db from "@/lib/db";
-import { developer, repository } from "@/lib/db/schema";
+import { developer } from "@/lib/db/schema";
 import { headers } from 'next/headers';
 import { createId } from '@paralleldrive/cuid2';
 import { eq, and, asc } from "drizzle-orm";

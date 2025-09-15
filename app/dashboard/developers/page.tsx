@@ -1,6 +1,4 @@
-import { Package, UserPen, Users } from "lucide-react";
-import { columns } from "@/app/dashboard/developers/columns"
-import { DataTable } from "@/app/dashboard/developers/data-table"
+import { Users } from "lucide-react";
 import { MadProgressChart } from "@/app/dashboard/developers/mad-progress-chart"
 
 export const dynamic = 'force-dynamic'

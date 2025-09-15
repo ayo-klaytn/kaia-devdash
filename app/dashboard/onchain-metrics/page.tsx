@@ -174,7 +174,7 @@ export default async function OnchainMetricsPage() {
         <h3 className="font-semibold text-blue-800 mb-2">📊 About These Metrics</h3>
         <p className="text-sm text-blue-700">
           The charts above are embedded from Dune Analytics and Kaiascan. For the full interactive experience, 
-          click the "View Full Chart" buttons or visit the external dashboards using the links above.
+          click the &quot;View Full Chart&quot; buttons or visit the external dashboards using the links above.
         </p>
       </div>
     </div>

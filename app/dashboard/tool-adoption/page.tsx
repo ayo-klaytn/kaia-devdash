@@ -88,7 +88,7 @@ function WeeklyDownloadsChart() {
         const weeks = Array.from(allWeeks).sort();
         const rows: Array<Record<string, number | string>> = weeks.map((w) => ({ weekStart: w }));
         const keyNames: string[] = [];
-        json.data.forEach((pkg: { package: string; series: { weekStart: string; downloads: number }[] }, idx: number) => {
+        json.data.forEach((pkg: { package: string; series: { weekStart: string; downloads: number }[] }) => {
           const key = pkg.package;
           keyNames.push(key);
           const map = new Map(pkg.series.map((p) => [p.weekStart, p.downloads]));
@@ -97,8 +97,9 @@ function WeeklyDownloadsChart() {
           });
         });
         if (!cancelled) setSeries({ keys: keyNames, data: rows });
-      } catch (e: any) {
-        if (!cancelled) setError(e?.message || "Failed to load downloads");
+      } catch (e) {
+        const message = e instanceof Error ? e.message : "Failed to load downloads";
+        if (!cancelled) setError(message);
       } finally {
         if (!cancelled) setLoading(false);
       }

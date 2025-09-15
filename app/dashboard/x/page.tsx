@@ -53,7 +53,7 @@ export default async function XPage() {
   });
 
   // Group by month for chart
-  const monthly = daily.reduce((acc, d) => {
+  const monthly = daily.reduce((acc: Record<string, { month: string; impressions: number; engagements: number; profileVisits: number; replies: number; likes: number; reposts: number; bookmarks: number; shares: number }>, d) => {
     const month = d.date.toISOString().slice(0, 7); // YYYY-MM
     if (!acc[month]) {
       acc[month] = { month, impressions: 0, engagements: 0, profileVisits: 0, replies: 0, likes: 0, reposts: 0, bookmarks: 0, shares: 0 };
@@ -67,9 +67,9 @@ export default async function XPage() {
     acc[month].bookmarks += d.bookmarks;
     acc[month].shares += d.shares;
     return acc;
-  }, {} as Record<string, any>);
+  }, {} as Record<string, { month: string; impressions: number; engagements: number; profileVisits: number; replies: number; likes: number; reposts: number; bookmarks: number; shares: number }>);
 
-  const monthlySeries = Object.values(monthly).map((m: any) => ({
+  const monthlySeries = Object.values(monthly).map((m) => ({
     month: m.month,
     impressions: m.impressions,
     engagementRate: m.impressions > 0 ? Number(((m.engagements / m.impressions) * 100).toFixed(2)) : 0,

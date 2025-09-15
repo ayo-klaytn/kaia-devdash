@@ -1,6 +1,6 @@
 "use client"
 
-import { Home, Code, Radio, MessageSquareText, Gamepad2, Earth, ChartLine, Ship, Users, ShieldUser, Waves, Megaphone, AlignEndVertical, GraduationCap, Trophy, Settings, Wrench } from "lucide-react"
+import { Home, Code, Radio, MessageSquareText, Earth, ChartLine, Ship, Users, Waves, Megaphone, AlignEndVertical, Wrench } from "lucide-react"
 import { usePathname } from 'next/navigation';
 import {
   Sidebar,

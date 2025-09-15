@@ -64,7 +64,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
   return NextResponse.json(paginatedDevelopers);
 }
 
-export async function POST(request: NextRequest): Promise<NextResponse> {
+export async function POST(): Promise<NextResponse> {
   // For Vercel testing, just return success
   return NextResponse.json({ 
     message: "Mock POST - Developer would be created in production",
@@ -72,14 +72,14 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
   });
 }
 
-export async function DELETE(request: NextRequest): Promise<NextResponse> {
+export async function DELETE(): Promise<NextResponse> {
   // For Vercel testing, just return success
   return NextResponse.json({ 
     message: "Mock DELETE - Developer would be deleted in production" 
   });
 }
 
-export async function PATCH(request: NextRequest): Promise<NextResponse> {
+export async function PATCH(): Promise<NextResponse> {
   // For Vercel testing, just return success
   return NextResponse.json({ 
     message: "Mock PATCH - Developer would be updated in production" 
