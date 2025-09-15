@@ -8,11 +8,10 @@ import { asc, sql } from "drizzle-orm";
 
 
 export async function GET(request: NextRequest): Promise<NextResponse> {
-  const headersList = await headers();
-  const apiSecret = headersList.get('apiSecret');
-
   // Temporarily disable auth for Vercel testing
   // TODO: Re-enable authentication once we debug the header mismatch
+  // const headersList = await headers();
+  // const apiSecret = headersList.get('apiSecret');
   // if (process.env.API_SECRET) {
   //   if (!apiSecret) {
   //     return NextResponse.json({ error: "No API secret provided" }, { status: 401 });
