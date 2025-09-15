@@ -5,22 +5,37 @@ import { DataTable } from "@/app/dashboard/github/data-table"
 export const dynamic = 'force-dynamic'
 
 export default async function GitHub() {
+  // Get the base URL for server-side fetch
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3006';
 
-  const response = await fetch("http://localhost:3006/api/view/github?page=1&limit=1000&status=active", {
+  // Fetch GitHub data
+  const githubResponse = await fetch(`${baseUrl}/api/view/github?page=1&limit=1000&status=active`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
       "apiSecret": process.env.API_SECRET!
     }
   })
-  const data = await response.json()
+  const githubData = await githubResponse.json()
 
-  const repositories = data.repositories
+  // Fetch developers data for MAD and New Developers
+  const developersResponse = await fetch(`${baseUrl}/api/view/developers?page=1&limit=1000`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      "apiSecret": process.env.API_SECRET!
+    }
+  })
+  const developersData = await developersResponse.json()
+
+  const repositories = githubData.repositories
 
   const stats = {
-    totalRepositories: data.numberOfRepositories,
-    totalContributors: data.numberOfContributors,
-    totalAuthors: data.numberOfAuthors,
+    totalRepositories: githubData.numberOfRepositories,
+    totalContributors: githubData.numberOfContributors,
+    totalAuthors: githubData.numberOfAuthors,
+    totalActiveDevelopers: developersData.numberOfActiveMonthlyDevelopers,
+    totalNewDevelopers: developersData.newDevelopers365d.length,
   }
 
 
@@ -32,7 +47,7 @@ export default async function GitHub() {
           View ecosystem wide GitHub activities.
         </p>
       </div>
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
         <div className="flex flex-col gap-4 border rounded-md p-4">
           <h1 className="text-2xl font-bold">{stats.totalRepositories}</h1>
           <div className="flex items-center gap-2">
@@ -48,10 +63,17 @@ export default async function GitHub() {
           </div>
         </div>
         <div className="flex flex-col gap-4 border rounded-md p-4">
-          <h1 className="text-2xl font-bold">{stats.totalContributors}</h1>
+          <h1 className="text-2xl font-bold">{stats.totalActiveDevelopers}</h1>
           <div className="flex items-center gap-2">
             <Users className="w-4 h-4" />
-            <p className="text-sm">Contributors</p>
+            <p className="text-sm">Active Developers (28d)</p>
+          </div>
+        </div>
+        <div className="flex flex-col gap-4 border rounded-md p-4">
+          <h1 className="text-2xl font-bold">{stats.totalNewDevelopers}</h1>
+          <div className="flex items-center gap-2">
+            <Users className="w-4 h-4" />
+            <p className="text-sm">New Developers (365d)</p>
           </div>
         </div>
       </div>

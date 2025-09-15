@@ -1,168 +1,97 @@
-import Link from "next/link";
-import {
-  contributor as ContributorSchema,
-  commit as CommitSchema,
-} from "@/lib/db/schema";
+import { notFound } from "next/navigation";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { ExternalLink, GitBranch, Star, Eye, GitFork } from "lucide-react";
 
-export const dynamic = 'force-dynamic'
+export const dynamic = "force-dynamic";
 
-type Params = Promise<{ id: string }>
-
-export default async function RepositoryPage(props: {
-  params: Params;
-}) {
-  const params = await props.params;
-  const id = params.id;
-
+export default async function RepositoryPage({ params }: { params: { id: string } }) {
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3006';
+  
   const response = await fetch(
-    `http://localhost:3006/api/view/repository?id=${id}`,
+    `${baseUrl}/api/view/repository?id=${params.id}`,
     {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        apiSecret: process.env.API_SECRET!,
+        "apiSecret": process.env.API_SECRET!,
       },
     }
   );
-  const data = await response.json();
+
+  if (!response.ok) {
+    notFound();
+  }
+
+  const repository = await response.json();
+
+  if (!repository) {
+    notFound();
+  }
 
   return (
     <div className="flex flex-col gap-4 p-4">
       <div className="flex flex-col gap-4">
-        <h1 className="text-2xl font-bold">{data.repository.name}</h1>
+        <h1 className="text-2xl font-bold">Repository Details</h1>
         <p className="text-sm text-muted-foreground">
-          ID: {data.repository.id}
-        </p>
-        <p className="text-sm text-muted-foreground">
-          URL:{" "}
-          <a
-            className="text-blue-500 underline underline-offset-4"
-            href={data.repository.url}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            {data.repository.url}
-          </a>
+          View detailed information about the repository.
         </p>
       </div>
-      <div className="flex flex-col gap-4">
-        <h2 className="text-lg font-bold">Information</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="flex flex-col gap-2">
-            <div className="flex flex-col gap-2">
-              <p className="text-sm text-muted-foreground">Owner</p>
-              <p className="text-sm">{data.repository.owner}</p>
+      <Card>
+        <CardHeader>
+          <div className="flex items-center justify-between">
+            <div>
+              <CardTitle className="text-xl">{repository.name}</CardTitle>
+              <CardDescription>{repository.owner}</CardDescription>
             </div>
-            <div className="flex flex-col gap-2">
-              <p className="text-sm text-muted-foreground">Name</p>
-              <p className="text-sm">{data.repository.name}</p>
+            <Button asChild>
+              <a href={repository.url} target="_blank" rel="noopener noreferrer">
+                <ExternalLink className="w-4 h-4 mr-2" />
+                View on GitHub
+              </a>
+            </Button>
+          </div>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="flex items-center gap-4">
+            <Badge variant={repository.status === "active" ? "default" : "secondary"}>
+              {repository.status}
+            </Badge>
+            {repository.remark && (
+              <Badge variant="outline">{repository.remark}</Badge>
+            )}
+          </div>
+          
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div className="flex items-center gap-2">
+              <GitBranch className="w-4 h-4 text-muted-foreground" />
+              <span className="text-sm">Branches</span>
             </div>
-            <div className="flex flex-col gap-2">
-              <p className="text-sm text-muted-foreground">Status</p>
-              <p className="text-sm">
-                {data.repository.status.charAt(0).toUpperCase() +
-                  data.repository.status.slice(1)}
-              </p>
+            <div className="flex items-center gap-2">
+              <Star className="w-4 h-4 text-muted-foreground" />
+              <span className="text-sm">Stars</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Eye className="w-4 h-4 text-muted-foreground" />
+              <span className="text-sm">Watchers</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <GitFork className="w-4 h-4 text-muted-foreground" />
+              <span className="text-sm">Forks</span>
             </div>
           </div>
-          <div className="flex flex-col gap-2">
-            <div className="flex flex-col gap-2">
-              <p className="text-sm text-muted-foreground">Remarks</p>
-              <p className="text-sm">
-                {data.repository.remark.charAt(0).toUpperCase() +
-                  data.repository.remark.slice(1)}
-              </p>
-            </div>
-            <div className="flex flex-col gap-2">
-              <p className="text-sm text-muted-foreground">Created at</p>
-              <p className="text-sm">
-                {new Date(data.repository.createdAt).toLocaleDateString(
-                  "en-US",
-                  {
-                    weekday: "long",
-                    year: "numeric",
-                    month: "long",
-                    day: "numeric",
-                    hour: "2-digit",
-                    minute: "2-digit",
-                    second: "2-digit",
-                  }
-                )}
-              </p>
-            </div>
-            <div className="flex flex-col gap-2">
-              <p className="text-sm text-muted-foreground">Updated at</p>
-              <p className="text-sm">
-                {new Date(data.repository.updatedAt).toLocaleDateString(
-                  "en-US",
-                  {
-                    weekday: "long",
-                    year: "numeric",
-                    month: "long",
-                    day: "numeric",
-                    hour: "2-digit",
-                    minute: "2-digit",
-                    second: "2-digit",
-                  }
-                )}
-              </p>
-            </div>
+          
+          <div className="pt-4 border-t">
+            <p className="text-sm text-muted-foreground">
+              Created: {new Date(repository.createdAt).toLocaleDateString()}
+            </p>
+            <p className="text-sm text-muted-foreground">
+              Last Updated: {new Date(repository.updatedAt).toLocaleDateString()}
+            </p>
           </div>
-          <div className="flex flex-col gap-2">
-            <div className="flex flex-col gap-2">
-              <p className="text-sm text-muted-foreground">Stars</p>
-              <p className="text-sm">
-                {data.repositoryStats[0].stars}
-              </p>
-            </div>
-            <div className="flex flex-col gap-2">
-              <p className="text-sm text-muted-foreground">Forks</p>
-              <p className="text-sm">{data.repositoryStats[0].forks}</p>
-            </div>
-            <div className="flex flex-col gap-2">
-              <p className="text-sm text-muted-foreground">Watchers</p>
-              <p className="text-sm">{data.repositoryStats[0].watchers}</p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div className="flex flex-col gap-4">
-        <h2 className="text-lg font-bold">
-          Contributors (Total: {data.contributors.length})
-        </h2>
-        <div className="flex flex-wrap gap-2">
-          {data.contributors.map(
-            (contributor: typeof ContributorSchema.$inferSelect) => (
-              <div key={contributor.id} className="bg-muted rounded-md p-2">
-                <Link
-                  className="text-sm underline underline-offset-4 text-blue-500"
-                  href={`/dashboard/developers/${contributor.username}`}
-                >
-                  {contributor.username}
-                </Link>
-              </div>
-            )
-          )}
-        </div>
-      </div>
-      <div className="flex flex-col gap-4">
-        <h2 className="text-lg font-bold">
-          Commits (Total: {data.commits.length})
-        </h2>
-        <div className="flex flex-col gap-2">
-          {data.commits.map((commit: typeof CommitSchema.$inferSelect) => (
-            <a
-              key={commit.id}
-              className="text-sm underline underline-offset-4 text-blue-500"
-              target="_blank"
-              rel="noopener noreferrer"
-              href={commit.url || "#"}
-            >
-              {commit.url || "No URL"}
-            </a>
-          ))}
-        </div>
-      </div>
+        </CardContent>
+      </Card>
     </div>
   );
 }

@@ -62,16 +62,65 @@ const chartConfig = {
 export function XChart({ chartData }: { chartData: SocialMetric[] }) {
   const [activeChart, setActiveChart] =
     React.useState<keyof typeof chartConfig>("impressions")
+  const [mounted, setMounted] = React.useState(false)
+
+  // Handle hydration
+  React.useEffect(() => {
+    setMounted(true)
+  }, [])
 
   const total = React.useMemo(
-    () => ({
-      impressions: chartData.reduce((acc, curr) => acc + curr.impressions, 0),
-      engagements: chartData.reduce((acc, curr) => acc + curr.engagements, 0),
-      likes: chartData.reduce((acc, curr) => acc + curr.likes, 0),
-      profileVisits: chartData.reduce((acc, curr) => acc + curr.profileVisits, 0),
-    }),
-    [chartData]
+    () => {
+      if (!mounted) {
+        return {
+          impressions: 0,
+          engagements: 0,
+          likes: 0,
+          profileVisits: 0,
+        };
+      }
+
+      // Ensure we have valid data
+      const validData = Array.isArray(chartData) ? chartData : [];
+      
+      if (validData.length === 0) {
+        return {
+          impressions: 0,
+          engagements: 0,
+          likes: 0,
+          profileVisits: 0,
+        };
+      }
+      
+      return {
+        impressions: validData.reduce((acc, curr) => acc + (curr?.impressions || 0), 0),
+        engagements: validData.reduce((acc, curr) => acc + (curr?.engagements || 0), 0),
+        likes: validData.reduce((acc, curr) => acc + (curr?.likes || 0), 0),
+        profileVisits: validData.reduce((acc, curr) => acc + (curr?.profileVisits || 0), 0),
+      };
+    },
+    [chartData, mounted]
   )
+
+  if (!mounted) {
+    return (
+      <Card>
+        <CardHeader className="flex flex-col items-stretch space-y-0 border-b p-0 sm:flex-row">
+          <div className="flex flex-1 flex-col justify-center gap-1 px-6 py-5 sm:py-6">
+            <CardTitle>Kaia Dev Intern</CardTitle>
+            <CardDescription>
+              Loading...
+            </CardDescription>
+          </div>
+        </CardHeader>
+        <CardContent className="px-2 sm:p-6">
+          <div className="h-[250px] flex items-center justify-center">
+            <div className="text-muted-foreground">Loading chart data...</div>
+          </div>
+        </CardContent>
+      </Card>
+    );
+  }
 
   return (
     <Card>
@@ -110,7 +159,7 @@ export function XChart({ chartData }: { chartData: SocialMetric[] }) {
         >
           <BarChart
             accessibilityLayer
-            data={chartData}
+            data={mounted && Array.isArray(chartData) && chartData.length > 0 ? chartData : []}
             margin={{
               left: 12,
               right: 12,
@@ -124,7 +173,7 @@ export function XChart({ chartData }: { chartData: SocialMetric[] }) {
               tickMargin={8}
               minTickGap={32}
               tickFormatter={(value) => {
-                const date = new Date(Number(value))
+                const date = new Date(value)
                 return date.toLocaleDateString("en-US", {
                   month: "short",
                   day: "numeric",
@@ -137,7 +186,7 @@ export function XChart({ chartData }: { chartData: SocialMetric[] }) {
                   className="w-[150px]"
                   nameKey={activeChart}
                   labelFormatter={(value) => {
-                    return new Date(Number(value)).toLocaleDateString("en-US", {
+                    return new Date(value).toLocaleDateString("en-US", {
                       month: "short",
                       day: "numeric",
                       year: "numeric",

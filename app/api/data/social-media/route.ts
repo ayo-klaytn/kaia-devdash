@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import db from "@/lib/db";
-import { repository, socialMedia } from "@/lib/db/schema";
+import { socialMedia } from "@/lib/db/schema";
 import { headers } from 'next/headers';
 import { createId } from '@paralleldrive/cuid2';
 import { eq, and, asc } from "drizzle-orm";
@@ -18,7 +18,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
     return NextResponse.json({ error: "Invalid API secret" }, { status: 401 });
   }
 
-  // return paginated list of repositories
+  // return paginated list of social media data
   const searchParams = request.nextUrl.searchParams
   const page = searchParams.get('page') || '1';
   const limit = searchParams.get('limit') || '100';
@@ -53,22 +53,23 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 
   const { name, date, impressions, likes, engagements, bookmarks, shares, newFollows, unfollows, replies, reposts, profileVisits, createPost, videoViews, mediaViews } = await request.json();
 
-  // check if repository already exists
-  const existingRepository = await db.select()
+  // check if social media entry already exists for this name and date
+  const existingEntry = await db.select()
     .from(socialMedia)
     .where(
       and(
+        eq(socialMedia.name, name),
         eq(socialMedia.date, date)
       )
     )
     .limit(1);
 
-  if (existingRepository.length > 0) {
-    return NextResponse.json({ error: "Repository already exists" }, { status: 400 });
+  if (existingEntry.length > 0) {
+    return NextResponse.json({ error: "Social media entry already exists for this date" }, { status: 400 });
   }
 
   // add to db
-  const newRepository = await db.insert(socialMedia).values({
+  const newEntry = await db.insert(socialMedia).values({
     id: createId(),
     name,
     date,
@@ -89,7 +90,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     updatedAt: new Date(),
   }).returning();
  
-  return NextResponse.json(newRepository);
+  return NextResponse.json(newEntry);
 }
 
 export async function DELETE(request: NextRequest): Promise<NextResponse> {
@@ -106,9 +107,9 @@ export async function DELETE(request: NextRequest): Promise<NextResponse> {
   
   const { id } = await request.json();
 
-  await db.delete(repository).where(eq(repository.id, id));
+  await db.delete(socialMedia).where(eq(socialMedia.id, id));
 
-  return NextResponse.json({ message: "Repository deleted" }, { status: 200 });
+  return NextResponse.json({ message: "Social media entry deleted" }, { status: 200 });
 }
 
 export async function PATCH(request: NextRequest): Promise<NextResponse> {
@@ -123,26 +124,36 @@ export async function PATCH(request: NextRequest): Promise<NextResponse> {
     return NextResponse.json({ error: "Invalid API secret" }, { status: 401 });
   }
   
-  const { id, owner, repository: repoName, url, remark, status } = await request.json();
+  const { id, name, date, impressions, likes, engagements, bookmarks, shares, newFollows, unfollows, replies, reposts, profileVisits, createPost, videoViews, mediaViews } = await request.json();
 
   if (!id) {
-    return NextResponse.json({ error: "Repository ID is required" }, { status: 400 });
+    return NextResponse.json({ error: "Social media entry ID is required" }, { status: 400 });
   }
 
-  const updateData: { owner?: string; name?: string; url?: string; remark?: string; status?: string; updatedAt: Date } = {
-    status: status || "inactive",
-    url: url,
-    remark: remark || "external",
+  const updateData: { name?: string; date?: string; impressions?: number; likes?: number; engagements?: number; bookmarks?: number; shares?: number; newFollows?: number; unfollows?: number; replies?: number; reposts?: number; profileVisits?: number; createPost?: number; videoViews?: number; mediaViews?: number; updatedAt: Date } = {
     updatedAt: new Date(),
   };
 
-  if (owner !== undefined) updateData.owner = owner;
-  if (repoName !== undefined) updateData.name = repoName;
+  if (name !== undefined) updateData.name = name;
+  if (date !== undefined) updateData.date = date;
+  if (impressions !== undefined) updateData.impressions = impressions;
+  if (likes !== undefined) updateData.likes = likes;
+  if (engagements !== undefined) updateData.engagements = engagements;
+  if (bookmarks !== undefined) updateData.bookmarks = bookmarks;
+  if (shares !== undefined) updateData.shares = shares;
+  if (newFollows !== undefined) updateData.newFollows = newFollows;
+  if (unfollows !== undefined) updateData.unfollows = unfollows;
+  if (replies !== undefined) updateData.replies = replies;
+  if (reposts !== undefined) updateData.reposts = reposts;
+  if (profileVisits !== undefined) updateData.profileVisits = profileVisits;
+  if (createPost !== undefined) updateData.createPost = createPost;
+  if (videoViews !== undefined) updateData.videoViews = videoViews;
+  if (mediaViews !== undefined) updateData.mediaViews = mediaViews;
 
-  const updatedRepository = await db.update(repository)
+  const updatedEntry = await db.update(socialMedia)
     .set(updateData)
-    .where(eq(repository.id, id))
+    .where(eq(socialMedia.id, id))
     .returning();
 
-  return NextResponse.json(updatedRepository);
+  return NextResponse.json(updatedEntry);
 }

@@ -4,8 +4,10 @@ import { ExternalLink, Package, UserPen, Users } from "lucide-react";
 export const dynamic = "force-dynamic";
 
 export default async function DevForumPage() {
+  // Get the base URL for server-side fetch
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3006';
 
-  const latestPosts = await fetch("http://localhost:3006/api/view/devforum", {
+  const latestPosts = await fetch(`${baseUrl}/api/view/devforum`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",

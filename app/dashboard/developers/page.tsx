@@ -1,97 +1,106 @@
 import { Package, UserPen, Users } from "lucide-react";
 import { columns } from "@/app/dashboard/developers/columns"
 import { DataTable } from "@/app/dashboard/developers/data-table"
+import { MadProgressChart } from "@/app/dashboard/developers/mad-progress-chart"
 
 export const dynamic = 'force-dynamic'
 
 export default async function DevelopersPage() {
+  // Get the base URL for server-side fetch
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3006';
 
-  const response = await fetch("http://localhost:3006/api/view/developers?page=1&limit=1000", {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      "apiSecret": process.env.API_SECRET!
+  try {
+    const response = await fetch(`${baseUrl}/api/view/developers?page=1&limit=1000`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "apiSecret": process.env.API_SECRET!
+      }
+    });
+
+    if (!response.ok) {
+      throw new Error(`API call failed: ${response.status} ${response.statusText}`);
     }
-  });
 
-  const data = await response.json();
+    const data = await response.json();
+    
+    // Log the data to see what we're getting
+    console.log('Developers API response:', data);
 
-  return (
-    <div className="flex flex-col gap-4 p-4">
-      <div className="flex flex-col gap-4">
-        <h1 className="text-2xl font-bold">Developers</h1>
-        <p className="text-sm text-muted-foreground">
-          View developers and their metrics.
-        </p>
+    return (
+      <div className="flex flex-col gap-4 p-4">
+        <div className="flex flex-col gap-4">
+          <h1 className="text-2xl font-bold">Developers</h1>
+          <p className="text-sm text-muted-foreground">
+            View developers and their metrics.
+          </p>
+        </div>
+        {/* Monthly Active Developers List */}
+        <div className="flex flex-col gap-4 border rounded-md p-4">
+          <h2 className="text-xl font-semibold">Monthly Active Developers (28d)</h2>
+          <p className="text-sm text-muted-foreground">
+            Developers who committed code in the last 28 days ({data.monthlyActiveDevelopers?.length || 0} total)
+          </p>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 max-h-64 overflow-y-auto">
+            {data.monthlyActiveDevelopers?.map((dev: { email: string | null; name: string | null }, index: number) => {
+              const displayName = dev.name || dev.email?.split('@')[0] || 'Unknown Developer';
+              return (
+                <div key={index} className="flex flex-col gap-1 p-2 border rounded text-sm">
+                  <span className="font-medium">{displayName}</span>
+                  <span className="text-muted-foreground text-xs">
+                    Active in last 28 days
+                  </span>
+                </div>
+              );
+            }) || []}
+          </div>
+        </div>
+
+        {/* New Developers List */}
+        <div className="flex flex-col gap-4 border rounded-md p-4">
+          <h2 className="text-xl font-semibold">New Developers (365d)</h2>
+          <p className="text-sm text-muted-foreground">
+            Developers whose first commit was within the last 365 days ({data.newDevelopers365d?.length || 0} total)
+          </p>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 max-h-64 overflow-y-auto">
+            {data.newDevelopers365d?.map((dev: { email: string | null; name: string | null; firstAt: string }, index: number) => {
+              const displayName = dev.name || dev.email?.split('@')[0] || 'Unknown Developer';
+              return (
+                <div key={index} className="flex flex-col gap-1 p-2 border rounded text-sm">
+                  <span className="font-medium">{displayName}</span>
+                  <span className="text-muted-foreground text-xs">
+                    First commit: {dev.firstAt ? new Date(dev.firstAt).toLocaleDateString() : 'Unknown date'}
+                  </span>
+                </div>
+              );
+            }) || []}
+          </div>
+        </div>
+
+        {/* MAD Progress Chart */}
+        {data.monthlyMadProgress && data.monthlyMadProgress.length > 0 && (
+          <MadProgressChart 
+            data={data.monthlyMadProgress} 
+            uniqueDevelopersAcrossPeriod={data.uniqueDevelopersAcrossPeriod || 0}
+            totalDeveloperMonths={data.totalDeveloperMonths || 0}
+          />
+        )}
       </div>
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-        <div className="flex flex-col gap-4 border rounded-md p-4">
-          <h1 className="text-2xl font-bold">{data.numberOfDevelopersWithMoreThan3Repositories}</h1>
-          <div className="flex items-center gap-2">
-            <UserPen className="w-4 h-4" />
-            <p className="text-sm">Authors with more than 3 repositories</p>
-          </div>
+    );
+  } catch (error) {
+    console.error('Error fetching developers data:', error);
+    return (
+      <div className="flex flex-col gap-4 p-4">
+        <div className="flex flex-col gap-4">
+          <h1 className="text-2xl font-bold">Developers</h1>
+          <p className="text-sm text-muted-foreground">
+            View developers and their metrics.
+          </p>
         </div>
-        <div className="flex flex-col gap-4 border rounded-md p-4">
-          <h1 className="text-2xl font-bold">{data.developersWithAtLeast1Rank3Repository}</h1>
-          <div className="flex items-center gap-2">
-            <Package className="w-4 h-4" />
-            <p className="text-sm">Developers with at least 1 rank 3 repo</p>
-          </div>
-        </div>
-        <div className="flex flex-col gap-4 border rounded-md p-4">
-          <h1 className="text-2xl font-bold">{data.developersWithNftBadges}</h1>
-          <div className="flex items-center gap-2">
-            <Users className="w-4 h-4" />
-            <p className="text-sm">Developers with NFT badges</p>
-          </div>
-        </div>
-        <div className="flex flex-col gap-4 border rounded-md p-4">
-          <h1 className="text-2xl font-bold">{data.numberOfDevelopersGraduatedBootcamp}</h1>
-          <div className="flex items-center gap-2">
-            <Users className="w-4 h-4" />
-            <p className="text-sm">Developers graduating bootcamp</p>
-          </div>
-        </div>
-        <div className="flex flex-col gap-4 border rounded-md p-4">
-          <h1 className="text-2xl font-bold">{data.numberOfDevelopersGraduatedBootcampAndContributed}</h1>
-          <div className="flex items-center gap-2">
-            <Users className="w-4 h-4" />
-            <p className="text-sm">Devs graduating bootcamp turned contributors</p>
-          </div>
-        </div>
-        <div className="flex flex-col gap-4 border rounded-md p-4">
-          <h1 className="text-2xl font-bold">{data.developersWithAtLeast1RepoWithAtLeast3Stars}</h1>
-          <div className="flex items-center gap-2">
-            <Users className="w-4 h-4" />
-            <p className="text-sm">Devs with at least 1 repo with at least 3 stars</p>
-          </div>
-        </div>
-        <div className="flex flex-col gap-4 border rounded-md p-4">
-          <h1 className="text-2xl font-bold">{data.numberOfDevelopers}</h1>
-          <div className="flex items-center gap-2">
-            <Users className="w-4 h-4" />
-            <p className="text-sm">Total developers</p>
-          </div>
-        </div>
-        <div className="flex flex-col gap-4 border rounded-md p-4">
-          <h1 className="text-2xl font-bold">{data.numberOfDevelopersWithCommunityRankMoreThan3}</h1>
-          <div className="flex items-center gap-2">
-            <Users className="w-4 h-4" />
-            <p className="text-sm">Developers with community rank more than 3</p>
-          </div>
-        </div>
-        <div className="flex flex-col gap-4 border rounded-md p-4">
-          <h1 className="text-2xl font-bold">{data.numberOfActiveMonthlyDevelopers}</h1>
-          <div className="flex items-center gap-2">
-            <Users className="w-4 h-4" />
-            <p className="text-sm">Monthly active developers</p>
-          </div>
+        <div className="border rounded-md p-4 text-red-600">
+          Error loading developers data: {error instanceof Error ? error.message : 'Unknown error'}
         </div>
       </div>
-      <div className="container mx-auto py-10">
-        <DataTable columns={columns} data={data.developers} />
-      </div>
-    </div>
-  );
+    );
+  }
 }

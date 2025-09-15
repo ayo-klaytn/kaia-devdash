@@ -1,6 +1,6 @@
 "use client"
 
-import { Home, Code, Radio, MessageSquareText, Gamepad2, Earth, ChartLine, Ship, Users, ShieldUser, Waves } from "lucide-react"
+import { Home, Code, Radio, MessageSquareText, Gamepad2, Earth, ChartLine, Ship, Users, ShieldUser, Waves, Megaphone, AlignEndVertical, GraduationCap, Trophy, Settings, Wrench } from "lucide-react"
 import { usePathname } from 'next/navigation';
 import {
   Sidebar,
@@ -27,7 +27,42 @@ const data = {
       icon: Home,
     },
     {
-      title: "Activity",
+      title: "Dev Marketing",
+      items: [
+        {
+          title: "X / Twitter",
+          url: "/dashboard/x",
+          icon: Radio,
+        },
+        {
+          title: "Web Traffic",
+          url: "/dashboard/web-traffic",
+          icon: Earth,
+        },
+      ],
+    },
+    {
+      title: "Dev Education",
+      items: [
+        {
+          title: "Tools",
+          url: "/dashboard/projects",
+          icon: Ship,
+        },
+        {
+          title: "Events",
+          url: "/dashboard/events",
+          icon: AlignEndVertical,
+        },
+        {
+          title: "DevForum",
+          url: "/dashboard/devforum",
+          icon: MessageSquareText,
+        },
+      ],
+    },
+    {
+      title: "Dev Success",
       items: [
         {
           title: "GitHub",
@@ -35,24 +70,19 @@ const data = {
           icon: Code,
         },
         {
-          title: "X / Twitter",
-          url: "/dashboard/x",
-          icon: Radio,
+          title: "Developers",
+          url: "/dashboard/developers",
+          icon: Users,
         },
         {
-          title: "DevForum",
-          url: "/dashboard/devforum",
+          title: "Issue Resolution",
+          url: "/dashboard/issue-resolution",
           icon: MessageSquareText,
         },
         {
-          title: "Discord",
-          url: "/dashboard/discord",
-          icon: Gamepad2,
-        },
-        {
-          title: "Web Traffic",
-          url: "/dashboard/web-traffic",
-          icon: Earth,
+          title: "Tool Adoption",
+          url: "/dashboard/tool-adoption",
+          icon: Wrench,
         },
         {
           title: "Onchain Metrics",
@@ -63,31 +93,21 @@ const data = {
           title: "Kaia Wave",
           url: "/dashboard/kaia-wave",
           icon: Waves,
-        }
+        },
       ],
     },
     {
-      title: "Impact",
+      title: "Dev Core Components",
       items: [
         {
-          title: "Projects",
-          url: "/dashboard/projects",
+          title: "Developer Personas",
+          url: "/dashboard/developer-personas",
+          icon: Megaphone,
+        },
+        {
+          title: "Developer Journey",
+          url: "/dashboard/developer-journey",
           icon: Ship,
-        },
-        {
-          title: "Developers",
-          url: "/dashboard/developers",
-          icon: Users,
-        },
-      ],
-    },
-    {
-      title: "Admin",
-      items: [
-        {
-          title: "Repositories",
-          url: "/dashboard/repositories",
-          icon: ShieldUser,
         }
       ],
     }

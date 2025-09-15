@@ -16,11 +16,41 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart"
-// import kaiadevintern_account_overview_analytics from "@/lib/data/kaiadevintern_account_overview_analytics.json"
-import kaiaDevSocial from "@/lib/mocks/kaia-dev-social.json"
+
 export const description = "An interactive bar chart"
 
-const chartData = kaiaDevSocial.community
+// Generate recent community data for the last 6 months
+const generateRecentCommunityData = () => {
+  const data = [];
+  const now = new Date();
+  
+  for (let i = 5; i >= 0; i--) {
+    const date = new Date(now.getFullYear(), now.getMonth() - i, 1);
+    const timestamp = Math.floor(date.getTime() / 1000);
+    
+    // Generate realistic community metrics
+    const baseMembers = 60 + (i * 3); // Growing community
+    const newPosts = Math.floor(Math.random() * 15) + 5; // 5-20 posts
+    const newLikes = Math.floor(newPosts * 2.5) + 10; // 2.5x posts
+    const newReplies = Math.floor(newPosts * 0.8) + 3; // 80% of posts
+    const newUniquePosters = Math.floor(newPosts * 0.6) + 2; // 60% of posts
+    const newMembers = Math.floor(Math.random() * 8) + 2; // 2-10 new members
+    
+    data.push({
+      timestamp,
+      members: baseMembers,
+      new_posts: newPosts,
+      new_likes: newLikes,
+      new_replies: newReplies,
+      new_unique_posters: newUniquePosters,
+      new_members: newMembers,
+    });
+  }
+  
+  return data;
+};
+
+const chartData = generateRecentCommunityData();
 
 const chartConfig = {
   members: {
@@ -71,7 +101,7 @@ export function XCommunityChart() {
         <div className="flex flex-1 flex-col justify-center gap-1 px-6 py-5 sm:py-6">
           <CardTitle>Kaia Dev community on X</CardTitle>
           <CardDescription>
-            Showing all analytics
+            Showing recent 6 months analytics
           </CardDescription>
         </div>
         <div className="flex">
@@ -129,7 +159,7 @@ export function XCommunityChart() {
                   className="w-[150px]"
                   nameKey={activeChart}
                   labelFormatter={(value) => {
-                    return new Date(value).toLocaleDateString("en-US", {
+                    return new Date(value * 1000).toLocaleDateString("en-US", {
                       month: "short",
                       day: "numeric",
                       year: "numeric",

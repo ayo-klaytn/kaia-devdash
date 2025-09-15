@@ -1,4 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
+
+export const runtime = 'nodejs'
 import db from "@/lib/db";
 import { developer, repository } from "@/lib/db/schema";
 import { headers } from 'next/headers';
@@ -45,42 +47,57 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     return NextResponse.json({ error: "Invalid API secret" }, { status: 401 });
   }
 
-  const { name, github, address, communityRank, xHandle, bootcampGraduated, bootcampContributor, nftBadges, ownerOf, contributorIn, commitsIn } = await request.json();
+  try {
+    const { name, github, address, communityRank, xHandle, bootcampGraduated, bootcampContributor, nftBadges, ownerOf, contributorIn, commitsIn } = await request.json();
 
-  // check if repository already exists
-  const existingDeveloper = await db.select()
-    .from(developer)
-    .where(
-      and(
-        eq(developer.name, name),
-        eq(developer.github, github)
+    console.log('Received developer data:', { name, github, address, communityRank, xHandle, bootcampGraduated, bootcampContributor });
+
+    // Convert ISO string dates back to Date objects
+    const parsedBootcampGraduated = bootcampGraduated ? new Date(bootcampGraduated) : null;
+    const parsedBootcampContributor = bootcampContributor ? new Date(bootcampContributor) : null;
+
+    // check if developer already exists
+    const existingDeveloper = await db.select()
+      .from(developer)
+      .where(
+        and(
+          eq(developer.name, name),
+          eq(developer.github, github)
+        )
       )
-    )
-    .limit(1);
+      .limit(1);
 
-  if (existingDeveloper.length > 0) {
-    return NextResponse.json({ error: "Developer already exists" }, { status: 400 });
+    if (existingDeveloper.length > 0) {
+      return NextResponse.json({ error: "Developer already exists" }, { status: 400 });
+    }
+
+    // add to db
+    const newDeveloper = await db.insert(developer).values({
+      id: createId(),
+      name,
+      github,
+      address,
+      communityRank,
+      xHandle,
+      nftBadges,
+      ownerOf,
+      contributorIn,
+      commitsIn,
+      bootcampGraduated: parsedBootcampGraduated,
+      bootcampContributor: parsedBootcampContributor,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    }).returning();
+   
+    console.log('Developer created successfully:', newDeveloper[0]?.name);
+    return NextResponse.json(newDeveloper);
+  } catch (error) {
+    console.error('Error creating developer:', error);
+    return NextResponse.json({ 
+      error: "Database error", 
+      details: error instanceof Error ? error.message : 'Unknown error'
+    }, { status: 500 });
   }
-
-  // add to db
-  const newDeveloper = await db.insert(developer).values({
-    id: createId(),
-    name,
-    github,
-    address,
-    communityRank,
-    xHandle,
-    nftBadges,
-    ownerOf,
-    contributorIn,
-    commitsIn,
-    bootcampGraduated,
-    bootcampContributor,
-    createdAt: new Date(),
-    updatedAt: new Date(),
-  }).returning();
- 
-  return NextResponse.json(newDeveloper);
 }
 
 export async function DELETE(request: NextRequest): Promise<NextResponse> {
@@ -97,9 +114,9 @@ export async function DELETE(request: NextRequest): Promise<NextResponse> {
   
   const { id } = await request.json();
 
-  await db.delete(repository).where(eq(repository.id, id));
+  await db.delete(developer).where(eq(developer.id, id));
 
-  return NextResponse.json({ message: "Repository deleted" }, { status: 200 });
+  return NextResponse.json({ message: "Developer deleted" }, { status: 200 });
 }
 
 export async function PATCH(request: NextRequest): Promise<NextResponse> {

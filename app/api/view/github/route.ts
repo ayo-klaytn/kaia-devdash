@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import db from "@/lib/db";
 import { repository, contributor } from "@/lib/db/schema";
 import { headers } from 'next/headers';
-import { eq, asc } from "drizzle-orm";
+import { eq, desc } from "drizzle-orm";
 
 
 export async function GET(request: NextRequest): Promise<NextResponse> {
@@ -36,11 +36,11 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
     repositories: []
   }
 
-  // get all repositories
-  const repositories = await db.select()
+  // get all repositories (newest first)
+  const repositoriesList = await db.select()
     .from(repository)
     .where(eq(repository.status, status))
-    .orderBy(asc(repository.owner))
+    .orderBy(desc(repository.createdAt))
     .limit(parseInt(limit))
     .offset(offset);
     
@@ -64,7 +64,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
     );
 
   // get repository count
-  const repositoryCount = repositories.length;
+  const repositoryCount = repositoriesList.length;
 
   const contributorCount = uniqueContributors.length;
 
@@ -74,7 +74,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
   responseData.numberOfRepositories = repositoryCount;
   responseData.numberOfContributors = contributorCount;
   responseData.numberOfAuthors = authorCount;
-  responseData.repositories = repositories;
+  responseData.repositories = repositoriesList;
 
   return NextResponse.json(responseData);
 }
