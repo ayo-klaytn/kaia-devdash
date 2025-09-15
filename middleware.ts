@@ -22,5 +22,5 @@ export async function middleware(request: NextRequest) {
 }
  
 export const config = {
-	matcher: ["/dashboard/:path*"], // Apply middleware to specific routes
+	matcher: [], // Temporarily disable middleware for Vercel testing
 };
