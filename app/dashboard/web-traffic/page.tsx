@@ -122,7 +122,7 @@ export default async function WebTrafficPage() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
           <div className="flex flex-col gap-4 border rounded-md p-4">
             <h2 className="text-lg font-bold">Browsers</h2>
-            {(browsers ?? []).slice(0, 10).map((b: any, i: number) => (
+            {(browsers ?? []).slice(0, 10).map((b: { name: string; visitors: number }, i: number) => (
               <div key={b?.name ?? i} className="flex flex-row gap-4 justify-between">
                 <h3 className="text-sm">{b?.name ?? 'Unknown'}</h3>
                 <p className="text-sm">{((b?.visitors ?? 0) as number).toLocaleString()}</p>
@@ -131,7 +131,7 @@ export default async function WebTrafficPage() {
           </div>
           <div className="flex flex-col gap-4 border rounded-md p-4">
             <h2 className="text-lg font-bold">Operating Systems</h2>
-            {(operating_systems ?? []).slice(0, 10).map((os: any, i: number) => (
+            {(operating_systems ?? []).slice(0, 10).map((os: { name: string; visitors: number }, i: number) => (
               <div key={os?.name ?? i} className="flex flex-row gap-4 justify-between">
                 <h3 className="text-sm">{os?.name ?? 'Unknown'}</h3>
                 <p className="text-sm">{((os?.visitors ?? 0) as number).toLocaleString()}</p>
@@ -140,7 +140,7 @@ export default async function WebTrafficPage() {
           </div>
           <div className="flex flex-col gap-4 border rounded-md p-4">
             <h2 className="text-lg font-bold">Devices</h2>
-            {(devices ?? []).slice(0, 10).map((d: any, i: number) => (
+            {(devices ?? []).slice(0, 10).map((d: { type: string; visitors: number }, i: number) => (
               <div key={d?.type ?? i} className="flex flex-row gap-4 justify-between">
                 <h3 className="text-sm">{d?.type ?? 'Unknown'}</h3>
                 <p className="text-sm">{((d?.visitors ?? 0) as number).toLocaleString()}</p>

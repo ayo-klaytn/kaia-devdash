@@ -50,7 +50,7 @@ export async function getUmamiPageviews(websiteId: string, startAt: number, endA
     throw new Error(`Failed to get pageviews: ${error}`);
   }
 
-  return data.map((item: any) => ({
+  return data.map((item: { t: string; y: number }) => ({
     t: item.t,
     y: item.y,
   }));
@@ -67,7 +67,7 @@ export async function getUmamiTopPages(websiteId: string, startAt: number, endAt
     throw new Error(`Failed to get top pages: ${error}`);
   }
 
-  return data.map((item: any) => ({
+  return data.map((item: { x: string; y: number; z: number }) => ({
     x: item.x,
     y: item.y,
     z: item.z,
@@ -85,7 +85,7 @@ export async function getUmamiReferrers(websiteId: string, startAt: number, endA
     throw new Error(`Failed to get referrers: ${error}`);
   }
 
-  return data.map((item: any) => ({
+  return data.map((item: { x: string; y: number; z: number }) => ({
     x: item.x,
     y: item.y,
     z: item.z,
@@ -103,7 +103,7 @@ export async function getUmamiBrowsers(websiteId: string, startAt: number, endAt
     throw new Error(`Failed to get browsers: ${error}`);
   }
 
-  return data.map((item: any) => ({
+  return data.map((item: { x: string; y: number; z: number }) => ({
     x: item.x,
     y: item.y,
     z: item.z,
@@ -121,7 +121,7 @@ export async function getUmamiOperatingSystems(websiteId: string, startAt: numbe
     throw new Error(`Failed to get operating systems: ${error}`);
   }
 
-  return data.map((item: any) => ({
+  return data.map((item: { x: string; y: number; z: number }) => ({
     x: item.x,
     y: item.y,
     z: item.z,
@@ -139,7 +139,7 @@ export async function getUmamiDevices(websiteId: string, startAt: number, endAt:
     throw new Error(`Failed to get devices: ${error}`);
   }
 
-  return data.map((item: any) => ({
+  return data.map((item: { x: string; y: number; z: number }) => ({
     x: item.x,
     y: item.y,
     z: item.z,
