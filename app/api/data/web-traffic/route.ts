@@ -15,11 +15,6 @@ function getStatValue(stat: unknown): number {
   return 0;
 }
 
-interface UmamiPageview {
-  t: string | number;
-  y: number;
-}
-
 interface UmamiMetric {
   x: string;
   y: number;
