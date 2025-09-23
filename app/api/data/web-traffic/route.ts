@@ -41,7 +41,7 @@ function toMs(t: unknown) {
 async function safe<T>(p: Promise<T>, fb: T, label: string): Promise<T> {
   try { return await p; } catch (e) { console.error(`Umami ${label} failed:`, e); return fb; }
 }
-function getAug29_2024_toNow() {
+function getSep01_2024_toNow() {
   // Start monthly aggregation from Sep 1, 2024 (UTC)
   const start = new Date(Date.UTC(2024, 8, 1, 0, 0, 0));
   return { startAt: start.getTime(), endAt: Date.now() };
@@ -66,7 +66,7 @@ export async function GET(request: NextRequest) {
       devices,
     ] = await Promise.all([
       safe(getUmamiStats(startAtMs, endAtMs), {} as unknown, 'stats'),
-      safe(getUmamiPageviews(startAtMs, endAtMs, 'day'), [] as UmamiPageview[], 'pageviews'),
+      safe(getUmamiPageviews(startAtMs, endAtMs, 'day'), [] as Array<Record<string, unknown>>, 'pageviews'),
       safe(getUmamiTopPages(startAtMs, endAtMs), [] as UmamiMetric[], 'topPages'),
       safe(getUmamiReferrers(startAtMs, endAtMs), [] as UmamiMetric[], 'referrers'),
       safe(getUmamiBrowsers(startAtMs, endAtMs), [] as UmamiMetric[], 'browsers'),
@@ -81,7 +81,7 @@ export async function GET(request: NextRequest) {
       views: Number(pv?.y ?? 0),
     }));
 
-    const { startAt: yStart, endAt: yEnd } = getAug29_2024_toNow();
+    const { startAt: yStart, endAt: yEnd } = getSep01_2024_toNow();
     const monthlyRaw = await safe(getUmamiPageviews(yStart, yEnd, 'month'), [] as Array<Record<string, unknown>>, 'monthly');
     const monthly_views = (Array.isArray(monthlyRaw) ? monthlyRaw : []).map((pv: Record<string, unknown>) => ({
       month: new Date(toMs(pv?.t)).toLocaleDateString('en-US', { month: 'short', year: 'numeric' }),
