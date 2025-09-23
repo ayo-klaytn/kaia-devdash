@@ -6,6 +6,25 @@ import {
 
 export const runtime = 'nodejs';
 
+// Helper function to safely extract numeric value from Umami stats
+function getStatValue(stat: unknown): number {
+  if (typeof stat === 'number') return stat;
+  if (stat && typeof stat === 'object' && stat !== null && 'value' in stat && typeof (stat as { value: unknown }).value === 'number') {
+    return (stat as { value: number }).value;
+  }
+  return 0;
+}
+
+interface UmamiPageview {
+  t: string | number;
+  y: number;
+}
+
+interface UmamiMetric {
+  x: string;
+  y: number;
+}
+
 function toMs(t: unknown) {
   if (typeof t === 'string') {
     // Handle date strings like "2025-01-01 00:00:00"
@@ -46,16 +65,16 @@ export async function GET(request: NextRequest) {
       operatingSystems,
       devices,
     ] = await Promise.all([
-      safe(getUmamiStats(startAtMs, endAtMs), {} as any, 'stats'),
-      safe(getUmamiPageviews(startAtMs, endAtMs, 'day'), [] as any[], 'pageviews'),
-      safe(getUmamiTopPages(startAtMs, endAtMs), [] as any[], 'topPages'),
-      safe(getUmamiReferrers(startAtMs, endAtMs), [] as any[], 'referrers'),
-      safe(getUmamiBrowsers(startAtMs, endAtMs), [] as any[], 'browsers'),
-      safe(getUmamiOperatingSystems(startAtMs, endAtMs), [] as any[], 'operatingSystems'),
-      safe(getUmamiDevices(startAtMs, endAtMs), [] as any[], 'devices'),
+      safe(getUmamiStats(startAtMs, endAtMs), {} as unknown, 'stats'),
+      safe(getUmamiPageviews(startAtMs, endAtMs, 'day'), [] as UmamiPageview[], 'pageviews'),
+      safe(getUmamiTopPages(startAtMs, endAtMs), [] as UmamiMetric[], 'topPages'),
+      safe(getUmamiReferrers(startAtMs, endAtMs), [] as UmamiMetric[], 'referrers'),
+      safe(getUmamiBrowsers(startAtMs, endAtMs), [] as UmamiMetric[], 'browsers'),
+      safe(getUmamiOperatingSystems(startAtMs, endAtMs), [] as UmamiMetric[], 'operatingSystems'),
+      safe(getUmamiDevices(startAtMs, endAtMs), [] as UmamiMetric[], 'devices'),
     ]);
 
-    const daily_stats = (Array.isArray(pageviewsDay) ? pageviewsDay : []).map((pv: any) => ({
+    const daily_stats = (Array.isArray(pageviewsDay) ? pageviewsDay : []).map((pv: UmamiPageview) => ({
       // Use numeric timestamp for charts to format safely client-side
       date: toMs(pv?.t),
       visitors: pv?.y ?? 0,
@@ -63,42 +82,68 @@ export async function GET(request: NextRequest) {
     }));
 
     const { startAt: yStart, endAt: yEnd } = getAug29_2024_toNow();
-    const monthlyRaw = await safe(getUmamiPageviews(yStart, yEnd, 'month'), [] as any[], 'monthly');
-    const monthly_views = (Array.isArray(monthlyRaw) ? monthlyRaw : []).map((pv: any) => ({
+    const monthlyRaw = await safe(getUmamiPageviews(yStart, yEnd, 'month'), [] as UmamiPageview[], 'monthly');
+    const monthly_views = (Array.isArray(monthlyRaw) ? monthlyRaw : []).map((pv: UmamiPageview) => ({
       month: new Date(toMs(pv?.t)).toLocaleDateString('en-US', { month: 'short', year: 'numeric' }),
       views: pv?.y ?? 0,
     }));
 
     // Normalize metric lists to the UI shape
-    const pages = (Array.isArray(topPages) ? topPages : []).map((m: any) => ({
+    const pages = (Array.isArray(topPages) ? topPages : []).map((m: UmamiMetric) => ({
       path: m?.x ?? 'Unknown',
       views: Number(m?.y ?? 0)
     }));
-    const referrersNorm = (Array.isArray(referrers) ? referrers : []).map((m: any) => ({
+    const referrersNorm = (Array.isArray(referrers) ? referrers : []).map((m: UmamiMetric) => ({
       source: m?.x ?? 'Unknown',
       visitors: Number(m?.y ?? 0)
     }));
-    const browsersNorm = (Array.isArray(browsers) ? browsers : []).map((m: any) => ({
+    const browsersNorm = (Array.isArray(browsers) ? browsers : []).map((m: UmamiMetric) => ({
       name: m?.x ?? 'Unknown',
       visitors: Number(m?.y ?? 0)
     }));
-    const operatingSystemsNorm = (Array.isArray(operatingSystems) ? operatingSystems : []).map((m: any) => ({
+    const operatingSystemsNorm = (Array.isArray(operatingSystems) ? operatingSystems : []).map((m: UmamiMetric) => ({
       name: m?.x ?? 'Unknown',
       visitors: Number(m?.y ?? 0)
     }));
-    const devicesNorm = (Array.isArray(devices) ? devices : []).map((m: any) => ({
+    const devicesNorm = (Array.isArray(devices) ? devices : []).map((m: UmamiMetric) => ({
       type: m?.x ?? 'Unknown',
       visitors: Number(m?.y ?? 0)
     }));
 
-    const pageviewsVal = (stats as any)?.pageviews?.value ?? (stats as any)?.pageviews ?? 0;
-    const visitorsVal  = (stats as any)?.visitors?.value ?? (stats as any)?.uniques?.value ?? (stats as any)?.visitors ?? (stats as any)?.uniques ?? 0;
-    const sessionsVal  = (stats as any)?.visits?.value   ?? (stats as any)?.sessions?.value ?? (stats as any)?.visits ?? (stats as any)?.sessions ?? visitorsVal;
-    const bouncesVal   = (stats as any)?.bounces?.value  ?? (stats as any)?.bounces ?? 0;
-    const totaltimeVal = (stats as any)?.totaltime?.value ?? (stats as any)?.totaltime ?? 0;
+    const pageviewsVal = getStatValue((stats as unknown as Record<string, unknown>)?.pageviews);
+    const visitorsVal = getStatValue((stats as unknown as Record<string, unknown>)?.visitors) || getStatValue((stats as unknown as Record<string, unknown>)?.uniques);
+    const sessionsVal = getStatValue((stats as unknown as Record<string, unknown>)?.visits) || getStatValue((stats as unknown as Record<string, unknown>)?.sessions) || visitorsVal;
+    const bouncesVal = getStatValue((stats as unknown as Record<string, unknown>)?.bounces);
+    const totaltimeVal = getStatValue((stats as unknown as Record<string, unknown>)?.totaltime);
     const bounceRate   = sessionsVal ? Math.round((bouncesVal / sessionsVal) * 100) : 0;
 
-    const payload: any = {
+    const payload: {
+      overview: {
+        views: { value: number; change: number };
+        visits: { value: number; change: number };
+        visitors: { value: number; change: number };
+        bounce_rate: { value: number; change: number };
+        visit_duration: { value: string; change: number };
+      };
+      daily_stats: Array<{ date: number; visitors: number; views: number }>;
+      monthly_views: Array<{ month: string; views: number }>;
+      pages: Array<{ path: string; views: number }>;
+      referrers: Array<{ source: string; visitors: number }>;
+      browsers: Array<{ name: string; visitors: number }>;
+      operating_systems: Array<{ name: string; visitors: number }>;
+      devices: Array<{ type: string; visitors: number }>;
+      __debug?: {
+        counts: {
+          daily: number;
+          monthly: number;
+          pages: number;
+          referrers: number;
+          browsers: number;
+          os: number;
+          devices: number;
+        };
+      };
+    } = {
       overview: {
         views: { value: pageviewsVal, change: 0 },
         visits: { value: sessionsVal,  change: 0 },
