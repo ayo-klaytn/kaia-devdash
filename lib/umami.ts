@@ -35,10 +35,6 @@ interface UmamiStats {
   totaltime: { value: number; change: number };
 }
 
-interface UmamiPageview {
-  t: string; // timestamp
-  y: number; // count
-}
 
 interface UmamiMetric {
   x: string; // name/path
@@ -144,7 +140,7 @@ export async function getWebsiteId(): Promise<string> {
   return websites[0].id;
 }
 
-export async function umamiFetch(endpoint: string): Promise<any> {
+export async function umamiFetch(endpoint: string): Promise<unknown> {
   const token = await getValidAuth();
   const websiteId = process.env.UMAMI_WEBSITE_ID || '';
   const baseUrl = getBaseUrl();
@@ -170,34 +166,34 @@ export async function umamiFetch(endpoint: string): Promise<any> {
 }
 
 export async function getUmamiStats(startAt: number, endAt: number): Promise<UmamiStats> {
-  return await umamiFetch(`/api/websites/:id/stats?startAt=${startAt}&endAt=${endAt}&timezone=UTC`);
+  return await umamiFetch(`/api/websites/:id/stats?startAt=${startAt}&endAt=${endAt}&timezone=UTC`) as UmamiStats;
 }
 
 export async function getUmamiPageviews(startAt: number, endAt: number, unit: 'day' | 'month' = 'day') {
   const data = await umamiFetch(`/api/websites/:id/pageviews?startAt=${startAt}&endAt=${endAt}&unit=${unit}&timezone=UTC`);
-  const arr = Array.isArray(data) ? data : (Array.isArray((data as any)?.pageviews) ? (data as any).pageviews : []);
-  return arr.map((it: any) => ({ 
+  const arr = Array.isArray(data) ? data : (Array.isArray((data as Record<string, unknown>)?.pageviews) ? (data as Record<string, unknown>).pageviews : []);
+  return (arr as Array<Record<string, unknown>>).map((it: Record<string, unknown>) => ({ 
     t: it.t ?? it.timestamp ?? it.date ?? it.x, 
     y: it.y ?? it.value ?? 0 
   })).filter(it => it?.t != null);
 }
 
 export async function getUmamiTopPages(startAt: number, endAt: number): Promise<UmamiMetric[]> {
-  return await umamiFetch(`/api/websites/:id/metrics?startAt=${startAt}&endAt=${endAt}&type=url&timezone=UTC`);
+  return await umamiFetch(`/api/websites/:id/metrics?startAt=${startAt}&endAt=${endAt}&type=url&timezone=UTC`) as UmamiMetric[];
 }
 
 export async function getUmamiReferrers(startAt: number, endAt: number): Promise<UmamiMetric[]> {
-  return await umamiFetch(`/api/websites/:id/metrics?startAt=${startAt}&endAt=${endAt}&type=referrer&timezone=UTC`);
+  return await umamiFetch(`/api/websites/:id/metrics?startAt=${startAt}&endAt=${endAt}&type=referrer&timezone=UTC`) as UmamiMetric[];
 }
 
 export async function getUmamiBrowsers(startAt: number, endAt: number): Promise<UmamiMetric[]> {
-  return await umamiFetch(`/api/websites/:id/metrics?startAt=${startAt}&endAt=${endAt}&type=browser&timezone=UTC`);
+  return await umamiFetch(`/api/websites/:id/metrics?startAt=${startAt}&endAt=${endAt}&type=browser&timezone=UTC`) as UmamiMetric[];
 }
 
 export async function getUmamiOperatingSystems(startAt: number, endAt: number): Promise<UmamiMetric[]> {
-  return await umamiFetch(`/api/websites/:id/metrics?startAt=${startAt}&endAt=${endAt}&type=os&timezone=UTC`);
+  return await umamiFetch(`/api/websites/:id/metrics?startAt=${startAt}&endAt=${endAt}&type=os&timezone=UTC`) as UmamiMetric[];
 }
 
 export async function getUmamiDevices(startAt: number, endAt: number): Promise<UmamiMetric[]> {
-  return await umamiFetch(`/api/websites/:id/metrics?startAt=${startAt}&endAt=${endAt}&type=device&timezone=UTC`);
+  return await umamiFetch(`/api/websites/:id/metrics?startAt=${startAt}&endAt=${endAt}&type=device&timezone=UTC`) as UmamiMetric[];
 }
