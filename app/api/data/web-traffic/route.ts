@@ -74,18 +74,18 @@ export async function GET(request: NextRequest) {
       safe(getUmamiDevices(startAtMs, endAtMs), [] as UmamiMetric[], 'devices'),
     ]);
 
-    const daily_stats = (Array.isArray(pageviewsDay) ? pageviewsDay : []).map((pv: UmamiPageview) => ({
+    const daily_stats = (Array.isArray(pageviewsDay) ? pageviewsDay : []).map((pv: Record<string, unknown>) => ({
       // Use numeric timestamp for charts to format safely client-side
       date: toMs(pv?.t),
-      visitors: pv?.y ?? 0,
-      views: pv?.y ?? 0,
+      visitors: Number(pv?.y ?? 0),
+      views: Number(pv?.y ?? 0),
     }));
 
     const { startAt: yStart, endAt: yEnd } = getAug29_2024_toNow();
-    const monthlyRaw = await safe(getUmamiPageviews(yStart, yEnd, 'month'), [] as UmamiPageview[], 'monthly');
-    const monthly_views = (Array.isArray(monthlyRaw) ? monthlyRaw : []).map((pv: UmamiPageview) => ({
+    const monthlyRaw = await safe(getUmamiPageviews(yStart, yEnd, 'month'), [] as Array<Record<string, unknown>>, 'monthly');
+    const monthly_views = (Array.isArray(monthlyRaw) ? monthlyRaw : []).map((pv: Record<string, unknown>) => ({
       month: new Date(toMs(pv?.t)).toLocaleDateString('en-US', { month: 'short', year: 'numeric' }),
-      views: pv?.y ?? 0,
+      views: Number(pv?.y ?? 0),
     }));
 
     // Normalize metric lists to the UI shape
