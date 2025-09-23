@@ -26,10 +26,10 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
   const page = parseInt(searchParams.get('page') || '1');
   const limit = Math.min(parseInt(searchParams.get('limit') || '200'), 500);
   const offset = (page - 1) * limit;
-  // default time window for heavy metrics: last 180 days
+  // default time window for heavy metrics: last 365 days for new developers
   const to = new Date();
   const from = new Date();
-  from.setDate(to.getDate() - 180);
+  from.setDate(to.getDate() - 365); // Changed from 180 to 365 days
   
   const responseData: {
     numberOfDevelopers: number;
@@ -153,14 +153,15 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
       monthlyActiveDevelopers = [];
     }
 
-    // Get New Developers (first commit within last 180 days) with bot filtering via grouped SQL
+    // Get New Developers (first commit within last 365 days) with bot filtering via grouped SQL
     let newDevelopers365d: Array<{ email: string | null; name: string | null; firstAt: string }> = [];
     
     try {
       const fromIso = from.toISOString();
       const toIso = to.toISOString();
 
-      console.log('Using efficient query for new developers (180d)');
+      console.log('Using efficient query for new developers (365d)');
+      console.log('Date range:', fromIso, 'to', toIso);
       
       // Use a more efficient database query to find first commits per email
       const firstCommits = await db
@@ -213,33 +214,57 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
       newDevelopers365d = [];
     }
 
-    // Get Monthly MAD Progress (last 12 months) using single grouped query
+    // Get Monthly MAD Progress (rolling 28-day MAD per month)
     let monthlyMadProgress: Array<{ month: string; count: number; year: number; monthNumber: number }> = [];
     
     try {
-      const twelveMonthsAgo = new Date();
-      twelveMonthsAgo.setMonth(twelveMonthsAgo.getMonth() - 12);
-      const grouped = await db
-        .select({
-          monthStart: sql<string>`date_trunc('month', to_timestamp(${commit.timestamp}::double precision / 1000))`.as('monthStart'),
-          countDistinct: sql<number>`COUNT(DISTINCT ${commit.committerEmail})`.as('countDistinct')
-        })
-        .from(commit)
-        .where(sql`${commit.timestamp} >= ${twelveMonthsAgo.toISOString()}`)
-        .groupBy(sql`date_trunc('month', to_timestamp(${commit.timestamp}::double precision / 1000))`)
-        .limit(240);
-
-      monthlyMadProgress = grouped
-        .map((row) => {
-          const d = new Date(row.monthStart);
-          const year = d.getUTCFullYear();
-          const monthNumber = d.getUTCMonth() + 1;
-          const monthName = d.toLocaleDateString('en-US', { month: 'short' });
-          return { month: `${monthName} ${year}`, count: Number(row.countDistinct), year, monthNumber };
-        })
-        .sort((a, b) => a.year === b.year ? a.monthNumber - b.monthNumber : a.year - b.year);
+      // Start from August 2024 as requested
+      const startDate = new Date('2024-08-01');
+      const endDate = new Date();
+      
+      // Generate month-end dates from August 2024 to current month
+      const monthEnds: Date[] = [];
+      const current = new Date(startDate);
+      
+      while (current <= endDate) {
+        // Get last day of current month
+        const lastDay = new Date(current.getFullYear(), current.getMonth() + 1, 0);
+        monthEnds.push(new Date(lastDay));
+        current.setMonth(current.getMonth() + 1);
+      }
+      
+      console.log('Calculating rolling 28-day MAD for', monthEnds.length, 'months');
+      
+      // For each month-end, calculate rolling 28-day MAD
+      for (const monthEnd of monthEnds) {
+        const windowStart = new Date(monthEnd);
+        windowStart.setDate(windowStart.getDate() - 27); // 28-day window (inclusive)
+        
+        console.log(`Month ${monthEnd.toISOString().slice(0, 7)}: ${windowStart.toISOString()} to ${monthEnd.toISOString()}`);
+        
+        const rollingMad = await db
+          .select({
+            countDistinct: sql<number>`COUNT(DISTINCT ${commit.committerEmail})`.as('countDistinct')
+          })
+          .from(commit)
+          .where(
+            sql`${commit.timestamp} >= ${windowStart.toISOString()} AND ${commit.timestamp} <= ${monthEnd.toISOString()}`
+          )
+          .limit(1);
+        
+        const count = Number(rollingMad[0]?.countDistinct || 0);
+        
+        monthlyMadProgress.push({
+          month: monthEnd.toLocaleDateString('en-US', { month: 'short', year: 'numeric' }),
+          count: count,
+          year: monthEnd.getFullYear(),
+          monthNumber: monthEnd.getMonth() + 1
+        });
+      }
+      
+      console.log('Rolling MAD calculation complete:', monthlyMadProgress);
     } catch (madProgressError) {
-      console.error('Monthly MAD progress calculation failed:', madProgressError);
+      console.error('Rolling MAD progress calculation failed:', madProgressError);
       monthlyMadProgress = [];
     }
 

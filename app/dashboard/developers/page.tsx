@@ -78,14 +78,12 @@ export default async function DevelopersPage() {
           </div>
         </div>
 
-        {/* MAD Progress Chart */}
-        {data.monthlyMadProgress && data.monthlyMadProgress.length > 0 && (
-          <MadProgressChart 
-            data={data.monthlyMadProgress} 
-            uniqueDevelopersAcrossPeriod={data.uniqueDevelopersAcrossPeriod || 0}
-            totalDeveloperMonths={data.totalDeveloperMonths || 0}
-          />
-        )}
+        {/* MAD Progress Chart - Always render */}
+        <MadProgressChart 
+          data={data.monthlyMadProgress || []} 
+          uniqueDevelopersAcrossPeriod={data.uniqueDevelopersAcrossPeriod || 0}
+          totalDeveloperMonths={data.totalDeveloperMonths || 0}
+        />
       </div>
     );
   } catch (error) {

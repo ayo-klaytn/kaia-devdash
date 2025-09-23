@@ -16,11 +16,9 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart"
-import kaiaDocsWebtraffic from "@/lib/mocks/kaia-docs-webtraffic.json"
+// Charts now accept data via props from the API; no mocks
 
 export const description = "An interactive bar chart"
-
-const chartData = kaiaDocsWebtraffic.daily_stats
 
 const chartConfig = {
   views: {
@@ -33,26 +31,33 @@ const chartConfig = {
   }
 } satisfies ChartConfig
 
-export function WebTrafficChart() {
+type DailyPoint = { date: string; views: number; visitors?: number }
+type MonthlyPoint = { month: string; views: number }
+
+type WebTrafficChartProps = {
+  data: DailyPoint[]
+  title?: string
+  description?: string
+}
+
+export function WebTrafficChart({ data, title = "Daily Web Traffic", description = "Showing last 30 days" }: WebTrafficChartProps) {
   const [activeChart, setActiveChart] =
     React.useState<keyof typeof chartConfig>("views")
 
   const total = React.useMemo(
     () => ({
-      views: chartData.reduce((acc, curr) => acc + curr.views, 0),
-      visitors: chartData.reduce((acc, curr) => acc + curr.visitors, 0),
+      views: (data ?? []).reduce((acc, curr) => acc + (curr?.views ?? 0), 0),
+      visitors: (data ?? []).reduce((acc, curr) => acc + (curr?.visitors ?? 0), 0),
     }),
-    []
+    [data]
   )
 
   return (
     <Card>
       <CardHeader className="flex flex-col items-stretch space-y-0 border-b p-0 sm:flex-row">
         <div className="flex flex-1 flex-col justify-center gap-1 px-6 py-5 sm:py-6">
-          <CardTitle>Docs Web Traffic</CardTitle>
-          <CardDescription>
-            Showing total traffic in the last year
-          </CardDescription>
+          <CardTitle>{title}</CardTitle>
+          <CardDescription>{description}</CardDescription>
         </div>
         <div className="flex">
           {["views", "visitors"].map((key) => {
@@ -82,7 +87,7 @@ export function WebTrafficChart() {
         >
           <BarChart
             accessibilityLayer
-            data={chartData}
+            data={data}
             margin={{
               left: 12,
               right: 12,
@@ -96,7 +101,8 @@ export function WebTrafficChart() {
               tickMargin={8}
               minTickGap={32}
               tickFormatter={(value) => {
-                const date = new Date(value)
+                const ts = typeof value === 'string' ? Number(value) : (value as number)
+                const date = new Date(ts)
                 return date.toLocaleDateString("en-US", {
                   month: "short",
                   day: "numeric",
@@ -119,6 +125,41 @@ export function WebTrafficChart() {
               }
             />
             <Bar dataKey={activeChart} fill={`var(--color-${activeChart})`} />
+          </BarChart>
+        </ChartContainer>
+      </CardContent>
+    </Card>
+  )
+}
+
+// Monthly views-only chart (x: month, y: views)
+export function MonthlyViewsChart({ data, title = "Docs Web Traffic", description = "Showing total traffic in the last year" }: { data: MonthlyPoint[]; title?: string; description?: string }) {
+  return (
+    <Card>
+      <CardHeader className="flex flex-col items-stretch space-y-0 border-b p-0 sm:flex-row">
+        <div className="flex flex-1 flex-col justify-center gap-1 px-6 py-5 sm:py-6">
+          <CardTitle>{title}</CardTitle>
+          <CardDescription>{description}</CardDescription>
+        </div>
+      </CardHeader>
+      <CardContent className="px-2 sm:p-6">
+        <ChartContainer
+          config={{ views: { label: "Views", color: "hsl(var(--chart-1))" } } as ChartConfig}
+          className="aspect-auto h-[250px] w-full"
+        >
+          <BarChart accessibilityLayer data={data} margin={{ left: 12, right: 12 }}>
+            <CartesianGrid vertical={false} />
+            <XAxis
+              dataKey="month"
+              tickLine={false}
+              axisLine={false}
+              tickMargin={8}
+              minTickGap={32}
+            />
+            <ChartTooltip
+              content={<ChartTooltipContent className="w-[150px]" nameKey="views" />}
+            />
+            <Bar dataKey="views" fill={`var(--color-views)`} />
           </BarChart>
         </ChartContainer>
       </CardContent>
