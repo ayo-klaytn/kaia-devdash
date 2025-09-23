@@ -175,19 +175,14 @@ export async function GET(request: NextRequest) {
     const res = NextResponse.json(payload);
     res.headers.set('Cache-Control', 'public, s-maxage=600, stale-while-revalidate=1800');
     return res;
-  } catch (e: any) {
+  } catch (e: unknown) {
     return NextResponse.json({
       overview: { views:{value:0,change:0}, visits:{value:0,change:0}, visitors:{value:0,change:0}, bounce_rate:{value:0,change:0}, visit_duration:{value:'0m 0s',change:0} },
       daily_stats: [],
       monthly_views: [],
       pages: [], referrers: [], browsers: [], operating_systems: [], devices: [],
-      debug: e?.message ?? String(e),
+      debug: e instanceof Error ? e.message : String(e),
     }, { status: 200 });
   }
 }
 
-function formatDuration(seconds: number): string {
-  const minutes = Math.floor(seconds / 60);
-  const remainingSeconds = Math.floor(seconds % 60);
-  return `${minutes}m ${remainingSeconds}s`;
-}

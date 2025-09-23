@@ -94,7 +94,7 @@ export default async function WebTrafficPage() {
 
         <div className="flex flex-col gap-4">
           <MonthlyViewsChart
-            data={(monthly_views ?? []) as any}
+            data={(monthly_views ?? []) as Array<{ month: string; views: number }>}
             title="Docs Web Traffic"
             description="Showing total traffic in the last year"
           />
@@ -102,7 +102,7 @@ export default async function WebTrafficPage() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
           <div className="flex flex-col gap-4 border rounded-md p-4">
             <h2 className="text-lg font-bold">Top Pages</h2>
-            {(pages ?? []).slice(0, 10).map((page: any, i: number) => (
+            {(pages ?? []).slice(0, 10).map((page: { path: string; views: number }, i: number) => (
               <div key={page?.path ?? i} className="flex flex-row gap-4 justify-between">
                 <h3 className="text-sm truncate">{page?.path ?? 'Unknown'}</h3>
                 <p className="text-sm">{((page?.views ?? 0) as number).toLocaleString()}</p>
@@ -111,7 +111,7 @@ export default async function WebTrafficPage() {
           </div>
           <div className="flex flex-col gap-4 border rounded-md p-4">
             <h2 className="text-lg font-bold">Top Referrers</h2>
-            {(referrers ?? []).slice(0, 10).map((r: any, i: number) => (
+            {(referrers ?? []).slice(0, 10).map((r: { source: string; visitors: number }, i: number) => (
               <div key={r?.source ?? i} className="flex flex-row gap-4 justify-between">
                 <h3 className="text-sm truncate">{r?.source ?? 'Unknown'}</h3>
                 <p className="text-sm">{((r?.visitors ?? 0) as number).toLocaleString()}</p>
