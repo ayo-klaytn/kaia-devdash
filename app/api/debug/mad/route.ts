@@ -28,7 +28,7 @@ export async function GET(): Promise<NextResponse> {
         committerEmail: commit.committerEmail,
         committerName: commit.committerName,
         timestamp: commit.timestamp,
-        repositoryUrl: commit.repositoryUrl,
+        repositoryId: commit.repositoryId,
       })
       .from(commit)
       .where(
@@ -65,7 +65,7 @@ export async function GET(): Promise<NextResponse> {
       .select({ 
         timestamp: commit.timestamp,
         committerName: commit.committerName,
-        repositoryUrl: commit.repositoryUrl,
+        repositoryId: commit.repositoryId,
       })
       .from(commit)
       .orderBy(sql`${commit.timestamp} DESC`)
@@ -137,7 +137,7 @@ export async function GET(): Promise<NextResponse> {
           committerName: c.committerName,
           committerEmail: c.committerEmail,
           timestamp: c.timestamp,
-          repositoryUrl: c.repositoryUrl,
+          repositoryId: c.repositoryId,
         })),
         sampleMADDevelopers: monthlyActiveDevelopers.slice(0, 10),
         sampleRecentCommits: recentCommits.slice(0, 5).map(c => ({
