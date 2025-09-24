@@ -68,7 +68,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
     // Names to exclude (shared between MAD and new devs)
     const excludedNames = [
       'ayo-klaytn', 'praveen-kaia', 'zxstim', 'scott lee', 'github', 'ollie', 
-      'kaia-docs', 'sotatek-quangdo', 'sotatek-longpham2', 'github-actions'
+      'kaia-docs', 'sotatek-quangdo', 'sotatek-longpham2', 'github-actions', 'jingxuan-kaia'
     ];
 
     // list developers (lightweight columns only)
