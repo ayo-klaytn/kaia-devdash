@@ -96,8 +96,10 @@ export async function GET(): Promise<NextResponse> {
 
     // Group commits by day to see activity pattern
     const commitsByDay = madRaw.reduce((acc, commit) => {
-      const day = new Date(commit.timestamp).toISOString().split('T')[0];
-      acc[day] = (acc[day] || 0) + 1;
+      if (commit.timestamp) {
+        const day = new Date(commit.timestamp).toISOString().split('T')[0];
+        acc[day] = (acc[day] || 0) + 1;
+      }
       return acc;
     }, {} as Record<string, number>);
 
