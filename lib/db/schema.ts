@@ -241,3 +241,47 @@ export const socialMedia = pgTable("social_media", {
   createdAt: timestamp("created_at").notNull(),
   updatedAt: timestamp("updated_at").notNull(),
 });
+
+// Aggregation and summary tables for performance
+export const developerSummary = pgTable("developer_summary", {
+  id: text("id").primaryKey(),
+  window: text("window").notNull(), // e.g., '28d', '365d'
+  email: text("email"),
+  displayName: text("display_name"),
+  commitCount: integer("commit_count").notNull().default(0),
+  repoCount: integer("repo_count").notNull().default(0),
+  firstCommitAt: timestamp("first_commit_at"),
+  lastCommitAt: timestamp("last_commit_at"),
+  createdAt: timestamp("created_at").notNull(),
+  updatedAt: timestamp("updated_at").notNull(),
+});
+
+export const repoSummary = pgTable("repo_summary", {
+  id: text("id").primaryKey(),
+  window: text("window").notNull(),
+  repositoryId: text("repository_id")
+    .notNull()
+    .references(() => repository.id, { onDelete: "cascade" }),
+  fullName: text("full_name"), // owner/name
+  commitCount: integer("commit_count").notNull().default(0),
+  developerCount: integer("developer_count").notNull().default(0),
+  lastCommitAt: timestamp("last_commit_at"),
+  createdAt: timestamp("created_at").notNull(),
+  updatedAt: timestamp("updated_at").notNull(),
+});
+
+export const madCache28d = pgTable("mad_cache_28d", {
+  date: text("date").primaryKey(), // YYYY-MM-DD UTC
+  uniqueDeveloperCount: integer("unique_developer_count").notNull().default(0),
+  createdAt: timestamp("created_at").notNull(),
+  updatedAt: timestamp("updated_at").notNull(),
+});
+
+export const aggregateJobLog = pgTable("aggregate_job_log", {
+  id: text("id").primaryKey(),
+  jobName: text("job_name").notNull(),
+  status: text("status").notNull(), // 'success' | 'error'
+  message: text("message"),
+  startedAt: timestamp("started_at").notNull(),
+  finishedAt: timestamp("finished_at").notNull(),
+});

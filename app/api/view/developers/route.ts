@@ -2,12 +2,13 @@ import { NextRequest, NextResponse } from "next/server";
 
 export const runtime = 'nodejs'
 import db from "@/lib/db";
-import { developer, commit } from "@/lib/db/schema";
+import { developer, commit, developerSummary, madCache28d } from "@/lib/db/schema";
 import { asc, sql } from "drizzle-orm";
 
 
 export async function GET(request: NextRequest): Promise<NextResponse> {
   try {
+    console.log("Starting developers API...");
     // Temporarily disable auth for Vercel testing
     // TODO: Re-enable authentication once we debug the header mismatch
     // const headersList = await headers();
@@ -33,13 +34,6 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
   
   const responseData: {
     numberOfDevelopers: number;
-    numberOfDevelopersWithCommunityRankMoreThan3: number;
-    numberOfDevelopersGraduatedBootcamp: number;
-    numberOfDevelopersGraduatedBootcampAndContributed: number;
-    numberOfDevelopersWithMoreThan3Repositories: number;
-    developersWithNftBadges: number
-    developersWithAtLeast1Rank3Repository: number
-    developersWithAtLeast1RepoWithAtLeast3Stars: number
     numberOfActiveMonthlyDevelopers: number
     monthlyActiveDevelopers: Array<{ email: string | null; name: string | null }>;
     newDevelopers365d: Array<{ email: string | null; name: string | null; firstAt: string }>;
@@ -49,13 +43,6 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
     developers: typeof developer.$inferSelect[];
   } = {
     numberOfDevelopers: 0,
-    numberOfDevelopersWithCommunityRankMoreThan3: 0,
-    numberOfDevelopersGraduatedBootcamp: 0,
-    numberOfDevelopersGraduatedBootcampAndContributed: 0,
-    numberOfDevelopersWithMoreThan3Repositories: 0,
-    developersWithNftBadges: 0,
-    developersWithAtLeast1Rank3Repository: 0,
-    developersWithAtLeast1RepoWithAtLeast3Stars: 0,
     numberOfActiveMonthlyDevelopers: 0,
     monthlyActiveDevelopers: [],
     newDevelopers365d: [],
@@ -68,10 +55,13 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
     // Names to exclude (shared between MAD and new devs)
     const excludedNames = [
       'ayo-klaytn', 'praveen-kaia', 'zxstim', 'scott lee', 'github', 'ollie', 
-      'kaia-docs', 'sotatek-quangdo', 'sotatek-longpham2', 'github-actions', 'jingxuan-kaia'
+      'kaia-docs', 'sotatek-quangdo', 'sotatek-longpham2', 'github-actions', 'jingxuan-kaia',
+      'gpt-engineer-app[bot]', 'google-labs-jules[bot]', 'sawyer', 'firebase studio', 
+      'ollie.j', 'sotatek-tinnnguyen', 'yumiel yoomee1313'
     ];
 
     // list developers (lightweight columns only)
+    console.log("Fetching developers...");
     const developers = await db.select()
       .from(developer)
       .orderBy(asc(developer.name))
@@ -81,190 +71,259 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
     console.log('Raw developers from DB:', developers);
     console.log('Number of developers found:', developers.length);
 
-    // Calculate metrics
-    const developersWithCommunityRankMoreThan3 = developers.filter((dev) => dev.communityRank && dev.communityRank > 3);
-    const developersGraduatedBootcamp = developers.filter((dev) => dev.bootcampGraduated);
-    const developerGraduatedBootcampAndContributed = developers.filter((dev) => dev.bootcampGraduated && dev.bootcampContributor);
-    
-    // For now, set some placeholder values since we don't have repository data in this query
-    const developersWithNftBadges = developers.filter((dev) => dev.nftBadges && Object.keys(dev.nftBadges).length > 0);
-    
-    // These would need repository data to calculate properly - setting to 0 for now
-    const developersWithAtLeast1Rank3Repository = 0; // Would need repo data
-    const developersWithAtLeast1RepoWithAtLeast3Stars = 0; // Would need repo data
-    const numberOfDevelopersWithMoreThan3Repositories = 0; // Would need repo data
+    // Calculate core metrics only
 
-    // Get Monthly Active Developers (last 28 days), no rawResponse
+    // Get Monthly Active Developers (September 1-30, 2025) from summary cache; fallback to optimized commit scan
+    console.log("Fetching MAD from summary...");
     let monthlyActiveDevelopers: Array<{ email: string | null; name: string | null }> = [];
-    
     try {
-      const twentyEightDaysAgo = new Date();
-      twentyEightDaysAgo.setDate(twentyEightDaysAgo.getDate() - 28);
+      // Try to get from summary cache first - prioritize 'september-2025' window
+      let rows = await db
+        .select({ email: developerSummary.email, name: developerSummary.displayName })
+        .from(developerSummary)
+        .where(sql`${developerSummary.window} = 'september-2025'`)
+        .limit(1000);
       
-      console.log('Fetching MAD commits from:', twentyEightDaysAgo.toISOString());
+      console.log(`Found ${rows.length} rows for september-2025 window`);
       
-      const madRaw = await db
-        .select({ 
-          committerEmail: commit.committerEmail,
-          committerName: commit.committerName,
-        })
-        .from(commit)
-        .where(
-          sql`${commit.timestamp} >= ${twentyEightDaysAgo.toISOString()}`
-        )
-        .limit(5000); // Lower cap
-
-      // Group by email and extract best name for each
-      const madByEmail = new Map<string, { email: string | null; name: string | null }>();
+      // If no september-2025 data, try 28d as fallback
+      if (rows.length === 0) {
+        console.log("No september-2025 data, trying 28d fallback...");
+        rows = await db
+          .select({ email: developerSummary.email, name: developerSummary.displayName })
+          .from(developerSummary)
+          .where(sql`${developerSummary.window} = '28d'`)
+          .limit(1000);
+        console.log(`Found ${rows.length} rows for 28d window`);
+      }
       
-      madRaw.forEach(dev => {
-        const email = dev.committerEmail || 'no-email';
-        const name = (dev.committerName || '').toLowerCase();
-        const emailLower = (dev.committerEmail || '').toLowerCase();
-        
-        // Skip bots
-        if (name.includes('[bot]') || name.includes('bot') || emailLower.includes('bot')) {
-          return;
-        }
-        
-        // Skip excluded names
-        const isExcluded = excludedNames.some(excludedName => 
-          name.includes(excludedName.toLowerCase()) || 
-          emailLower.includes(excludedName.toLowerCase())
-        );
-        
-        if (isExcluded) {
-          return;
-        }
-        
-        // Keep the best name we've found for this email
-        if (!madByEmail.has(email) || (!madByEmail.get(email)?.name && dev.committerName)) {
-          madByEmail.set(email, {
-            email: dev.committerEmail || null,
-            name: dev.committerName || null
+      console.log("MAD summary rows:", rows.length);
+      if (rows.length > 0) {
+        // Apply exclusion filtering to summary data
+        const filteredRows = rows.filter(row => {
+          const email = row.email || '';
+          const name = (row.name || '').toLowerCase();
+          const emailLower = email.toLowerCase();
+          
+          // Skip bots
+          if (name.includes('[bot]') || name.includes('bot') || emailLower.includes('bot')) return false;
+          
+          // Check exclusion list with more robust matching
+          const isExcluded = excludedNames.some(ex => {
+            const exLower = ex.toLowerCase();
+            return name.includes(exLower) || 
+                   emailLower.includes(exLower) ||
+                   name === exLower ||
+                   emailLower === exLower;
           });
-        }
-      });
-
-      monthlyActiveDevelopers = Array.from(madByEmail.values());
-      console.log('MAD processing complete. Found:', monthlyActiveDevelopers.length, 'developers');
-    } catch (madError) {
-      console.error('MAD query failed, using empty array:', madError);
+          
+          if (isExcluded) {
+            console.log(`Excluding MAD developer from summary: ${row.name} (${row.email})`);
+            return false;
+          }
+          
+          return true;
+        });
+        
+        monthlyActiveDevelopers = filteredRows.map(r => ({ email: r.email, name: r.name }));
+        console.log(`MAD after filtering: ${monthlyActiveDevelopers.length} (excluded ${rows.length - filteredRows.length})`);
+      } else {
+        // Fallback: Get MAD for September 1-30, 2025 with optimized query
+        console.log("Using fallback: direct commit scan for September 1-30, 2025");
+        const septemberStart = new Date('2025-09-01T00:00:00Z');
+        const septemberEnd = new Date('2025-09-30T23:59:59Z');
+        
+        const madRaw = await db
+          .select({ 
+            committerEmail: commit.committerEmail, 
+            committerName: commit.committerName 
+          })
+          .from(commit)
+          .where(sql`${commit.timestamp} >= ${septemberStart.toISOString()} AND ${commit.timestamp} <= ${septemberEnd.toISOString()}`)
+          .groupBy(commit.committerEmail, commit.committerName)
+          .limit(1000);
+          
+        console.log(`Found ${madRaw.length} raw MAD entries from commit scan`);
+          
+        const byEmail = new Map<string, { email: string | null; name: string | null }>();
+        madRaw.forEach(dev => {
+          const email = dev.committerEmail || 'no-email';
+          const name = (dev.committerName || '').toLowerCase();
+          const emailLower = (dev.committerEmail || '').toLowerCase();
+          
+          // Skip bots
+          if (name.includes('[bot]') || name.includes('bot') || emailLower.includes('bot')) return;
+          
+          // Check exclusion list with more robust matching
+          const isExcluded = excludedNames.some(ex => {
+            const exLower = ex.toLowerCase();
+            return name.includes(exLower) || 
+                   emailLower.includes(exLower) ||
+                   name === exLower ||
+                   emailLower === exLower;
+          });
+          
+          if (isExcluded) {
+            console.log(`Excluding MAD developer: ${dev.committerName} (${dev.committerEmail})`);
+            return;
+          }
+          
+          if (!byEmail.has(email) || (!byEmail.get(email)?.name && dev.committerName)) {
+            byEmail.set(email, { email: dev.committerEmail || null, name: dev.committerName || null });
+          }
+        });
+        monthlyActiveDevelopers = Array.from(byEmail.values());
+      }
+    } catch (error) {
+      console.error('Error fetching MAD:', error);
       monthlyActiveDevelopers = [];
     }
 
-    // Get New Developers (first commit within last 365 days) with bot filtering via grouped SQL
+    // New developers in last 365 days from summary; fallback to optimized grouped commit scan
     let newDevelopers365d: Array<{ email: string | null; name: string | null; firstAt: string }> = [];
-    
     try {
-      const fromIso = from.toISOString();
-      const toIso = to.toISOString();
-
-      console.log('Using efficient query for new developers (365d)');
-      console.log('Date range:', fromIso, 'to', toIso);
-      
-      // Use a more efficient database query to find first commits per email
-      const firstCommits = await db
-        .select({
-          committerEmail: commit.committerEmail,
-          committerName: commit.committerName,
-          firstCommitTime: sql<string>`MIN(${commit.timestamp})`.as('firstCommitTime')
+      // Try to get from summary cache first
+      const rows = await db
+        .select({ 
+          email: developerSummary.email, 
+          name: developerSummary.displayName, 
+          firstAt: developerSummary.firstCommitAt 
         })
-        .from(commit)
-        .where(sql`${commit.timestamp} >= ${fromIso} AND ${commit.timestamp} <= ${toIso}`)
-        .groupBy(commit.committerEmail, commit.committerName)
+        .from(developerSummary)
+        .where(sql`${developerSummary.window} = '365d'`)
+        .orderBy(asc(developerSummary.firstCommitAt))
         .limit(1000);
-      
-      console.log(`Found ${firstCommits.length} unique developers with first commits in date range`);
-      
-      // Filter out bots and excluded names
-      const filteredDevelopers = firstCommits.filter(dev => {
-        const email = dev.committerEmail || '';
-        const name = (dev.committerName || '').toLowerCase();
-        const emailLower = email.toLowerCase();
+      if (rows.length > 0) {
+        newDevelopers365d = rows.map(r => ({ 
+          email: r.email, 
+          name: r.name, 
+          firstAt: r.firstAt ? r.firstAt.toISOString() : '' 
+        }));
+      } else {
+        // Fallback: Optimized query with better filtering
+        const fromIso = from.toISOString();
+        const toIso = to.toISOString();
         
-        // Skip bots
-        if (name.includes('[bot]') || name.includes('bot') || emailLower.includes('bot')) {
-          return false;
-        }
+        const firstCommits = await db
+          .select({
+            committerEmail: commit.committerEmail,
+            committerName: commit.committerName,
+            firstCommitTime: sql<string>`MIN(${commit.timestamp})`.as('firstCommitTime')
+          })
+          .from(commit)
+          .where(sql`${commit.timestamp} >= ${fromIso} AND ${commit.timestamp} <= ${toIso}`)
+          .groupBy(commit.committerEmail, commit.committerName)
+          .orderBy(asc(sql`MIN(${commit.timestamp})`))
+          .limit(1000);
+          
+        // Filter out bots and excluded names more efficiently
+        const filtered = firstCommits.filter(dev => {
+          const email = dev.committerEmail || '';
+          const name = (dev.committerName || '').toLowerCase();
+          const emailLower = email.toLowerCase();
+          
+          // Skip bots
+          if (name.includes('[bot]') || name.includes('bot') || emailLower.includes('bot')) return false;
+          
+          // Check exclusion list with more robust matching
+          const isExcluded = excludedNames.some(ex => {
+            const exLower = ex.toLowerCase();
+            return name.includes(exLower) || 
+                   emailLower.includes(exLower) ||
+                   name === exLower ||
+                   emailLower === exLower;
+          });
+          
+          if (isExcluded) {
+            console.log(`Excluding new developer: ${dev.committerName} (${dev.committerEmail})`);
+            return false;
+          }
+          
+          return true;
+        });
         
-        // Skip excluded names
-        const isExcluded = excludedNames.some(excludedName => 
-          name.includes(excludedName.toLowerCase()) || 
-          emailLower.includes(excludedName.toLowerCase())
-        );
-        
-        return !isExcluded;
-      });
-      
-      console.log(`After filtering: ${filteredDevelopers.length} developers`);
-      
-      // Convert to the expected format
-      newDevelopers365d = filteredDevelopers.map(dev => {
-        return {
-          email: dev.committerEmail,
-          name: dev.committerName,
-          firstAt: dev.firstCommitTime
-        };
-      });
-      
-      console.log(`New dev processing complete. Found: ${newDevelopers365d.length} developers`);
-    } catch (newDevError) {
-      console.error('New dev query failed:', newDevError);
+        newDevelopers365d = filtered.map(dev => ({ 
+          email: dev.committerEmail, 
+          name: dev.committerName, 
+          firstAt: dev.firstCommitTime 
+        }));
+      }
+    } catch (error) {
+      console.error('Error fetching new developers:', error);
       newDevelopers365d = [];
     }
 
-    // Get Monthly MAD Progress (rolling 28-day MAD per month)
+    // Monthly MAD progress: True monthly aggregation for Jan-Sep 2025
     let monthlyMadProgress: Array<{ month: string; count: number; year: number; monthNumber: number }> = [];
-    
     try {
-      // Start from August 2024 as requested
-      const startDate = new Date('2024-08-01');
-      const endDate = new Date();
-      
-      // Generate month-end dates from August 2024 to current month
-      const monthEnds: Date[] = [];
-      const current = new Date(startDate);
-      
-      while (current <= endDate) {
-        // Get last day of current month
-        const lastDay = new Date(current.getFullYear(), current.getMonth() + 1, 0);
-        monthEnds.push(new Date(lastDay));
-        current.setMonth(current.getMonth() + 1);
-      }
-      
-      console.log('Calculating rolling 28-day MAD for', monthEnds.length, 'months');
-      
-      // For each month-end, calculate rolling 28-day MAD
-      for (const monthEnd of monthEnds) {
-        const windowStart = new Date(monthEnd);
-        windowStart.setDate(windowStart.getDate() - 27); // 28-day window (inclusive)
+      // Generate all months from January to September 2025
+      const months = [];
+      for (let month = 0; month < 9; month++) { // Jan (0) to Sep (8)
+        const year = 2025;
+        const monthStart = new Date(year, month, 1);
+        const monthEnd = new Date(year, month + 1, 0); // Last day of the month
         
-        console.log(`Month ${monthEnd.toISOString().slice(0, 7)}: ${windowStart.toISOString()} to ${monthEnd.toISOString()}`);
-        
-        const rollingMad = await db
-          .select({
-            countDistinct: sql<number>`COUNT(DISTINCT ${commit.committerEmail})`.as('countDistinct')
-          })
-          .from(commit)
-          .where(
-            sql`${commit.timestamp} >= ${windowStart.toISOString()} AND ${commit.timestamp} <= ${monthEnd.toISOString()}`
-          )
-          .limit(1);
-        
-        const count = Number(rollingMad[0]?.countDistinct || 0);
-        
-        monthlyMadProgress.push({
-          month: monthEnd.toLocaleDateString('en-US', { month: 'short', year: 'numeric' }),
-          count: count,
-          year: monthEnd.getFullYear(),
-          monthNumber: monthEnd.getMonth() + 1
+        months.push({
+          start: monthStart,
+          end: monthEnd,
+          monthName: monthStart.toLocaleDateString('en-US', { month: 'short', year: 'numeric' }),
+          monthNumber: month + 1
         });
       }
       
-      console.log('Rolling MAD calculation complete:', monthlyMadProgress);
-    } catch (madProgressError) {
-      console.error('Rolling MAD progress calculation failed:', madProgressError);
+      // Query each month for unique developers with exclusion filtering
+      const monthlyPromises = months.map(async (monthData) => {
+        // Get all developers for the month first
+        const monthlyDevelopers = await db
+          .select({ 
+            committerEmail: commit.committerEmail,
+            committerName: commit.committerName
+          })
+          .from(commit)
+          .where(sql`${commit.timestamp} >= ${monthData.start.toISOString()} AND ${commit.timestamp} <= ${monthData.end.toISOString()}`)
+          .groupBy(commit.committerEmail, commit.committerName)
+          .limit(1000);
+          
+        // Apply exclusion filtering
+        const filteredDevelopers = monthlyDevelopers.filter(dev => {
+          const email = dev.committerEmail || '';
+          const name = (dev.committerName || '').toLowerCase();
+          const emailLower = email.toLowerCase();
+          
+          // Skip bots
+          if (name.includes('[bot]') || name.includes('bot') || emailLower.includes('bot')) return false;
+          
+          // Check exclusion list with more robust matching
+          const isExcluded = excludedNames.some(ex => {
+            const exLower = ex.toLowerCase();
+            return name.includes(exLower) || 
+                   emailLower.includes(exLower) ||
+                   name === exLower ||
+                   emailLower === exLower;
+          });
+          
+          if (isExcluded) {
+            console.log(`Excluding from monthly progress: ${dev.committerName} (${dev.committerEmail})`);
+            return false;
+          }
+          
+          return true;
+        });
+        
+        // Count unique developers after filtering
+        const uniqueEmails = new Set(filteredDevelopers.map(dev => dev.committerEmail).filter(Boolean));
+        
+        return {
+          month: monthData.monthName,
+          count: uniqueEmails.size,
+          year: 2025,
+          monthNumber: monthData.monthNumber,
+        };
+      });
+      
+      monthlyMadProgress = await Promise.all(monthlyPromises);
+    } catch (error) {
+      console.error('Error fetching monthly MAD progress:', error);
       monthlyMadProgress = [];
     }
 
@@ -273,9 +332,13 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
     let totalDeveloperMonths = 0;
     
     try {
+      // Calculate total developer-months from progress data
       totalDeveloperMonths = monthlyMadProgress.reduce((sum, m) => sum + m.count, 0);
+      
+      // Get unique developers across last 12 months with optimized query
       const twelveMonthsAgo = new Date();
       twelveMonthsAgo.setMonth(twelveMonthsAgo.getMonth() - 12);
+      
       const unique = await db
         .select({
           countDistinct: sql<number>`COUNT(DISTINCT ${commit.committerEmail})`.as('countDistinct')
@@ -283,6 +346,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
         .from(commit)
         .where(sql`${commit.timestamp} >= ${twelveMonthsAgo.toISOString()}`)
         .limit(1);
+        
       uniqueDevelopersAcrossPeriod = Number(unique[0]?.countDistinct || 0);
     } catch (uniqueError) {
       console.error('Unique developers calculation failed:', uniqueError);
@@ -296,13 +360,6 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
     const developerCount = developers.length;
     
     responseData.numberOfDevelopers = developerCount;
-    responseData.numberOfDevelopersWithCommunityRankMoreThan3 = developersWithCommunityRankMoreThan3.length;
-    responseData.numberOfDevelopersGraduatedBootcamp = developersGraduatedBootcamp.length;
-    responseData.numberOfDevelopersGraduatedBootcampAndContributed = developerGraduatedBootcampAndContributed.length;
-    responseData.developersWithNftBadges = developersWithNftBadges.length;
-    responseData.developersWithAtLeast1Rank3Repository = developersWithAtLeast1Rank3Repository;
-    responseData.developersWithAtLeast1RepoWithAtLeast3Stars = developersWithAtLeast1RepoWithAtLeast3Stars;
-    responseData.numberOfDevelopersWithMoreThan3Repositories = numberOfDevelopersWithMoreThan3Repositories;
     responseData.numberOfActiveMonthlyDevelopers = numberOfActiveMonthlyDevelopers;
     responseData.monthlyActiveDevelopers = monthlyActiveDevelopers;
     responseData.newDevelopers365d = newDevelopers365d;
@@ -314,10 +371,17 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
     console.log('Calculated response data:', responseData);
 
     const res = NextResponse.json(responseData);
-    res.headers.set('Cache-Control', 'public, s-maxage=300, stale-while-revalidate=600');
+    res.headers.set('Cache-Control', 'public, s-maxage=600, stale-while-revalidate=1200');
+    res.headers.set('CDN-Cache-Control', 'public, s-maxage=600');
+    res.headers.set('Vercel-CDN-Cache-Control', 'public, s-maxage=600');
     return res;
   } catch (error) {
     console.error('Error in developers API:', error);
-    return NextResponse.json({ error: "Database error" }, { status: 500 });
+    console.error('Error details:', error instanceof Error ? error.message : String(error));
+    console.error('Error stack:', error instanceof Error ? error.stack : 'No stack');
+    return NextResponse.json({ 
+      error: "Database error", 
+      details: error instanceof Error ? error.message : String(error) 
+    }, { status: 500 });
   }
 }

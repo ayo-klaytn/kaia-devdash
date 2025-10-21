@@ -40,21 +40,21 @@ export default function Dashboard() {
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
           <div className="flex flex-col gap-4 border rounded-md p-4">
-            <h1 className="text-2xl font-bold">29</h1>
+            <h1 className="text-2xl font-bold">57</h1>
             <div className="flex items-center gap-2">
               <UserPen className="w-4 h-4" />
               <p className="text-sm">Monthly Active Developers</p>
             </div>
           </div>
           <div className="flex flex-col gap-4 border rounded-md p-4">
-            <h1 className="text-2xl font-bold">352</h1>
+            <h1 className="text-2xl font-bold">401</h1>
             <div className="flex items-center gap-2">
               <UserPen className="w-4 h-4" />
               <p className="text-sm">New Developers</p>
             </div>
           </div>
           <div className="flex flex-col gap-4 border rounded-md p-4">
-            <h1 className="text-2xl font-bold">317</h1>
+            <h1 className="text-2xl font-bold">361</h1>
             <div className="flex items-center gap-2">
               <Users className="w-4 h-4" />
               <p className="text-sm">Repositories</p>
@@ -63,24 +63,24 @@ export default function Dashboard() {
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
           <div className="flex flex-col gap-4 border rounded-md p-4">
-            <h1 className="text-2xl font-bold">48,088</h1>
+            <h1 className="text-2xl font-bold">40,303</h1>
             <div className="flex items-center gap-2">
               <Package className="w-4 h-4" />
               <p className="text-sm">Monthly Views (Kaia Docs)</p>
             </div>
           </div>
           <div className="flex flex-col gap-4 border rounded-md p-4">
-            <h1 className="text-2xl font-bold">1,460</h1>
+            <h1 className="text-2xl font-bold">17,142</h1>
             <div className="flex items-center gap-2">
               <UserPen className="w-4 h-4" />
-              <p className="text-sm">Visits / day</p>
+              <p className="text-sm">Visits / Month</p>
             </div>
           </div>
           <div className="flex flex-col gap-4 border rounded-md p-4">
-            <h1 className="text-2xl font-bold line-through">8000</h1>
+            <h1 className="text-2xl font-bold">1247</h1>
             <div className="flex items-center gap-2">
               <Users className="w-4 h-4" />
-              <p className="text-sm">Total Contracts</p>
+              <p className="text-sm">Active Contracts</p>
             </div>
           </div>
         </div>
@@ -115,16 +115,16 @@ export default function Dashboard() {
             <table className="w-full border-collapse">
               <tbody>
                 <tr className="border">
-                  <td className="p-2 border">352 New Developers</td>
+                  <td className="p-2 border">401 New Developers</td>
                 </tr>
                 <tr className="border">
                   <td className="p-2 border">1,460 visit per day to dev related websites</td>
                 </tr>
                 <tr className="border">
-                  <td className="p-2 border">29 active developers</td>
+                  <td className="p-2 border">57 active developers</td>
                 </tr>
                 <tr className="border">
-                  <td className="p-2 border line-through">8,000 total contracts deployed</td>
+                  <td className="p-2 border">1247 active contracts / month</td>
                 </tr>
                 <tr className="border">
                   <td className="p-2 border line-through">5 active products launched</td>

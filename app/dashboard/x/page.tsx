@@ -89,6 +89,132 @@ export default async function XPage() {
   // Developer Content Engagement Data
   const developerContent = [
     {
+      title: "Kaia Wave Stablecoin Summer Hackathon Winners Announcement",
+      url: "https://x.com/BuildonKaia/status/1975406735998525935",
+      views: "11k",
+      likes: 61,
+      retweets: 14,
+      date: "2025-10-07",
+      type: "Event"
+    },
+    {
+      title: "Cross-chain NFT tutorial announcement",
+      url: "https://x.com/BuildonKaia/status/1978733151339102492",
+      views: "3.8k",
+      likes: 29,
+      retweets: 14,
+      date: "2025-10-16",
+      type: "Tutorial"
+    },
+    {
+      title: "Kaia Dev Connect with Google Cloud Announcement",
+      url: "https://x.com/BuildonKaia/status/1971033911284400265",
+      views: "12.6k",
+      likes: 36,
+      retweets: 16,
+      date: "2025-09-25",
+      type: "Event"
+    },
+    {
+      title: "USDT Faucet now live",
+      url: "https://x.com/BuildonKaia/status/1970329143473774957",
+      views: "5.2k",
+      likes: 38,
+      retweets: 12,
+      date: "2025-09-23",
+      type: "Announcement"
+    },
+    {
+      title: "Chainlink CCIP Announcement (Retweet)",
+      url: "https://x.com/BuildonKaia/status/1968532404177702973",
+      views: "774",
+      likes: 25,
+      retweets: 9,
+      date: "2025-09-18",
+      type: "Integration"
+    },
+    {
+      title: "KWSSH Live Workshop with Curve Finance",
+      url: "https://x.com/BuildonKaia/status/1967498628601376999",
+      views: "6.9k",
+      likes: 19,
+      retweets: 10,
+      date: "2025-09-15",
+      type: "Workshop"
+    },
+    {
+      title: "KWSSH Live Workshop with Thirdweb",
+      url: "https://x.com/BuildonKaia/status/1966109474432901298",
+      views: "5.5k",
+      likes: 22,
+      retweets: 11,
+      date: "2025-09-11",
+      type: "Workshop"
+    },
+    {
+      title: "Proof of Play RNG Announcement",
+      url: "https://x.com/BuildonKaia/status/1966064520809644502",
+      views: "10k",
+      likes: 28,
+      retweets: 7,
+      date: "2025-09-11",
+      type: "Announcement"
+    },
+    {
+      title: "KWSSH Live Workshop with zkMe",
+      url: "https://x.com/BuildonKaia/status/1965747086063706271",
+      views: "4.2k",
+      likes: 19,
+      retweets: 7,
+      date: "2025-09-11",
+      type: "Workshop"
+    },
+    {
+      title: "KWSSH Live Workshop with Certik",
+      url: "https://x.com/BuildonKaia/status/1965037404424958136",
+      views: "1.9k",
+      likes: 17,
+      retweets: 8,
+      date: "2025-09-08",
+      type: "Workshop"
+    },
+    {
+      title: "KWSSH Live Workshop with KF",
+      url: "https://x.com/BuildonKaia/status/1963965635672854697",
+      views: "2.9k",
+      likes: 51,
+      retweets: 14,
+      date: "2025-09-05",
+      type: "Workshop"
+    },
+    {
+      title: "KWSSH Live Workshop with BisonAI",
+      url: "https://x.com/BuildonKaia/status/1963592032552997125",
+      views: "2.1k",
+      likes: 30,
+      retweets: 10,
+      date: "2025-09-04",
+      type: "Workshop"
+    },
+    {
+      title: "KWSSH Live Workshop with Avail",
+      url: "https://x.com/BuildonKaia/status/1963255665851277614",
+      views: "11.3k",
+      likes: 36,
+      retweets: 13,
+      date: "2025-09-03",
+      type: "Workshop"
+    },
+    {
+      title: "KWSSH Live Workshop with Dune",
+      url: "https://x.com/BuildonKaia/status/1963255665851277614",
+      views: "15k",
+      likes: 82,
+      retweets: 30,
+      date: "2025-09-02",
+      type: "Workshop"
+    },
+    {
       title: "OrbiterBridge Integration Announcement",
       url: "https://x.com/kaiachain/status/1844303133109092841",
       views: "5.6k",

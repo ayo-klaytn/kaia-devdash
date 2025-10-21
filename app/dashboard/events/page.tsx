@@ -3,6 +3,15 @@ import { Calendar, MapPin, ExternalLink, Users, Clock } from "lucide-react";
 
 const events = [
   {
+    id: 12,
+    name: "Kaia at EDCON",
+    description: "Kaia participation and showcase at EDCON conference",
+    url: "https://x.com/BuildonKaia/status/1968976511010050093",
+    location: "TBA",
+    type: "Conference",
+    status: "Completed"
+  },
+  {
     id: 1,
     name: "Kaia China Tour - Shanghai",
     description: "Join us for an exclusive event in Shanghai as part of the Kaia China Tour",
@@ -81,6 +90,24 @@ const events = [
     url: "https://x.com/buildonkaia/status/1888233576988295313?s=46&t=fyN9N1cRQVb3au363robMw",
     location: "Singapore",
     type: "Workshop",
+    status: "Completed"
+  },
+  {
+    id: 10,
+    name: "Kaia Dev Connect with Google Cloud",
+    description: "Developer connect event featuring Google Cloud integration and collaboration opportunities",
+    url: "https://x.com/BuildonKaia/status/1971033911284400265",
+    location: "Singapore",
+    type: "Developer Connect",
+    status: "Completed"
+  },
+  {
+    id: 11,
+    name: "Kaia Summit",
+    description: "Major summit event showcasing Kaia ecosystem developments and partnerships",
+    url: "https://x.com/i/broadcasts/1OdKrOMXNMYGX",
+    location: "Singapore",
+    type: "Summit",
     status: "Completed"
   }
 ];

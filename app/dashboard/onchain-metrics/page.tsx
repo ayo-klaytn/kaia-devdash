@@ -32,6 +32,170 @@ export default async function OnchainMetricsPage() {
           </Button>
         </div>
       </div>
+
+      {/* Top Metrics Section */}
+      <div className="flex flex-col gap-6">
+        <div className="flex flex-col gap-4">
+          <h2 className="text-xl font-semibold">Top Metrics</h2>
+          <p className="text-sm text-muted-foreground">
+            Key Dune Analytics metrics for Kaia ecosystem
+          </p>
+        </div>
+
+        {/* Top Metrics Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <Card>
+            <CardHeader className="pb-2">
+              <CardTitle className="text-sm font-medium">Views (12 months)</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">32,514</div>
+              <p className="text-xs text-muted-foreground">Dashboard views</p>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader className="pb-2">
+              <CardTitle className="text-sm font-medium">Public Dashboards</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">68</div>
+              <p className="text-xs text-muted-foreground">Published dashboards</p>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader className="pb-2">
+              <CardTitle className="text-sm font-medium">Saved Queries</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">95</div>
+              <p className="text-xs text-muted-foreground">Query templates</p>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader className="pb-2">
+              <CardTitle className="text-sm font-medium">Dashboard Favorites</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">656</div>
+              <p className="text-xs text-muted-foreground">User favorites</p>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader className="pb-2">
+              <CardTitle className="text-sm font-medium">Query Authors</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">140</div>
+              <p className="text-xs text-muted-foreground">Unique creators</p>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader className="pb-2">
+              <CardTitle className="text-sm font-medium">Contracts on Kaia</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">3,043</div>
+              <p className="text-xs text-muted-foreground">Total contracts</p>
+            </CardContent>
+          </Card>
+
+          <Card className="md:col-span-2 lg:col-span-3">
+            <CardHeader className="pb-2">
+              <CardTitle className="text-sm font-medium">Query Executions (30 days)</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">737</div>
+              <p className="text-xs text-muted-foreground">Total executions in last 30 days</p>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Top Dashboards */}
+        <div className="flex flex-col gap-4">
+          <h3 className="text-lg font-semibold">Top Dashboards</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-sm font-medium">#1 Kaia Wave</CardTitle>
+                <CardDescription>Official Kaia Wave dashboard</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <Button variant="outline" size="sm" asChild>
+                  <Link href="https://dune.com/kaia_foundation/kaia-wave" target="_blank">
+                    <span>View Dashboard</span>
+                    <ExternalLink className="w-4 h-4 ml-2" />
+                  </Link>
+                </Button>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-sm font-medium">#2 Official Dashboard</CardTitle>
+                <CardDescription>Kaia Foundation official metrics</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <Button variant="outline" size="sm" asChild>
+                  <Link href="https://dune.com/kaia_foundation/kaia-official-dashboard" target="_blank">
+                    <span>View Dashboard</span>
+                    <ExternalLink className="w-4 h-4 ml-2" />
+                  </Link>
+                </Button>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-sm font-medium">#3 DApp Portal Revenue</CardTitle>
+                <CardDescription>Revenue breakdown by wisekim_eth</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <Button variant="outline" size="sm" asChild>
+                  <Link href="https://dune.com/wisekim_eth/kaia-dapp-portal-revenue-breakdown" target="_blank">
+                    <span>View Dashboard</span>
+                    <ExternalLink className="w-4 h-4 ml-2" />
+                  </Link>
+                </Button>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-sm font-medium">#4 Hashed Official</CardTitle>
+                <CardDescription>Hashed's Kaia analytics</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <Button variant="outline" size="sm" asChild>
+                  <Link href="https://dune.com/hashed_official/kaia" target="_blank">
+                    <span>View Dashboard</span>
+                    <ExternalLink className="w-4 h-4 ml-2" />
+                  </Link>
+                </Button>
+              </CardContent>
+            </Card>
+
+            <Card className="md:col-span-2">
+              <CardHeader>
+                <CardTitle className="text-sm font-medium">#5 Seoul Analytics</CardTitle>
+                <CardDescription>Seoul's comprehensive Kaia metrics</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <Button variant="outline" size="sm" asChild>
+                  <Link href="https://dune.com/seoul/kaia" target="_blank">
+                    <span>View Dashboard</span>
+                    <ExternalLink className="w-4 h-4 ml-2" />
+                  </Link>
+                </Button>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </div>
       
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Active Contracts */}

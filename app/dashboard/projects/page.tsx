@@ -90,6 +90,13 @@ const sampleCodesAndRepos = [
     github: "https://github.com/ayo-klaytn/envio-erc20-indexing-example",
     category: "Data Indexing"
   },
+  {
+    id: 13,
+    name: "Kaia CCIP NFT Hardhat Example",
+    description: "Complete example of building cross-chain NFTs on Kaia using Chainlink CCIP with Hardhat",
+    github: "https://github.com/ayo-klaytn/kaia-ccip-nft-hardhat-example",
+    category: "Cross-chain"
+  },
 ];
 
 const technicalWrittenGuides = [
@@ -241,6 +248,13 @@ const technicalWrittenGuides = [
     description: "Guide to integrating Team Finance for token management",
     url: "https://docs.kaia.io/build/tools/token-management/team-finance/",
     category: "Token Management"
+  },
+  {
+    id: 22,
+    name: "Building Cross-Chain NFTs on Kaia with Chainlink CCIP",
+    description: "Complete guide to building cross-chain NFTs using Chainlink CCIP with burn-and-mint model",
+    url: "https://medium.com/kaiachain/building-cross-chain-nfts-on-kaia-with-chainlink-ccip-01899773a29b",
+    category: "Cross-chain"
   }
 ];
 
