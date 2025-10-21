@@ -1,16 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import db from "@/lib/db";
 import { headers } from 'next/headers';
-import { and, between, desc, eq, gte, inArray, lte, sql } from "drizzle-orm";
-import { commit, repository, developerSummary, repoSummary, madCache28d, aggregateJobLog } from "@/lib/db/schema";
+import { eq, sql } from "drizzle-orm";
+import { developerSummary, repoSummary, madCache28d, aggregateJobLog } from "@/lib/db/schema";
 import { createId } from '@paralleldrive/cuid2';
 
 export const runtime = 'nodejs'
 
-function startOfDayUTC(d: Date) {
-  const dt = new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate()));
-  return dt;
-}
 
 export async function POST(request: NextRequest): Promise<NextResponse> {
   const headersList = await headers();

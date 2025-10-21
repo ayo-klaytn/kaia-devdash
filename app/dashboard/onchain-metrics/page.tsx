@@ -167,7 +167,7 @@ export default async function OnchainMetricsPage() {
             <Card>
               <CardHeader>
                 <CardTitle className="text-sm font-medium">#4 Hashed Official</CardTitle>
-                <CardDescription>Hashed's Kaia analytics</CardDescription>
+                <CardDescription>Hashed&apos;s Kaia analytics</CardDescription>
               </CardHeader>
               <CardContent>
                 <Button variant="outline" size="sm" asChild>
@@ -182,7 +182,7 @@ export default async function OnchainMetricsPage() {
             <Card className="md:col-span-2">
               <CardHeader>
                 <CardTitle className="text-sm font-medium">#5 Seoul Analytics</CardTitle>
-                <CardDescription>Seoul's comprehensive Kaia metrics</CardDescription>
+                <CardDescription>Seoul&apos;s comprehensive Kaia metrics</CardDescription>
               </CardHeader>
               <CardContent>
                 <Button variant="outline" size="sm" asChild>
