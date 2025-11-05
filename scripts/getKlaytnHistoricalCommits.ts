@@ -2,10 +2,10 @@ import 'dotenv/config';
 import { getCommitsWithDateRange } from './getCommitsWithDateRange';
 
 /**
- * Get commits for Kaia repositories
- * Timeframe: 2024-08-29 onwards (after Klaytn transition to Kaia)
+ * Crawl historical commits from Klaytn repositories
+ * Timeframe: 2023-08-28 to 2024-08-29 (the Klaytn period before transition to Kaia)
  */
-export async function getCommitsFromRepositories() {
+export async function getKlaytnHistoricalCommits() {
   const baseUrl = process.env.BETTER_AUTH_URL || process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3006';
   const apiSecret = process.env.API_SECRET;
   
@@ -14,13 +14,13 @@ export async function getCommitsFromRepositories() {
     return;
   }
 
-  // Kaia timeframe: from transition date onwards
-  const kaiaStartDate = new Date('2024-08-29T00:00:00Z');
-  const now = new Date();
+  // Klaytn historical timeframe
+  const klaytnStartDate = new Date('2023-08-28T00:00:00Z');
+  const klaytnEndDate = new Date('2024-08-29T00:00:00Z');
 
   try {
-    // Fetch only Kaia repositories (not marked as "klaytn")
-    console.log('Fetching Kaia repositories from database...');
+    // Fetch only Klaytn repositories (marked with remark="klaytn")
+    console.log('Fetching Klaytn repositories from database...');
     const repositoriesResponse = await fetch(
       `${baseUrl}/api/data/repositories?page=1&limit=1000&status=active`,
       {
@@ -38,33 +38,33 @@ export async function getCommitsFromRepositories() {
 
     const allRepositories = await repositoriesResponse.json();
     
-    // Filter to only Kaia repos (exclude Klaytn repos)
-    const kaiaRepos = allRepositories.filter((repo: { remark?: string }) => 
-      repo.remark !== 'klaytn'
+    // Filter to only Klaytn repos
+    const klaytnRepos = allRepositories.filter((repo: { remark?: string }) => 
+      repo.remark === 'klaytn'
     );
     
-    console.log(`Found ${kaiaRepos.length} Kaia repositories`);
-    console.log(`Timeframe: ${kaiaStartDate.toISOString().split('T')[0]} to ${now.toISOString().split('T')[0]}`);
+    console.log(`Found ${klaytnRepos.length} Klaytn repositories`);
+    console.log(`Timeframe: ${klaytnStartDate.toISOString().split('T')[0]} to ${klaytnEndDate.toISOString().split('T')[0]}`);
     console.log('');
 
     let processedCount = 0;
     let totalCommits = 0;
     let totalErrors = 0;
 
-    for (const repo of kaiaRepos) {
+    for (const repo of klaytnRepos) {
       processedCount++;
-      console.log(`[${processedCount}/${kaiaRepos.length}] Processing: ${repo.owner}/${repo.name}`);
+      console.log(`[${processedCount}/${klaytnRepos.length}] Processing: ${repo.owner}/${repo.name}`);
       
       try {
-        // Fetch commits for Kaia period (from transition date onwards)
+        // Fetch historical commits for Klaytn period
         const commits = await getCommitsWithDateRange(
           repo.owner,
           repo.name,
-          kaiaStartDate
-          // No end date - fetch up to now
+          klaytnStartDate,
+          klaytnEndDate
         );
         
-        console.log(`  Found ${commits.length} commits in Kaia period`);
+        console.log(`  Found ${commits.length} commits in Klaytn period`);
         
         // Insert commits into database
         let insertedCount = 0;
@@ -123,11 +123,12 @@ export async function getCommitsFromRepositories() {
     console.log(`📊 Total repositories processed: ${processedCount}`);
     console.log(`✅ Total commits inserted: ${totalCommits}`);
     console.log(`❌ Errors: ${totalErrors}`);
-    console.log('\nFinished crawling Kaia commits');
+    console.log('\nFinished crawling Klaytn historical commits');
     
   } catch (error) {
-    console.error('Error in getCommitsFromRepositories:', error);
+    console.error('Error in getKlaytnHistoricalCommits:', error);
   }
 }
 
-getCommitsFromRepositories();
+getKlaytnHistoricalCommits();
+

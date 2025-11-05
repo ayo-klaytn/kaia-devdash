@@ -42,26 +42,6 @@ const data = {
       ],
     },
     {
-      title: "Dev Education",
-      items: [
-        {
-          title: "Tools",
-          url: "/dashboard/projects",
-          icon: Ship,
-        },
-        {
-          title: "Events",
-          url: "/dashboard/events",
-          icon: AlignEndVertical,
-        },
-        {
-          title: "DevForum",
-          url: "/dashboard/devforum",
-          icon: MessageSquareText,
-        },
-      ],
-    },
-    {
       title: "Dev Success",
       items: [
         {
@@ -93,6 +73,26 @@ const data = {
           title: "Kaia Wave",
           url: "/dashboard/kaia-wave",
           icon: Waves,
+        },
+      ],
+    },
+    {
+      title: "Dev Education",
+      items: [
+        {
+          title: "Code & Content",
+          url: "/dashboard/code-content",
+          icon: Ship,
+        },
+        {
+          title: "Events",
+          url: "/dashboard/events",
+          icon: AlignEndVertical,
+        },
+        {
+          title: "DevForum",
+          url: "/dashboard/devforum",
+          icon: MessageSquareText,
         },
       ],
     },

@@ -80,11 +80,13 @@ export default async function XPage() {
     return acc;
   }, {} as Record<string, { month: string; impressions: number; engagements: number; profileVisits: number; replies: number; likes: number; reposts: number; bookmarks: number; shares: number }>);
 
-  const monthlySeries = Object.values(monthly).map((m) => ({
-    month: m.month,
-    impressions: m.impressions,
-    engagementRate: m.impressions > 0 ? Number(((m.engagements / m.impressions) * 100).toFixed(2)) : 0,
-  }));
+  const monthlySeries = Object.values(monthly)
+    .sort((a, b) => new Date(a.month + '-01').getTime() - new Date(b.month + '-01').getTime())
+    .map((m) => ({
+      month: new Date(m.month + '-01').toLocaleDateString('en-US', { month: 'short', year: 'numeric' }),
+      impressions: m.impressions,
+      engagementRate: m.impressions > 0 ? Number(((m.engagements / m.impressions) * 100).toFixed(2)) : 0,
+    }));
 
   // Developer Content Engagement Data
   const developerContent = [

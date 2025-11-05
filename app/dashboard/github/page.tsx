@@ -1,6 +1,7 @@
 import { Package, UserPen, Users } from "lucide-react";
 import { columns } from "@/app/dashboard/github/columns"
 import { DataTable } from "@/app/dashboard/github/data-table"
+import Link from "next/link";
 
 export const dynamic = 'force-dynamic'
 
@@ -137,12 +138,12 @@ export default async function GitHub() {
             <span className="font-medium">Error loading GitHub data</span>
           </div>
           <p className="mt-2 text-sm">{errorMessage}</p>
-          <button 
-            onClick={() => window.location.reload()} 
-            className="mt-3 px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors"
+          <Link 
+            href="/dashboard/github" 
+            className="inline-block mt-3 px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors"
           >
             Retry
-          </button>
+          </Link>
         </div>
       </div>
     );

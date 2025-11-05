@@ -1,5 +1,6 @@
 //
 import { MadProgressChart } from "@/app/dashboard/developers/mad-progress-chart"
+import { YoYChart } from "@/app/dashboard/developers/yoy-chart"
 
 export const dynamic = 'force-dynamic'
 
@@ -12,7 +13,7 @@ export default async function DevelopersPage() {
   const baseUrl = host ? `${proto}://${host}` : '';
 
   // Add timeout for API calls
-  const fetchWithTimeout = async (url: string, options: RequestInit, timeout = 10000) => {
+  const fetchWithTimeout = async (url: string, options: RequestInit, timeout = 20000) => {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), timeout);
     
@@ -29,30 +30,107 @@ export default async function DevelopersPage() {
     }
   };
 
+  // Default-safe data shape in case API is slow or unavailable
+  let data: any = {
+    numberOfDevelopers: 0,
+    numberOfActiveMonthlyDevelopers: 0,
+    monthlyActiveDevelopers: [],
+    newDevelopers365d: [],
+    monthlyMadProgress: [],
+    uniqueDevelopersAcrossPeriod: 0,
+    totalDeveloperMonths: 0,
+    developers: []
+  };
+
+  // Fetch main developers data, but don't fail the page on error/timeout
   try {
-    const response = await fetchWithTimeout(`${baseUrl}/api/view/developers?page=1&limit=200`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      }
-    });
-
-    if (!response.ok) {
-      throw new Error(`API call failed: ${response.status} ${response.statusText}`);
+    const response = await fetchWithTimeout(
+      `${baseUrl}/api/view/developers?page=1&limit=200`,
+      { method: "GET", headers: { "Content-Type": "application/json" } },
+      20000
+    );
+    if (response.ok) {
+      data = await response.json();
     }
+  } catch (e) {
+    console.error('Developers API fetch (non-fatal):', e);
+  }
 
-    const data = await response.json();
+    // Fetch YoY Active Developers for custom windows (longer timeout for complex query)
+    let yoyData: {
+      current: { from: string; to: string; activeDevelopers: number };
+      previous: { from: string; to: string; activeDevelopers: number };
+      yoyPercent: number | null;
+    } = {
+      current: { from: '', to: '', activeDevelopers: 0 },
+      previous: { from: '', to: '', activeDevelopers: 0 },
+      yoyPercent: null,
+    };
     
-    // Log the data to see what we're getting
-    console.log('Developers API response:', data);
+    try {
+      const yoyRes = await fetchWithTimeout(`${baseUrl}/api/view/active-developers`, {
+        method: "GET",
+        headers: { "Content-Type": "application/json" }
+      }, 30000); // 30 second timeout for this query
+      
+      if (yoyRes.ok) {
+        yoyData = await yoyRes.json();
+      }
+    } catch (yoyError) {
+      console.error('Error fetching YoY data (non-fatal):', yoyError);
+      // Continue with default values - page will still load
+    }
+    
+  // Log the data to see what we're getting
+  console.log('Developers API response:', data);
 
-    return (
+  return (
       <div className="flex flex-col gap-4 p-4">
         <div className="flex flex-col gap-4">
           <h1 className="text-2xl font-bold">Developers</h1>
           <p className="text-sm text-muted-foreground">
             View developers and their metrics.
           </p>
+        </div>
+
+        {/* YoY Active Developers (custom windows) */}
+        <div className="flex flex-col gap-3 border rounded-md p-4">
+          <h2 className="text-xl font-semibold">Active Developers (YoY)</h2>
+          <p className="text-xs text-muted-foreground">
+            Sum of unique developers across rolling 30-day windows (MAD approach). Windows: 2023-08-28→2024-08-29 vs 2024-08-29→now
+          </p>
+          <table className="w-full border-collapse text-sm">
+            <thead>
+              <tr className="border bg-muted/50">
+                <th className="p-2 text-left">Window</th>
+                <th className="p-2 text-left">Start → End</th>
+                <th className="p-2 text-left">Active Developers</th>
+                <th className="p-2 text-left">YoY</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr className="border">
+                <td className="p-2">Current</td>
+                <td className="p-2">{new Date(yoyData.current.from).toISOString().slice(0,10)} → {new Date(yoyData.current.to).toISOString().slice(0,10)}</td>
+                <td className="p-2">{yoyData.current.activeDevelopers.toLocaleString()}</td>
+                <td className="p-2 font-medium">{yoyData.yoyPercent !== null ? `${yoyData.yoyPercent.toFixed(1)}%` : 'N/A'}</td>
+              </tr>
+              <tr className="border">
+                <td className="p-2">Previous</td>
+                <td className="p-2">{new Date(yoyData.previous.from).toISOString().slice(0,10)} → {new Date(yoyData.previous.to).toISOString().slice(0,10)}</td>
+                <td className="p-2">{yoyData.previous.activeDevelopers.toLocaleString()}</td>
+                <td className="p-2 text-muted-foreground">—</td>
+              </tr>
+            </tbody>
+          </table>
+
+          {/* YoY Comparison Mini Chart */}
+          <div className="mt-3">
+            <YoYChart
+              current={yoyData.current.activeDevelopers || 0}
+              previous={yoyData.previous.activeDevelopers || 0}
+            />
+          </div>
         </div>
         {/* Monthly Active Developers List */}
         <div className="flex flex-col gap-4 border rounded-md p-4">
@@ -103,44 +181,5 @@ export default async function DevelopersPage() {
           totalDeveloperMonths={data.totalDeveloperMonths || 0}
         />
       </div>
-    );
-  } catch (error) {
-    console.error('Error fetching developers data:', error);
-    
-    // Determine error type for better user feedback
-    let errorMessage = 'Unknown error';
-    if (error instanceof Error) {
-      if (error.name === 'AbortError') {
-        errorMessage = 'Request timed out. Please try again.';
-      } else if (error.message.includes('fetch')) {
-        errorMessage = 'Network error. Please check your connection.';
-      } else {
-        errorMessage = error.message;
-      }
-    }
-    
-    return (
-      <div className="flex flex-col gap-4 p-4">
-        <div className="flex flex-col gap-4">
-          <h1 className="text-2xl font-bold">Developers</h1>
-          <p className="text-sm text-muted-foreground">
-            View developers and their metrics.
-          </p>
-        </div>
-        <div className="border rounded-md p-4 text-red-600 bg-red-50">
-          <div className="flex items-center gap-2">
-            <div className="w-2 h-2 bg-red-500 rounded-full"></div>
-            <span className="font-medium">Error loading developers data</span>
-          </div>
-          <p className="mt-2 text-sm">{errorMessage}</p>
-          <button 
-            onClick={() => window.location.reload()} 
-            className="mt-3 px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors"
-          >
-            Retry
-          </button>
-        </div>
-      </div>
-    );
-  }
+  );
 }

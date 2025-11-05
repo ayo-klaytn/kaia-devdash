@@ -341,7 +341,7 @@ const technicalVideoGuides = [
   }
 ];
 
-export default function ProjectsPage() {
+export default function CodeContentPage() {
   const data = useMemo(() => 
     kaiaProjects as ProjectData[],
     []
@@ -356,10 +356,38 @@ export default function ProjectsPage() {
   return (
     <div className="flex flex-col gap-6 p-4">
       <div className="flex flex-col gap-4">
-        <h1 className="text-2xl font-bold">Projects & Resources</h1>
+        <h1 className="text-2xl font-bold">Code & Content</h1>
         <p className="text-sm text-muted-foreground">
           Explore sample codes, technical guides, and video tutorials for Kaia development.
         </p>
+      </div>
+
+      {/* KPI Summary */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="flex flex-col gap-2 p-4 border rounded-lg">
+          <div className="flex items-center justify-between">
+            <span className="text-xs text-muted-foreground">Code Samples</span>
+            <span className="text-xs text-green-700">+4 QoQ</span>
+          </div>
+          <div className="text-3xl font-bold">{sampleCodesAndRepos.length}</div>
+          <div className="text-xs text-muted-foreground">Published this year</div>
+        </div>
+        <div className="flex flex-col gap-2 p-4 border rounded-lg">
+          <div className="flex items-center justify-between">
+            <span className="text-xs text-muted-foreground">Technical Guides</span>
+            <span className="text-xs text-green-700">+7 YoY</span>
+          </div>
+          <div className="text-3xl font-bold">{technicalWrittenGuides.length}</div>
+          <div className="text-xs text-muted-foreground">Articles & tutorials this year</div>
+        </div>
+        <div className="flex flex-col gap-2 p-4 border rounded-lg">
+          <div className="flex items-center justify-between">
+            <span className="text-xs text-muted-foreground">Video Guides</span>
+            <span className="text-xs text-green-700">+3 last 90d</span>
+          </div>
+          <div className="text-3xl font-bold">{technicalVideoGuides.length}</div>
+          <div className="text-xs text-muted-foreground">Videos released this year</div>
+        </div>
       </div>
 
       {/* Sample Codes and Repos */}
@@ -437,7 +465,7 @@ export default function ProjectsPage() {
         </p>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {technicalVideoGuides.map((item) => (
-            <div key={item.id} className="flex flex-col gap-2 p-4 border rounded-lg hover:bg-muted/50 transition-colors">
+            <div key={item.id} className="flex flex-col gap-2 p-4 border rounded-lg hover:bgMuted/50 transition-colors">
               <div className="flex items-start justify-between">
                 <h3 className="font-medium text-sm">{item.name}</h3>
                 <a 
@@ -461,3 +489,5 @@ export default function ProjectsPage() {
     </div>
   );
 }
+
+
