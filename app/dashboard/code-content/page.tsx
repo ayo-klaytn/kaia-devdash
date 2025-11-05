@@ -2,7 +2,13 @@
 import { useMemo } from 'react';
 import kaiaProjects from "@/lib/mocks/kaia-projects.json"
 import { Code, BookOpen, Video, ExternalLink, Github } from "lucide-react";
-import { ProjectData } from "@/app/dashboard/projects/columns";
+type ProjectData = {
+  id?: string | number;
+  name?: string;
+  maturity_rank?: number;
+  community_rank?: number;
+  [key: string]: unknown;
+};
 
 // Mock data for the three categories - you can replace this with real data
 const sampleCodesAndRepos = [
@@ -342,10 +348,7 @@ const technicalVideoGuides = [
 ];
 
 export default function CodeContentPage() {
-  const data = useMemo(() => 
-    kaiaProjects as ProjectData[],
-    []
-  );
+  const data = useMemo(() => kaiaProjects as ProjectData[], []);
 
   void useMemo(() => ({
     totalProjects: data.length,
