@@ -350,11 +350,14 @@ const technicalVideoGuides = [
 export default function CodeContentPage() {
   const data = useMemo(() => kaiaProjects as ProjectData[], []);
 
-  void useMemo(() => ({
-    totalProjects: data.length,
-    maturedProjects: data.filter(project => project.maturity_rank >= 3).length,
-    activeProjects: data.filter(project => project.community_rank >= 3).length
-  }), [data]);
+  void useMemo(
+    () => ({
+      totalProjects: data.length,
+      maturedProjects: data.filter(project => Number(project.maturity_rank ?? 0) >= 3).length,
+      activeProjects: data.filter(project => Number(project.community_rank ?? 0) >= 3).length,
+    }),
+    [data]
+  );
 
   return (
     <div className="flex flex-col gap-6 p-4">
