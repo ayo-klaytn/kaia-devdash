@@ -31,7 +31,18 @@ export default async function DevelopersPage() {
   };
 
   // Default-safe data shape in case API is slow or unavailable
-  let data: any = {
+  type DevelopersData = {
+    numberOfDevelopers: number;
+    numberOfActiveMonthlyDevelopers: number;
+    monthlyActiveDevelopers: Array<{ email: string | null; name: string | null }>;
+    newDevelopers365d: Array<{ email: string | null; name: string | null; firstAt: string }>;
+    monthlyMadProgress: Array<{ month: string; count: number; year: number; monthNumber: number }>;
+    uniqueDevelopersAcrossPeriod: number;
+    totalDeveloperMonths: number;
+    developers: unknown[];
+  };
+
+  let data: DevelopersData = {
     numberOfDevelopers: 0,
     numberOfActiveMonthlyDevelopers: 0,
     monthlyActiveDevelopers: [],

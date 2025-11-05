@@ -36,13 +36,13 @@ async function fetchFromDune(): Promise<number> {
   return typeof numeric === 'number' ? numeric : 0;
 }
 
-export async function GET(_req: NextRequest) {
+export async function GET() {
   try {
     const value = await fetchFromDune();
     const res = NextResponse.json({ activeContracts: value });
     res.headers.set('Cache-Control', 'public, s-maxage=1800, stale-while-revalidate=3600');
     return res;
-  } catch (e: unknown) {
+  } catch {
     return NextResponse.json({ activeContracts: 0 }, { status: 200 });
   }
 }

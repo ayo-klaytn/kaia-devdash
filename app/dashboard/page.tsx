@@ -23,22 +23,15 @@ export default async function Dashboard() {
   };
 
   // Fetch only Umami-derived metrics for performance, with graceful fallback
-  let lastMonthViews = 0; // kept for potential use elsewhere
   let visits30d = 0;
   let views30d = 0;
   try {
-    const [traffic365Res, traffic30Res] = await Promise.all([
-      fetchWithTimeout(`${baseUrl}/api/data/web-traffic?days=365`),
-      fetchWithTimeout(`${baseUrl}/api/data/web-traffic?days=30`)
-    ]);
-    const traffic365 = traffic365Res.ok ? await traffic365Res.json() : {};
+    const traffic30Res = await fetchWithTimeout(`${baseUrl}/api/data/web-traffic?days=30`);
     const traffic30 = traffic30Res.ok ? await traffic30Res.json() : {};
 
-    const monthlyViewsArr = Array.isArray(traffic365?.monthly_views) ? traffic365.monthly_views : [];
-    lastMonthViews = monthlyViewsArr.length > 0 ? Number(monthlyViewsArr[monthlyViewsArr.length - 1]?.views || 0) : 0;
     visits30d = Number(traffic30?.overview?.visits?.value || 0);
     views30d = Number(traffic30?.overview?.views?.value || 0);
-  } catch (_e) {
+  } catch {
     // keep defaults (0) on timeout/abort
   }
 
