@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { Package, UserPen, Users, GitCommit, Sparkles } from "lucide-react";
+import { Package, Users, GitCommit, Sparkles } from "lucide-react";
 
 import { columns, RepositoryRow } from "@/app/dashboard/github/columns";
 import { DataTable } from "@/app/dashboard/github/data-table";

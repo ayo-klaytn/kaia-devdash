@@ -8,7 +8,6 @@ import {
   XAxis,
   YAxis,
   Tooltip as RechartsTooltip,
-  Legend,
   ReferenceLine,
   ResponsiveContainer,
   TooltipProps,
@@ -70,12 +69,12 @@ interface ChartDataPoint {
 }
 
 type CustomPayload = TooltipProps<number, string>["payload"];
+type TooltipEntry = NonNullable<CustomPayload>[number];
 
 function MetricTooltip({
   active,
   payload,
   label,
-  metric,
   metricLabel,
   chartConfig,
   periodOrder,
@@ -83,7 +82,6 @@ function MetricTooltip({
   active?: boolean;
   payload?: CustomPayload;
   label?: string;
-  metric: "mad" | "new";
   metricLabel: string;
   chartConfig: Record<string, { label: string; color: string }>;
   periodOrder: string[];
@@ -97,7 +95,8 @@ function MetricTooltip({
       <div className="font-medium">{label}</div>
       <div className="mt-1 flex flex-col gap-1">
         {periodOrder.map((periodId) => {
-          const entry = payload.find((p) => p.dataKey === periodId);
+          const entries = payload as TooltipEntry[];
+          const entry = entries.find((item) => item?.dataKey === periodId);
           if (!entry || typeof entry.value !== "number" || entry.value === 0) {
             return null;
           }
@@ -246,7 +245,6 @@ export function MultiYearDeveloperMetrics() {
                 <RechartsTooltip
                   content={
                     <MetricTooltip
-                      metric={metric}
                       metricLabel={metricLabel}
                       chartConfig={chartConfig}
                       periodOrder={data.periods.map((p) => p.id)}

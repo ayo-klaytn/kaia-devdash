@@ -1,6 +1,5 @@
 //
 import { MadProgressChart } from "@/app/dashboard/developers/mad-progress-chart"
-import { YoYChart } from "@/app/dashboard/developers/yoy-chart"
 import { MultiYearDeveloperMetrics } from "@/app/dashboard/developers/multi-year-developer-metrics"
 import { DeveloperDemographics } from "@/app/dashboard/developers/developer-demographics"
 
@@ -69,31 +68,6 @@ export default async function DevelopersPage() {
     console.error('Developers API fetch (non-fatal):', e);
   }
 
-    // Fetch YoY Active Developers for custom windows (longer timeout for complex query)
-    let yoyData: {
-      current: { from: string; to: string; activeDevelopers: number };
-      previous: { from: string; to: string; activeDevelopers: number };
-      yoyPercent: number | null;
-    } = {
-      current: { from: '', to: '', activeDevelopers: 0 },
-      previous: { from: '', to: '', activeDevelopers: 0 },
-      yoyPercent: null,
-    };
-    
-    try {
-      const yoyRes = await fetchWithTimeout(`${baseUrl}/api/view/active-developers`, {
-        method: "GET",
-        headers: { "Content-Type": "application/json" }
-      }, 30000); // 30 second timeout for this query
-      
-      if (yoyRes.ok) {
-        yoyData = await yoyRes.json();
-      }
-    } catch (yoyError) {
-      console.error('Error fetching YoY data (non-fatal):', yoyError);
-      // Continue with default values - page will still load
-    }
-    
   // Log the data to see what we're getting
   console.log('Developers API response:', data);
 

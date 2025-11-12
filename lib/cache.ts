@@ -61,7 +61,7 @@ export async function setCachedData<T>(
       .insert(apiCache)
       .values({
         cacheKey,
-        data: data as any,
+        data: data as unknown,
         updatedAt: now,
         expiresAt,
         createdAt: now,
@@ -69,7 +69,7 @@ export async function setCachedData<T>(
       .onConflictDoUpdate({
         target: apiCache.cacheKey,
         set: {
-          data: data as any,
+          data: data as unknown,
           updatedAt: now,
           expiresAt,
         },
@@ -87,14 +87,17 @@ export async function invalidateCache(pattern: string): Promise<number> {
   try {
     // Simple pattern matching - supports % wildcard
     if (pattern.includes('%')) {
-      const result = await db.execute(sql`
+      const response = await db.execute(sql`
         DELETE FROM api_cache
         WHERE cache_key LIKE ${pattern}
       `);
-      return Array.isArray(result) ? result.length : (result.rowCount ?? 0);
+      if (Array.isArray(response)) {
+        return response.length;
+      }
+      return response.rowCount ?? 0;
     } else {
       // Exact match
-      const result = await db
+      await db
         .delete(apiCache)
         .where(eq(apiCache.cacheKey, pattern));
       return 1;
@@ -110,11 +113,14 @@ export async function invalidateCache(pattern: string): Promise<number> {
  */
 export async function cleanupExpiredCache(): Promise<number> {
   try {
-    const result = await db.execute(sql`
+    const response = await db.execute(sql`
       DELETE FROM api_cache
       WHERE expires_at < NOW()
     `);
-    return Array.isArray(result) ? result.length : (result.rowCount ?? 0);
+    if (Array.isArray(response)) {
+      return response.length;
+    }
+    return response.rowCount ?? 0;
   } catch (error) {
     console.error('Error cleaning up expired cache:', error);
     return 0;
