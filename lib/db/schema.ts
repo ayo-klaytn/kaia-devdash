@@ -88,6 +88,7 @@ export const repository = pgTable("repository", {
   url: text("url"),
   status: text("status").default("inactive"),
   remark: text("remark").default("external"),
+  isFork: boolean("is_fork").default(false),
   createdAt: timestamp("created_at").notNull(),
   updatedAt: timestamp("updated_at").notNull(),
 });
@@ -158,6 +159,7 @@ export const developer = pgTable("developer", {
   name: text("name").notNull(),
   github: text("github").notNull(),
   address: text("address"),
+  location: text("location"), // GitHub location (e.g., "San Francisco, CA" or "Seoul, South Korea")
   communityRank: integer("community_rank"),
   xHandle: text("x_handle"),
   bootcampGraduated: timestamp("bootcamp_graduated"),
@@ -284,4 +286,13 @@ export const aggregateJobLog = pgTable("aggregate_job_log", {
   message: text("message"),
   startedAt: timestamp("started_at").notNull(),
   finishedAt: timestamp("finished_at").notNull(),
+});
+
+// API Cache table for storing pre-computed API responses
+export const apiCache = pgTable("api_cache", {
+  cacheKey: text("cache_key").primaryKey(), // e.g., "github-metrics:kaia-2024"
+  data: json("data").notNull(), // Full API response as JSON
+  updatedAt: timestamp("updated_at").notNull(),
+  expiresAt: timestamp("expires_at").notNull(),
+  createdAt: timestamp("created_at").notNull(),
 });

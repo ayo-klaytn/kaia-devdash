@@ -1,6 +1,8 @@
 //
 import { MadProgressChart } from "@/app/dashboard/developers/mad-progress-chart"
 import { YoYChart } from "@/app/dashboard/developers/yoy-chart"
+import { MultiYearDeveloperMetrics } from "@/app/dashboard/developers/multi-year-developer-metrics"
+import { DeveloperDemographics } from "@/app/dashboard/developers/developer-demographics"
 
 export const dynamic = 'force-dynamic'
 
@@ -105,44 +107,8 @@ export default async function DevelopersPage() {
         </div>
 
         {/* YoY Active Developers (custom windows) */}
-        <div className="flex flex-col gap-3 border rounded-md p-4">
-          <h2 className="text-xl font-semibold">Active Developers (YoY)</h2>
-          <p className="text-xs text-muted-foreground">
-            Sum of unique developers across rolling 30-day windows (MAD approach). Windows: 2023-08-28→2024-08-29 vs 2024-08-29→now
-          </p>
-          <table className="w-full border-collapse text-sm">
-            <thead>
-              <tr className="border bg-muted/50">
-                <th className="p-2 text-left">Window</th>
-                <th className="p-2 text-left">Start → End</th>
-                <th className="p-2 text-left">Active Developers</th>
-                <th className="p-2 text-left">YoY</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr className="border">
-                <td className="p-2">Current</td>
-                <td className="p-2">{new Date(yoyData.current.from).toISOString().slice(0,10)} → {new Date(yoyData.current.to).toISOString().slice(0,10)}</td>
-                <td className="p-2">{yoyData.current.activeDevelopers.toLocaleString()}</td>
-                <td className="p-2 font-medium">{yoyData.yoyPercent !== null ? `${yoyData.yoyPercent.toFixed(1)}%` : 'N/A'}</td>
-              </tr>
-              <tr className="border">
-                <td className="p-2">Previous</td>
-                <td className="p-2">{new Date(yoyData.previous.from).toISOString().slice(0,10)} → {new Date(yoyData.previous.to).toISOString().slice(0,10)}</td>
-                <td className="p-2">{yoyData.previous.activeDevelopers.toLocaleString()}</td>
-                <td className="p-2 text-muted-foreground">—</td>
-              </tr>
-            </tbody>
-          </table>
-
-          {/* YoY Comparison Mini Chart */}
-          <div className="mt-3">
-            <YoYChart
-              current={yoyData.current.activeDevelopers || 0}
-              previous={yoyData.previous.activeDevelopers || 0}
-            />
-          </div>
-        </div>
+    
+        <MultiYearDeveloperMetrics />
         {/* Monthly Active Developers List */}
         <div className="flex flex-col gap-4 border rounded-md p-4">
           <h2 className="text-xl font-semibold">Monthly Active Developers (28d)</h2>
@@ -191,6 +157,9 @@ export default async function DevelopersPage() {
           uniqueDevelopersAcrossPeriod={data.uniqueDevelopersAcrossPeriod || 0}
           totalDeveloperMonths={data.totalDeveloperMonths || 0}
         />
+
+        {/* Developer Demographics */}
+        <DeveloperDemographics />
       </div>
   );
 }

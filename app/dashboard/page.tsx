@@ -37,8 +37,8 @@ export default async function Dashboard() {
 
   // Hardcoded quick metrics to avoid extra API latency
   const monthlyActiveDevs = 57;
-  const newDevelopers365 = 401;
-  const repositoriesCount = 361;
+  const newDevelopers365 = 218;
+  const repositoriesCount = 282;
   const activeContracts = 1247;
 
   return (
@@ -104,7 +104,7 @@ export default async function Dashboard() {
                   <td className="p-2 border">Technical Content Rollout</td>
                 </tr>
                 <tr className="border">
-                  <td className="p-2 border">Bootcamps</td>
+                  <td className="p-2 border">Bootcamps and Dev Bounties</td>
                 </tr>
                 <tr className="border">
                   <td className="p-2 border">KR Stablecoin Hackathon</td>

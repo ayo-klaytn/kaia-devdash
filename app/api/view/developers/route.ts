@@ -4,6 +4,7 @@ export const runtime = 'nodejs'
 import db from "@/lib/db";
 import { developer, commit, developerSummary } from "@/lib/db/schema";
 import { asc, sql } from "drizzle-orm";
+import { getCachedData, setCachedData, generateCacheKey, CACHE_TTL } from "@/lib/cache";
 
 
 export async function GET(request: NextRequest): Promise<NextResponse> {
@@ -27,6 +28,15 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
   const page = parseInt(searchParams.get('page') || '1');
   const limit = Math.min(parseInt(searchParams.get('limit') || '200'), 500);
   const offset = (page - 1) * limit;
+
+  // Check cache first
+  const cacheKey = generateCacheKey("developers", { page, limit });
+  const cached = await getCachedData<any>(cacheKey);
+  if (cached) {
+    const res = NextResponse.json(cached);
+    res.headers.set('Cache-Control', 'public, s-maxage=600, stale-while-revalidate=1200');
+    return res;
+  }
   // default time window for heavy metrics: last 365 days for new developers
   const to = new Date();
   const from = new Date();
@@ -369,6 +379,9 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
     responseData.developers = developers;
 
     console.log('Calculated response data:', responseData);
+
+    // Cache the response
+    await setCachedData(cacheKey, responseData, CACHE_TTL.DEVELOPERS);
 
     const res = NextResponse.json(responseData);
     res.headers.set('Cache-Control', 'public, s-maxage=600, stale-while-revalidate=1200');

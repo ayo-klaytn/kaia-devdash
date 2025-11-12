@@ -44,7 +44,7 @@ export function DataTable<TData, TValue>({
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
-  const [selectedColumn, setSelectedColumn] = useState("owner");
+  const [selectedColumn, setSelectedColumn] = useState("name");
   const [isFiltering, setIsFiltering] = useState(false);
 
   const table = useReactTable({
@@ -74,14 +74,12 @@ export function DataTable<TData, TValue>({
   return (
     <div className="flex flex-col gap-4">
       <div className="flex items-center gap-2">
-        <Select
-          value={selectedColumn}
-          onValueChange={setSelectedColumn}
-        >
+        <Select value={selectedColumn} onValueChange={setSelectedColumn}>
           <SelectTrigger className="w-[180px]">
-            <SelectValue defaultValue="owner" />
+            <SelectValue defaultValue="name" />
           </SelectTrigger>
           <SelectContent>
+            <SelectItem value="name">Repository</SelectItem>
             <SelectItem value="owner">Author</SelectItem>
           </SelectContent>
         </Select>

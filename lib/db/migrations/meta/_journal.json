@@ -134,6 +134,27 @@
       "when": 1747062945319,
       "tag": "0018_sloppy_hellcat",
       "breakpoints": true
+    },
+    {
+      "idx": 19,
+      "version": "7",
+      "when": 1762884488127,
+      "tag": "0019_big_hellfire_club",
+      "breakpoints": true
+    },
+    {
+      "idx": 20,
+      "version": "7",
+      "when": 1762888762760,
+      "tag": "0020_clever_green_goblin",
+      "breakpoints": true
+    },
+    {
+      "idx": 21,
+      "version": "7",
+      "when": 1762935702786,
+      "tag": "0021_thankful_james_howlett",
+      "breakpoints": true
     }
   ]
 }

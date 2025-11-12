@@ -1,0 +1,3774 @@
+[
+  {
+    "owner": "0xcarhartt",
+    "name": "klaygoods",
+    "url": "https://github.com/0xcarhartt/klaygoods",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "klaymakers-2022",
+        "brand": "klaytn",
+        "periodStart": "2022-01-01",
+        "periodEnd": "2022-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2022"
+      }
+    ]
+  },
+  {
+    "owner": "0xGeN02",
+    "name": "Jackpot",
+    "url": "https://github.com/0xGeN02/Jackpot",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "klaymakers-2022",
+        "brand": "klaytn",
+        "periodStart": "2022-01-01",
+        "periodEnd": "2022-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2022"
+      }
+    ]
+  },
+  {
+    "owner": "0xinevitable",
+    "name": "bento",
+    "url": "https://github.com/0xinevitable/bento",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "klaymakers-2022",
+        "brand": "klaytn",
+        "periodStart": "2022-01-01",
+        "periodEnd": "2022-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2022"
+      }
+    ]
+  },
+  {
+    "owner": "4samad",
+    "name": "cryptoGenerous",
+    "url": "https://github.com/4samad/cryptoGenerous",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "klaymakers-2022",
+        "brand": "klaytn",
+        "periodStart": "2022-01-01",
+        "periodEnd": "2022-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2022"
+      }
+    ]
+  },
+  {
+    "owner": "4uphwang",
+    "name": "Klaymakers2022",
+    "url": "https://github.com/4uphwang/Klaymakers2022",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "klaymakers-2022",
+        "brand": "klaytn",
+        "periodStart": "2022-01-01",
+        "periodEnd": "2022-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2022"
+      }
+    ]
+  },
+  {
+    "owner": "aa-matthew",
+    "name": "alphacado-klaymakers-2023",
+    "url": "https://github.com/aa-matthew/alphacado-klaymakers-2023",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "klaymakers-2023",
+        "brand": "klaytn",
+        "periodStart": "2023-01-01",
+        "periodEnd": "2023-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2023"
+      }
+    ]
+  },
+  {
+    "owner": "achillegley",
+    "name": "klaytnHackatonProjectNftTIcket",
+    "url": "https://github.com/achillegley/klaytnHackatonProjectNftTIcket",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "klaymakers-2023",
+        "brand": "klaytn",
+        "periodStart": "2023-01-01",
+        "periodEnd": "2023-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2023"
+      }
+    ]
+  },
+  {
+    "owner": "Ahmed-Aghadi",
+    "name": "Buildit-Klaytn",
+    "url": "https://github.com/Ahmed-Aghadi/Buildit-Klaytn",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "klaymakers-2023",
+        "brand": "klaytn",
+        "periodStart": "2023-01-01",
+        "periodEnd": "2023-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2023"
+      }
+    ]
+  },
+  {
+    "owner": "aidreamnetwork",
+    "name": null,
+    "url": "https://github.com/aidreamnetwork",
+    "type": "org",
+    "sources": [
+      {
+        "program": "klaymakers-2022",
+        "brand": "klaytn",
+        "periodStart": "2022-01-01",
+        "periodEnd": "2022-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2022"
+      }
+    ]
+  },
+  {
+    "owner": "akbaridria",
+    "name": "predictify-perp",
+    "url": "https://github.com/akbaridria/predictify-perp",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "klaymakers-2023",
+        "brand": "klaytn",
+        "periodStart": "2023-01-01",
+        "periodEnd": "2023-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2023"
+      }
+    ]
+  },
+  {
+    "owner": "alofeoluwafemi",
+    "name": "klay-oracle",
+    "url": "https://github.com/alofeoluwafemi/klay-oracle",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "klaymakers-2022",
+        "brand": "klaytn",
+        "periodStart": "2022-01-01",
+        "periodEnd": "2022-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2022"
+      }
+    ]
+  },
+  {
+    "owner": "amdonatusprince",
+    "name": "medibloc-klaytn",
+    "url": "https://github.com/amdonatusprince/medibloc-klaytn",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "klaymakers-2023",
+        "brand": "klaytn",
+        "periodStart": "2023-01-01",
+        "periodEnd": "2023-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2023"
+      }
+    ]
+  },
+  {
+    "owner": "amdonatusprince",
+    "name": "verxio-klaytn",
+    "url": "https://github.com/amdonatusprince/verxio-klaytn",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "klaymakers-2023",
+        "brand": "klaytn",
+        "periodStart": "2023-01-01",
+        "periodEnd": "2023-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2023"
+      }
+    ]
+  },
+  {
+    "owner": "andreykobal",
+    "name": "klaytn-aaa-shooter-game-ai-nft-avatars",
+    "url": "https://github.com/andreykobal/klaytn-aaa-shooter-game-ai-nft-avatars",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "klaymakers-2023",
+        "brand": "klaytn",
+        "periodStart": "2023-01-01",
+        "periodEnd": "2023-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2023"
+      }
+    ]
+  },
+  {
+    "owner": "ankitshubham97",
+    "name": "stardapp",
+    "url": "https://github.com/ankitshubham97/stardapp",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "klaymakers-2022",
+        "brand": "klaytn",
+        "periodStart": "2022-01-01",
+        "periodEnd": "2022-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2022"
+      }
+    ]
+  },
+  {
+    "owner": "anssssss",
+    "name": "CpX_Telegram_bot",
+    "url": "https://github.com/anssssss/CpX_Telegram_bot",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "klaymakers-2023",
+        "brand": "klaytn",
+        "periodStart": "2023-01-01",
+        "periodEnd": "2023-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2023"
+      }
+    ]
+  },
+  {
+    "owner": "anudeep11k",
+    "name": "dragon-subgraph",
+    "url": "https://github.com/anudeep11k/dragon-subgraph",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "kaia-2024-bounties",
+        "brand": "kaia",
+        "periodStart": "2024-09-01",
+        "periodEnd": "2025-12-31",
+        "notes": "Kaia era bounty / community repos 2024-2025"
+      }
+    ]
+  },
+  {
+    "owner": "anudeep11k",
+    "name": "TELEBOTKLAY",
+    "url": "https://github.com/anudeep11k/TELEBOTKLAY",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "kaia-2024-bounties",
+        "brand": "kaia",
+        "periodStart": "2024-09-01",
+        "periodEnd": "2025-12-31",
+        "notes": "Kaia era bounty / community repos 2024-2025"
+      }
+    ]
+  },
+  {
+    "owner": "ArtemIslamovEM",
+    "name": "Rentality_next",
+    "url": "https://github.com/ArtemIslamovEM/Rentality_next",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "klaymakers-2023",
+        "brand": "klaytn",
+        "periodStart": "2023-01-01",
+        "periodEnd": "2023-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2023"
+      }
+    ]
+  },
+  {
+    "owner": "ayd1029",
+    "name": "fundsafedemo",
+    "url": "https://github.com/ayd1029/fundsafedemo",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "klaymakers-2022",
+        "brand": "klaytn",
+        "periodStart": "2022-01-01",
+        "periodEnd": "2022-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2022"
+      }
+    ]
+  },
+  {
+    "owner": "Ayushjain2205",
+    "name": "universal-welfare-protocol",
+    "url": "https://github.com/Ayushjain2205/universal-welfare-protocol",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "klaymakers-2023",
+        "brand": "klaytn",
+        "periodStart": "2023-01-01",
+        "periodEnd": "2023-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2023"
+      }
+    ]
+  },
+  {
+    "owner": "beSangjang",
+    "name": null,
+    "url": "https://github.com/beSangjang",
+    "type": "org",
+    "sources": [
+      {
+        "program": "klaymakers-2023",
+        "brand": "klaytn",
+        "periodStart": "2023-01-01",
+        "periodEnd": "2023-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2023"
+      }
+    ]
+  },
+  {
+    "owner": "binaaaaaaaaa",
+    "name": "Kaia-Telegram-bot-news",
+    "url": "https://github.com/binaaaaaaaaa/Kaia-Telegram-bot-news",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "kaia-2024-bounties",
+        "brand": "kaia",
+        "periodStart": "2024-09-01",
+        "periodEnd": "2025-12-31",
+        "notes": "Kaia era bounty / community repos 2024-2025"
+      }
+    ]
+  },
+  {
+    "owner": "blockcmd",
+    "name": "blockcmd-app",
+    "url": "https://github.com/blockcmd/blockcmd-app",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "kaia-2024-bounties",
+        "brand": "kaia",
+        "periodStart": "2024-09-01",
+        "periodEnd": "2025-12-31",
+        "notes": "Kaia era bounty / community repos 2024-2025"
+      }
+    ]
+  },
+  {
+    "owner": "blockcmd",
+    "name": "dexcmd",
+    "url": "https://github.com/blockcmd/dexcmd",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "kaia-2024-bounties",
+        "brand": "kaia",
+        "periodStart": "2024-09-01",
+        "periodEnd": "2025-12-31",
+        "notes": "Kaia era bounty / community repos 2024-2025"
+      }
+    ]
+  },
+  {
+    "owner": "blockcmd",
+    "name": "gmgn",
+    "url": "https://github.com/blockcmd/gmgn",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "kaia-2024-bounties",
+        "brand": "kaia",
+        "periodStart": "2024-09-01",
+        "periodEnd": "2025-12-31",
+        "notes": "Kaia era bounty / community repos 2024-2025"
+      }
+    ]
+  },
+  {
+    "owner": "blockdudes",
+    "name": "pandapass",
+    "url": "https://github.com/blockdudes/pandapass",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "klaymakers-2023",
+        "brand": "klaytn",
+        "periodStart": "2023-01-01",
+        "periodEnd": "2023-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2023"
+      }
+    ]
+  },
+  {
+    "owner": "botler-klay",
+    "name": null,
+    "url": "https://github.com/botler-klay",
+    "type": "org",
+    "sources": [
+      {
+        "program": "klaymakers-2022",
+        "brand": "klaytn",
+        "periodStart": "2022-01-01",
+        "periodEnd": "2022-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2022"
+      }
+    ]
+  },
+  {
+    "owner": "BubbleDex",
+    "name": "BubbleSwap-Contracts",
+    "url": "https://github.com/BubbleDex/BubbleSwap-Contracts",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "klaymakers-2022",
+        "brand": "klaytn",
+        "periodStart": "2022-01-01",
+        "periodEnd": "2022-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2022"
+      }
+    ]
+  },
+  {
+    "owner": "BWL-MEPE-Klaytn",
+    "name": null,
+    "url": "https://github.com/BWL-MEPE-Klaytn",
+    "type": "org",
+    "sources": [
+      {
+        "program": "klaymakers-2022",
+        "brand": "klaytn",
+        "periodStart": "2022-01-01",
+        "periodEnd": "2022-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2022"
+      }
+    ]
+  },
+  {
+    "owner": "cashmere-labs",
+    "name": null,
+    "url": "https://github.com/cashmere-labs",
+    "type": "org",
+    "sources": [
+      {
+        "program": "klaymakers-2022",
+        "brand": "klaytn",
+        "periodStart": "2022-01-01",
+        "periodEnd": "2022-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2022"
+      }
+    ]
+  },
+  {
+    "owner": "cassavalabs",
+    "name": "synthmos-core",
+    "url": "https://github.com/cassavalabs/synthmos-core",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "klaymakers-2023",
+        "brand": "klaytn",
+        "periodStart": "2023-01-01",
+        "periodEnd": "2023-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2023"
+      }
+    ]
+  },
+  {
+    "owner": "catze-labs",
+    "name": "Klaymakers2022-KUP-info",
+    "url": "https://github.com/catze-labs/Klaymakers2022-KUP-info",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "klaymakers-2022",
+        "brand": "klaytn",
+        "periodStart": "2022-01-01",
+        "periodEnd": "2022-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2022"
+      }
+    ]
+  },
+  {
+    "owner": "cavieslabs",
+    "name": null,
+    "url": "https://github.com/cavieslabs",
+    "type": "org",
+    "sources": [
+      {
+        "program": "klaymakers-2023",
+        "brand": "klaytn",
+        "periodStart": "2023-01-01",
+        "periodEnd": "2023-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2023"
+      }
+    ]
+  },
+  {
+    "owner": "chainztech",
+    "name": "Kaudex",
+    "url": "https://github.com/chainztech/Kaudex",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "klaymakers-2023",
+        "brand": "klaytn",
+        "periodStart": "2023-01-01",
+        "periodEnd": "2023-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2023"
+      }
+    ]
+  },
+  {
+    "owner": "chauanhtuan185",
+    "name": "athena-contract",
+    "url": "https://github.com/chauanhtuan185/athena-contract",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "kaia-2024-bounties",
+        "brand": "kaia",
+        "periodStart": "2024-09-01",
+        "periodEnd": "2025-12-31",
+        "notes": "Kaia era bounty / community repos 2024-2025"
+      }
+    ]
+  },
+  {
+    "owner": "chauanhtuan185",
+    "name": "Kaia-Defi-Trading-Bot",
+    "url": "https://github.com/chauanhtuan185/Kaia-Defi-Trading-Bot",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "kaia-2024-bounties",
+        "brand": "kaia",
+        "periodStart": "2024-09-01",
+        "periodEnd": "2025-12-31",
+        "notes": "Kaia era bounty / community repos 2024-2025"
+      }
+    ]
+  },
+  {
+    "owner": "chauanhtuan185",
+    "name": "nft-cli-airdrop",
+    "url": "https://github.com/chauanhtuan185/nft-cli-airdrop",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "kaia-2024-bounties",
+        "brand": "kaia",
+        "periodStart": "2024-09-01",
+        "periodEnd": "2025-12-31",
+        "notes": "Kaia era bounty / community repos 2024-2025"
+      }
+    ]
+  },
+  {
+    "owner": "chauanhtuan185",
+    "name": "opensource-bridge-cex",
+    "url": "https://github.com/chauanhtuan185/opensource-bridge-cex",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "kaia-2024-bounties",
+        "brand": "kaia",
+        "periodStart": "2024-09-01",
+        "periodEnd": "2025-12-31",
+        "notes": "Kaia era bounty / community repos 2024-2025"
+      }
+    ]
+  },
+  {
+    "owner": "chauanhtuan185",
+    "name": "Sblinks",
+    "url": "https://github.com/chauanhtuan185/Sblinks",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "kaia-2024-bounties",
+        "brand": "kaia",
+        "periodStart": "2024-09-01",
+        "periodEnd": "2025-12-31",
+        "notes": "Kaia era bounty / community repos 2024-2025"
+      }
+    ]
+  },
+  {
+    "owner": "choguun",
+    "name": "aawallet-monorepo",
+    "url": "https://github.com/choguun/aawallet-monorepo",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "klaymakers-2023",
+        "brand": "klaytn",
+        "periodStart": "2023-01-01",
+        "periodEnd": "2023-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2023"
+      }
+    ]
+  },
+  {
+    "owner": "CoderOfPHCity",
+    "name": "Kaia-React-Connect-Wormhole-NTT-Framwork-SDK",
+    "url": "https://github.com/CoderOfPHCity/Kaia-React-Connect-Wormhole-NTT-Framwork-SDK",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "kaia-2024-bounties",
+        "brand": "kaia",
+        "periodStart": "2024-09-01",
+        "periodEnd": "2025-12-31",
+        "notes": "Kaia era bounty / community repos 2024-2025"
+      }
+    ]
+  },
+  {
+    "owner": "CoderOfPHCity",
+    "name": "Rust_Nodit_SDK",
+    "url": "https://github.com/CoderOfPHCity/Rust_Nodit_SDK",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "kaia-2024-bounties",
+        "brand": "kaia",
+        "periodStart": "2024-09-01",
+        "periodEnd": "2025-12-31",
+        "notes": "Kaia era bounty / community repos 2024-2025"
+      }
+    ]
+  },
+  {
+    "owner": "Cristo-Dev",
+    "name": "EvoLedger",
+    "url": "https://github.com/Cristo-Dev/EvoLedger",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "klaymakers-2023",
+        "brand": "klaytn",
+        "periodStart": "2023-01-01",
+        "periodEnd": "2023-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2023"
+      }
+    ]
+  },
+  {
+    "owner": "cryptohub-agency",
+    "name": null,
+    "url": "https://github.com/cryptohub-agency",
+    "type": "org",
+    "sources": [
+      {
+        "program": "klaymakers-2023",
+        "brand": "klaytn",
+        "periodStart": "2023-01-01",
+        "periodEnd": "2023-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2023"
+      }
+    ]
+  },
+  {
+    "owner": "CryptoMayhemGit",
+    "name": null,
+    "url": "https://github.com/CryptoMayhemGit",
+    "type": "org",
+    "sources": [
+      {
+        "program": "klaymakers-2023",
+        "brand": "klaytn",
+        "periodStart": "2023-01-01",
+        "periodEnd": "2023-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2023"
+      }
+    ]
+  },
+  {
+    "owner": "DaCoinTeam",
+    "name": "CiSwap.Contracts",
+    "url": "https://github.com/DaCoinTeam/CiSwap.Contracts",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "klaymakers-2023",
+        "brand": "klaytn",
+        "periodStart": "2023-01-01",
+        "periodEnd": "2023-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2023"
+      }
+    ]
+  },
+  {
+    "owner": "DecePay",
+    "name": null,
+    "url": "https://github.com/DecePay",
+    "type": "org",
+    "sources": [
+      {
+        "program": "klaymakers-2023",
+        "brand": "klaytn",
+        "periodStart": "2023-01-01",
+        "periodEnd": "2023-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2023"
+      }
+    ]
+  },
+  {
+    "owner": "deed3e",
+    "name": "fd-trading-contract",
+    "url": "https://github.com/deed3e/fd-trading-contract",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "klaymakers-2023",
+        "brand": "klaytn",
+        "periodStart": "2023-01-01",
+        "periodEnd": "2023-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2023"
+      }
+    ]
+  },
+  {
+    "owner": "devchain17",
+    "name": "CrypticVault",
+    "url": "https://github.com/devchain17/CrypticVault",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "klaymakers-2022",
+        "brand": "klaytn",
+        "periodStart": "2022-01-01",
+        "periodEnd": "2022-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2022"
+      }
+    ]
+  },
+  {
+    "owner": "DhruvSathavara",
+    "name": "BigBullGamers",
+    "url": "https://github.com/DhruvSathavara/BigBullGamers",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "klaymakers-2022",
+        "brand": "klaytn",
+        "periodStart": "2022-01-01",
+        "periodEnd": "2022-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2022"
+      }
+    ]
+  },
+  {
+    "owner": "DigiGold-RWA",
+    "name": "platform-monorepo",
+    "url": "https://github.com/DigiGold-RWA/platform-monorepo",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "klaymakers-2023",
+        "brand": "klaytn",
+        "periodStart": "2023-01-01",
+        "periodEnd": "2023-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2023"
+      }
+    ]
+  },
+  {
+    "owner": "digitaldiode",
+    "name": null,
+    "url": "https://github.com/digitaldiode",
+    "type": "org",
+    "sources": [
+      {
+        "program": "klaymakers-2023",
+        "brand": "klaytn",
+        "periodStart": "2023-01-01",
+        "periodEnd": "2023-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2023"
+      }
+    ]
+  },
+  {
+    "owner": "DigiTrust369",
+    "name": null,
+    "url": "https://github.com/DigiTrust369",
+    "type": "org",
+    "sources": [
+      {
+        "program": "klaymakers-2023",
+        "brand": "klaytn",
+        "periodStart": "2023-01-01",
+        "periodEnd": "2023-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2023"
+      }
+    ]
+  },
+  {
+    "owner": "Disha1998",
+    "name": "BugBuzzer_Dorahacks22",
+    "url": "https://github.com/Disha1998/BugBuzzer_Dorahacks22",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "klaymakers-2022",
+        "brand": "klaytn",
+        "periodStart": "2022-01-01",
+        "periodEnd": "2022-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2022"
+      }
+    ]
+  },
+  {
+    "owner": "dittonetwork",
+    "name": "klaytn-hackathon",
+    "url": "https://github.com/dittonetwork/klaytn-hackathon",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "klaymakers-2023",
+        "brand": "klaytn",
+        "periodStart": "2023-01-01",
+        "periodEnd": "2023-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2023"
+      }
+    ]
+  },
+  {
+    "owner": "DiverseSolutions",
+    "name": "Diversified-Events",
+    "url": "https://github.com/DiverseSolutions/Diversified-Events",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "klaymakers-2022",
+        "brand": "klaytn",
+        "periodStart": "2022-01-01",
+        "periodEnd": "2022-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2022"
+      }
+    ]
+  },
+  {
+    "owner": "doclt",
+    "name": "landtorn-on-klaytn",
+    "url": "https://github.com/doclt/landtorn-on-klaytn",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "klaymakers-2023",
+        "brand": "klaytn",
+        "periodStart": "2023-01-01",
+        "periodEnd": "2023-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2023"
+      }
+    ]
+  },
+  {
+    "owner": "Dodecane",
+    "name": "klaykit",
+    "url": "https://github.com/Dodecane/klaykit",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "klaymakers-2022",
+        "brand": "klaytn",
+        "periodStart": "2022-01-01",
+        "periodEnd": "2022-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2022"
+      }
+    ]
+  },
+  {
+    "owner": "doravet",
+    "name": "doravet",
+    "url": "https://github.com/doravet/doravet",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "klaymakers-2023",
+        "brand": "klaytn",
+        "periodStart": "2023-01-01",
+        "periodEnd": "2023-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2023"
+      }
+    ]
+  },
+  {
+    "owner": "eobikoru",
+    "name": "Alpha",
+    "url": "https://github.com/eobikoru/Alpha",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "kaia-2024-bounties",
+        "brand": "kaia",
+        "periodStart": "2024-09-01",
+        "periodEnd": "2025-12-31",
+        "notes": "Kaia era bounty / community repos 2024-2025"
+      }
+    ]
+  },
+  {
+    "owner": "Ericking879",
+    "name": null,
+    "url": "https://github.com/Ericking879",
+    "type": "org",
+    "sources": [
+      {
+        "program": "klaymakers-2022",
+        "brand": "klaytn",
+        "periodStart": "2022-01-01",
+        "periodEnd": "2022-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2022"
+      }
+    ]
+  },
+  {
+    "owner": "Escrow-Board",
+    "name": null,
+    "url": "https://github.com/Escrow-Board",
+    "type": "org",
+    "sources": [
+      {
+        "program": "klaymakers-2023",
+        "brand": "klaytn",
+        "periodStart": "2023-01-01",
+        "periodEnd": "2023-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2023"
+      }
+    ]
+  },
+  {
+    "owner": "ExtraCaterpiller",
+    "name": "Petiverse-foundry",
+    "url": "https://github.com/ExtraCaterpiller/Petiverse-foundry",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "kaia-2024-bounties",
+        "brand": "kaia",
+        "periodStart": "2024-09-01",
+        "periodEnd": "2025-12-31",
+        "notes": "Kaia era bounty / community repos 2024-2025"
+      }
+    ]
+  },
+  {
+    "owner": "faithful1ofall",
+    "name": "Mini-Utopia-Marketplace-Planq-mainnet",
+    "url": "https://github.com/faithful1ofall/Mini-Utopia-Marketplace-Planq-mainnet",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "klaymakers-2023",
+        "brand": "klaytn",
+        "periodStart": "2023-01-01",
+        "periodEnd": "2023-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2023"
+      }
+    ]
+  },
+  {
+    "owner": "flima-io",
+    "name": "hackathon-submission",
+    "url": "https://github.com/flima-io/hackathon-submission",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "klaymakers-2022",
+        "brand": "klaytn",
+        "periodStart": "2022-01-01",
+        "periodEnd": "2022-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2022"
+      }
+    ]
+  },
+  {
+    "owner": "Fluffy9",
+    "name": "Dataverse",
+    "url": "https://github.com/Fluffy9/Dataverse",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "klaymakers-2022",
+        "brand": "klaytn",
+        "periodStart": "2022-01-01",
+        "periodEnd": "2022-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2022"
+      }
+    ]
+  },
+  {
+    "owner": "FriendzoneGITHUB",
+    "name": null,
+    "url": "https://github.com/FriendzoneGITHUB",
+    "type": "org",
+    "sources": [
+      {
+        "program": "klaymakers-2023",
+        "brand": "klaytn",
+        "periodStart": "2023-01-01",
+        "periodEnd": "2023-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2023"
+      }
+    ]
+  },
+  {
+    "owner": "FucktheKingcode",
+    "name": "dragon-frontend",
+    "url": "https://github.com/FucktheKingcode/dragon-frontend",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "kaia-2024-bounties",
+        "brand": "kaia",
+        "periodStart": "2024-09-01",
+        "periodEnd": "2025-12-31",
+        "notes": "Kaia era bounty / community repos 2024-2025"
+      }
+    ]
+  },
+  {
+    "owner": "FucktheKingcode",
+    "name": "NFT-s-Event",
+    "url": "https://github.com/FucktheKingcode/NFT-s-Event",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "klaymakers-2023",
+        "brand": "klaytn",
+        "periodStart": "2023-01-01",
+        "periodEnd": "2023-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2023"
+      }
+    ]
+  },
+  {
+    "owner": "Gameland0",
+    "name": "Galeon",
+    "url": "https://github.com/Gameland0/Galeon",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "klaymakers-2022",
+        "brand": "klaytn",
+        "periodStart": "2022-01-01",
+        "periodEnd": "2022-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2022"
+      }
+    ]
+  },
+  {
+    "owner": "getnimbus",
+    "name": null,
+    "url": "https://github.com/getnimbus",
+    "type": "org",
+    "sources": [
+      {
+        "program": "klaymakers-2023",
+        "brand": "klaytn",
+        "periodStart": "2023-01-01",
+        "periodEnd": "2023-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2023"
+      }
+    ]
+  },
+  {
+    "owner": "GETOfinance",
+    "name": "DEX-OTC-Swap-p2p",
+    "url": "https://github.com/GETOfinance/DEX-OTC-Swap-p2p",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "klaymakers-2023",
+        "brand": "klaytn",
+        "periodStart": "2023-01-01",
+        "periodEnd": "2023-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2023"
+      }
+    ]
+  },
+  {
+    "owner": "givestation",
+    "name": null,
+    "url": "https://github.com/givestation",
+    "type": "org",
+    "sources": [
+      {
+        "program": "klaymakers-2022",
+        "brand": "klaytn",
+        "periodStart": "2022-01-01",
+        "periodEnd": "2022-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2022"
+      }
+    ]
+  },
+  {
+    "owner": "gmgn-app",
+    "name": "gmgn",
+    "url": "https://github.com/gmgn-app/gmgn",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "kaia-2024-bounties",
+        "brand": "kaia",
+        "periodStart": "2024-09-01",
+        "periodEnd": "2025-12-31",
+        "notes": "Kaia era bounty / community repos 2024-2025"
+      }
+    ]
+  },
+  {
+    "owner": "gmgn-app",
+    "name": "sigpass",
+    "url": "https://github.com/gmgn-app/sigpass",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "kaia-2024-bounties",
+        "brand": "kaia",
+        "periodStart": "2024-09-01",
+        "periodEnd": "2025-12-31",
+        "notes": "Kaia era bounty / community repos 2024-2025"
+      }
+    ]
+  },
+  {
+    "owner": "goodnodes",
+    "name": "memint_app",
+    "url": "https://github.com/goodnodes/memint_app",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "klaymakers-2022",
+        "brand": "klaytn",
+        "periodStart": "2022-01-01",
+        "periodEnd": "2022-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2022"
+      }
+    ]
+  },
+  {
+    "owner": "Granfalloner",
+    "name": "Lolly-for-Polly",
+    "url": "https://github.com/Granfalloner/Lolly-for-Polly",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "klaymakers-2023",
+        "brand": "klaytn",
+        "periodStart": "2023-01-01",
+        "periodEnd": "2023-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2023"
+      }
+    ]
+  },
+  {
+    "owner": "GWABBA",
+    "name": "dropTheBit-Klaytn",
+    "url": "https://github.com/GWABBA/dropTheBit-Klaytn",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "klaymakers-2022",
+        "brand": "klaytn",
+        "periodStart": "2022-01-01",
+        "periodEnd": "2022-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2022"
+      }
+    ]
+  },
+  {
+    "owner": "haxxsniper",
+    "name": "gaslite-drop-contracts",
+    "url": "https://github.com/haxxsniper/gaslite-drop-contracts",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "kaia-2024-bounties",
+        "brand": "kaia",
+        "periodStart": "2024-09-01",
+        "periodEnd": "2025-12-31",
+        "notes": "Kaia era bounty / community repos 2024-2025"
+      }
+    ]
+  },
+  {
+    "owner": "haxxsniper",
+    "name": "gaslite-ui",
+    "url": "https://github.com/haxxsniper/gaslite-ui",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "kaia-2024-bounties",
+        "brand": "kaia",
+        "periodStart": "2024-09-01",
+        "periodEnd": "2025-12-31",
+        "notes": "Kaia era bounty / community repos 2024-2025"
+      }
+    ]
+  },
+  {
+    "owner": "haxxsniper",
+    "name": "oklink-ts",
+    "url": "https://github.com/haxxsniper/oklink-ts",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "kaia-2024-bounties",
+        "brand": "kaia",
+        "periodStart": "2024-09-01",
+        "periodEnd": "2025-12-31",
+        "notes": "Kaia era bounty / community repos 2024-2025"
+      }
+    ]
+  },
+  {
+    "owner": "howllian27",
+    "name": "Graphyti",
+    "url": "https://github.com/howllian27/Graphyti",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "klaymakers-2023",
+        "brand": "klaytn",
+        "periodStart": "2023-01-01",
+        "periodEnd": "2023-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2023"
+      }
+    ]
+  },
+  {
+    "owner": "huynbgithub",
+    "name": "Car-Auction-DApp",
+    "url": "https://github.com/huynbgithub/Car-Auction-DApp",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "klaymakers-2023",
+        "brand": "klaytn",
+        "periodStart": "2023-01-01",
+        "periodEnd": "2023-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2023"
+      }
+    ]
+  },
+  {
+    "owner": "huynbgithub",
+    "name": "Klaymakers2023-NFTCollectMaster-info",
+    "url": "https://github.com/huynbgithub/Klaymakers2023-NFTCollectMaster-info",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "klaymakers-2023",
+        "brand": "klaytn",
+        "periodStart": "2023-01-01",
+        "periodEnd": "2023-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2023"
+      }
+    ]
+  },
+  {
+    "owner": "Hyper-Tally",
+    "name": "RWA---tokenizes-roads-decentralizing-ownership-upkeep",
+    "url": "https://github.com/Hyper-Tally/RWA---tokenizes-roads-decentralizing-ownership-upkeep",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "klaymakers-2023",
+        "brand": "klaytn",
+        "periodStart": "2023-01-01",
+        "periodEnd": "2023-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2023"
+      }
+    ]
+  },
+  {
+    "owner": "IKalonji",
+    "name": "adnative",
+    "url": "https://github.com/IKalonji/adnative",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "klaymakers-2023",
+        "brand": "klaytn",
+        "periodStart": "2023-01-01",
+        "periodEnd": "2023-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2023"
+      }
+    ]
+  },
+  {
+    "owner": "IKalonji",
+    "name": "Contract.Buidl",
+    "url": "https://github.com/IKalonji/Contract.Buidl",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "klaymakers-2022",
+        "brand": "klaytn",
+        "periodStart": "2022-01-01",
+        "periodEnd": "2022-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2022"
+      }
+    ]
+  },
+  {
+    "owner": "Investa-Farm",
+    "name": "investafarm-canisters",
+    "url": "https://github.com/Investa-Farm/investafarm-canisters",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "klaymakers-2023",
+        "brand": "klaytn",
+        "periodStart": "2023-01-01",
+        "periodEnd": "2023-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2023"
+      }
+    ]
+  },
+  {
+    "owner": "IOUnet",
+    "name": "iou2",
+    "url": "https://github.com/IOUnet/iou2",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "klaymakers-2022",
+        "brand": "klaytn",
+        "periodStart": "2022-01-01",
+        "periodEnd": "2022-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2022"
+      }
+    ]
+  },
+  {
+    "owner": "jaydippatel83",
+    "name": "GigConomy_Klaytn",
+    "url": "https://github.com/jaydippatel83/GigConomy_Klaytn",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "klaymakers-2022",
+        "brand": "klaytn",
+        "periodStart": "2022-01-01",
+        "periodEnd": "2022-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2022"
+      }
+    ]
+  },
+  {
+    "owner": "JGatsby-29",
+    "name": "safe-lite-wallet-web",
+    "url": "https://github.com/JGatsby-29/safe-lite-wallet-web",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "kaia-2024-bounties",
+        "brand": "kaia",
+        "periodStart": "2024-09-01",
+        "periodEnd": "2025-12-31",
+        "notes": "Kaia era bounty / community repos 2024-2025"
+      }
+    ]
+  },
+  {
+    "owner": "JGatsby-29",
+    "name": "safe-smart-contract-lite",
+    "url": "https://github.com/JGatsby-29/safe-smart-contract-lite",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "kaia-2024-bounties",
+        "brand": "kaia",
+        "periodStart": "2024-09-01",
+        "periodEnd": "2025-12-31",
+        "notes": "Kaia era bounty / community repos 2024-2025"
+      }
+    ]
+  },
+  {
+    "owner": "jonggane",
+    "name": "jonggane-contract",
+    "url": "https://github.com/jonggane/jonggane-contract",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "klaymakers-2022",
+        "brand": "klaytn",
+        "periodStart": "2022-01-01",
+        "periodEnd": "2022-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2022"
+      }
+    ]
+  },
+  {
+    "owner": "jorshimayor",
+    "name": "fractionalize-nft",
+    "url": "https://github.com/jorshimayor/fractionalize-nft",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "kaia-2024-bounties",
+        "brand": "kaia",
+        "periodStart": "2024-09-01",
+        "periodEnd": "2025-12-31",
+        "notes": "Kaia era bounty / community repos 2024-2025"
+      }
+    ]
+  },
+  {
+    "owner": "jwcheon",
+    "name": "KlayGift.com",
+    "url": "https://github.com/jwcheon/KlayGift.com",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "klaymakers-2023",
+        "brand": "klaytn",
+        "periodStart": "2023-01-01",
+        "periodEnd": "2023-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2023"
+      }
+    ]
+  },
+  {
+    "owner": "kamalbuilds",
+    "name": "TradewithKlayNFTs",
+    "url": "https://github.com/kamalbuilds/TradewithKlayNFTs",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "klaymakers-2023",
+        "brand": "klaytn",
+        "periodStart": "2023-01-01",
+        "periodEnd": "2023-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2023"
+      }
+    ]
+  },
+  {
+    "owner": "kamalbuilds",
+    "name": "TradingRWAonKlatyn",
+    "url": "https://github.com/kamalbuilds/TradingRWAonKlatyn",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "klaymakers-2023",
+        "brand": "klaytn",
+        "periodStart": "2023-01-01",
+        "periodEnd": "2023-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2023"
+      }
+    ]
+  },
+  {
+    "owner": "KelvinTrinhSG",
+    "name": "Impostor-Puzzle-Game-On-Kaia-Chain",
+    "url": "https://github.com/KelvinTrinhSG/Impostor-Puzzle-Game-On-Kaia-Chain",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "kaia-2024-bounties",
+        "brand": "kaia",
+        "periodStart": "2024-09-01",
+        "periodEnd": "2025-12-31",
+        "notes": "Kaia era bounty / community repos 2024-2025"
+      }
+    ]
+  },
+  {
+    "owner": "KelvinTrinhSG",
+    "name": "Kaia-Shop",
+    "url": "https://github.com/KelvinTrinhSG/Kaia-Shop",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "kaia-2024-bounties",
+        "brand": "kaia",
+        "periodStart": "2024-09-01",
+        "periodEnd": "2025-12-31",
+        "notes": "Kaia era bounty / community repos 2024-2025"
+      }
+    ]
+  },
+  {
+    "owner": "KelvinTrinhSG",
+    "name": "Tower-Defense-Telegram-Game-on-KAIA",
+    "url": "https://github.com/KelvinTrinhSG/Tower-Defense-Telegram-Game-on-KAIA",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "kaia-2024-bounties",
+        "brand": "kaia",
+        "periodStart": "2024-09-01",
+        "periodEnd": "2025-12-31",
+        "notes": "Kaia era bounty / community repos 2024-2025"
+      }
+    ]
+  },
+  {
+    "owner": "KelvinTrinhSG",
+    "name": "Zombie-Hunter-Game-On-Kaia-Chain",
+    "url": "https://github.com/KelvinTrinhSG/Zombie-Hunter-Game-On-Kaia-Chain",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "kaia-2024-bounties",
+        "brand": "kaia",
+        "periodStart": "2024-09-01",
+        "periodEnd": "2025-12-31",
+        "notes": "Kaia era bounty / community repos 2024-2025"
+      }
+    ]
+  },
+  {
+    "owner": "KingZ-Develop",
+    "name": "YieldKingZ",
+    "url": "https://github.com/KingZ-Develop/YieldKingZ",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "klaymakers-2023",
+        "brand": "klaytn",
+        "periodStart": "2023-01-01",
+        "periodEnd": "2023-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2023"
+      }
+    ]
+  },
+  {
+    "owner": "KlayChicken",
+    "name": "ArtAI",
+    "url": "https://github.com/KlayChicken/ArtAI",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "klaymakers-2023",
+        "brand": "klaytn",
+        "periodStart": "2023-01-01",
+        "periodEnd": "2023-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2023"
+      }
+    ]
+  },
+  {
+    "owner": "klaymakers2023-jei",
+    "name": null,
+    "url": "https://github.com/klaymakers2023-jei",
+    "type": "org",
+    "sources": [
+      {
+        "program": "klaymakers-2023",
+        "brand": "klaytn",
+        "periodStart": "2023-01-01",
+        "periodEnd": "2023-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2023"
+      }
+    ]
+  },
+  {
+    "owner": "klaytimecapsule",
+    "name": "klaytimecapsule",
+    "url": "https://github.com/klaytimecapsule/klaytimecapsule",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "klaymakers-2023",
+        "brand": "klaytn",
+        "periodStart": "2023-01-01",
+        "periodEnd": "2023-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2023"
+      }
+    ]
+  },
+  {
+    "owner": "klaytn-RWA",
+    "name": null,
+    "url": "https://github.com/klaytn-RWA",
+    "type": "org",
+    "sources": [
+      {
+        "program": "klaymakers-2023",
+        "brand": "klaytn",
+        "periodStart": "2023-01-01",
+        "periodEnd": "2023-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2023"
+      }
+    ]
+  },
+  {
+    "owner": "Klayver-Team",
+    "name": "Klayver-App",
+    "url": "https://github.com/Klayver-Team/Klayver-App",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "klaymakers-2023",
+        "brand": "klaytn",
+        "periodStart": "2023-01-01",
+        "periodEnd": "2023-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2023"
+      }
+    ]
+  },
+  {
+    "owner": "KlayWithMe",
+    "name": "KlayWithMe",
+    "url": "https://github.com/KlayWithMe/KlayWithMe",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "klaymakers-2022",
+        "brand": "klaytn",
+        "periodStart": "2022-01-01",
+        "periodEnd": "2022-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2022"
+      }
+    ]
+  },
+  {
+    "owner": "langsky302",
+    "name": "Fruit-Frenzy-Game-On-Kaia",
+    "url": "https://github.com/langsky302/Fruit-Frenzy-Game-On-Kaia",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "kaia-2024-bounties",
+        "brand": "kaia",
+        "periodStart": "2024-09-01",
+        "periodEnd": "2025-12-31",
+        "notes": "Kaia era bounty / community repos 2024-2025"
+      }
+    ]
+  },
+  {
+    "owner": "langsky302",
+    "name": "Kaia-Clothing-Store-Project",
+    "url": "https://github.com/langsky302/Kaia-Clothing-Store-Project",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "kaia-2024-bounties",
+        "brand": "kaia",
+        "periodStart": "2024-09-01",
+        "periodEnd": "2025-12-31",
+        "notes": "Kaia era bounty / community repos 2024-2025"
+      }
+    ]
+  },
+  {
+    "owner": "lingose123",
+    "name": "lingose",
+    "url": "https://github.com/lingose123/lingose",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "klaymakers-2022",
+        "brand": "klaytn",
+        "periodStart": "2022-01-01",
+        "periodEnd": "2022-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2022"
+      }
+    ]
+  },
+  {
+    "owner": "linkrypto",
+    "name": "klaymaker2023_FE",
+    "url": "https://github.com/linkrypto/klaymaker2023_FE",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "klaymakers-2023",
+        "brand": "klaytn",
+        "periodStart": "2023-01-01",
+        "periodEnd": "2023-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2023"
+      }
+    ]
+  },
+  {
+    "owner": "llamas-laptrinh",
+    "name": "kicket",
+    "url": "https://github.com/llamas-laptrinh/kicket",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "klaymakers-2023",
+        "brand": "klaytn",
+        "periodStart": "2023-01-01",
+        "periodEnd": "2023-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2023"
+      }
+    ]
+  },
+  {
+    "owner": "Lou1sVuong",
+    "name": "athena-ai",
+    "url": "https://github.com/Lou1sVuong/athena-ai",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "kaia-2024-bounties",
+        "brand": "kaia",
+        "periodStart": "2024-09-01",
+        "periodEnd": "2025-12-31",
+        "notes": "Kaia era bounty / community repos 2024-2025"
+      }
+    ]
+  },
+  {
+    "owner": "Lou1sVuong",
+    "name": "crowfund-smartcontract",
+    "url": "https://github.com/Lou1sVuong/crowfund-smartcontract",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "kaia-2024-bounties",
+        "brand": "kaia",
+        "periodStart": "2024-09-01",
+        "periodEnd": "2025-12-31",
+        "notes": "Kaia era bounty / community repos 2024-2025"
+      }
+    ]
+  },
+  {
+    "owner": "Lou1sVuong",
+    "name": "kaia-impact",
+    "url": "https://github.com/Lou1sVuong/kaia-impact",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "kaia-2024-bounties",
+        "brand": "kaia",
+        "periodStart": "2024-09-01",
+        "periodEnd": "2025-12-31",
+        "notes": "Kaia era bounty / community repos 2024-2025"
+      }
+    ]
+  },
+  {
+    "owner": "lunanga486",
+    "name": "Kaia-Burger-Rush-Game",
+    "url": "https://github.com/lunanga486/Kaia-Burger-Rush-Game",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "kaia-2024-bounties",
+        "brand": "kaia",
+        "periodStart": "2024-09-01",
+        "periodEnd": "2025-12-31",
+        "notes": "Kaia era bounty / community repos 2024-2025"
+      }
+    ]
+  },
+  {
+    "owner": "lyledavids",
+    "name": "duckykaia",
+    "url": "https://github.com/lyledavids/duckykaia",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "kaia-2024-bounties",
+        "brand": "kaia",
+        "periodStart": "2024-09-01",
+        "periodEnd": "2025-12-31",
+        "notes": "Kaia era bounty / community repos 2024-2025"
+      }
+    ]
+  },
+  {
+    "owner": "lyledavids",
+    "name": "jobjam",
+    "url": "https://github.com/lyledavids/jobjam",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "kaia-2024-bounties",
+        "brand": "kaia",
+        "periodStart": "2024-09-01",
+        "periodEnd": "2025-12-31",
+        "notes": "Kaia era bounty / community repos 2024-2025"
+      }
+    ]
+  },
+  {
+    "owner": "m7eio",
+    "name": "pob-js-sdk",
+    "url": "https://github.com/m7eio/pob-js-sdk",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "klaymakers-2022",
+        "brand": "klaytn",
+        "periodStart": "2022-01-01",
+        "periodEnd": "2022-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2022"
+      }
+    ]
+  },
+  {
+    "owner": "madfish-solutions",
+    "name": "diodon",
+    "url": "https://github.com/madfish-solutions/diodon",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "klaymakers-2022",
+        "brand": "klaytn",
+        "periodStart": "2022-01-01",
+        "periodEnd": "2022-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2022"
+      }
+    ]
+  },
+  {
+    "owner": "Madwarbit",
+    "name": "1piece-nft-market",
+    "url": "https://github.com/Madwarbit/1piece-nft-market",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "klaymakers-2023",
+        "brand": "klaytn",
+        "periodStart": "2023-01-01",
+        "periodEnd": "2023-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2023"
+      }
+    ]
+  },
+  {
+    "owner": "Masxon-Studios",
+    "name": "klaytn-nft-minter",
+    "url": "https://github.com/Masxon-Studios/klaytn-nft-minter",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "kaia-2024-bounties",
+        "brand": "kaia",
+        "periodStart": "2024-09-01",
+        "periodEnd": "2025-12-31",
+        "notes": "Kaia era bounty / community repos 2024-2025"
+      }
+    ]
+  },
+  {
+    "owner": "Masxon-Studios",
+    "name": "simple-klaytn-nft",
+    "url": "https://github.com/Masxon-Studios/simple-klaytn-nft",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "kaia-2024-bounties",
+        "brand": "kaia",
+        "periodStart": "2024-09-01",
+        "periodEnd": "2025-12-31",
+        "notes": "Kaia era bounty / community repos 2024-2025"
+      }
+    ]
+  },
+  {
+    "owner": "MataCompany",
+    "name": "footearn-contract",
+    "url": "https://github.com/MataCompany/footearn-contract",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "klaymakers-2022",
+        "brand": "klaytn",
+        "periodStart": "2022-01-01",
+        "periodEnd": "2022-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2022"
+      }
+    ]
+  },
+  {
+    "owner": "meta-earth-klay",
+    "name": null,
+    "url": "https://github.com/meta-earth-klay",
+    "type": "org",
+    "sources": [
+      {
+        "program": "klaymakers-2022",
+        "brand": "klaytn",
+        "periodStart": "2022-01-01",
+        "periodEnd": "2022-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2022"
+      }
+    ]
+  },
+  {
+    "owner": "MetaBrickz",
+    "name": "Rillaz",
+    "url": "https://github.com/MetaBrickz/Rillaz",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "klaymakers-2023",
+        "brand": "klaytn",
+        "periodStart": "2023-01-01",
+        "periodEnd": "2023-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2023"
+      }
+    ]
+  },
+  {
+    "owner": "mfbz",
+    "name": "houseform",
+    "url": "https://github.com/mfbz/houseform",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "klaymakers-2023",
+        "brand": "klaytn",
+        "periodStart": "2023-01-01",
+        "periodEnd": "2023-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2023"
+      }
+    ]
+  },
+  {
+    "owner": "MichaelOmoniyi",
+    "name": "klaytn-dapp-toolkit",
+    "url": "https://github.com/MichaelOmoniyi/klaytn-dapp-toolkit",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "kaia-2024-bounties",
+        "brand": "kaia",
+        "periodStart": "2024-09-01",
+        "periodEnd": "2025-12-31",
+        "notes": "Kaia era bounty / community repos 2024-2025"
+      }
+    ]
+  },
+  {
+    "owner": "miracle-klaytn-hackathon",
+    "name": null,
+    "url": "https://github.com/miracle-klaytn-hackathon",
+    "type": "org",
+    "sources": [
+      {
+        "program": "klaymakers-2023",
+        "brand": "klaytn",
+        "periodStart": "2023-01-01",
+        "periodEnd": "2023-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2023"
+      }
+    ]
+  },
+  {
+    "owner": "mirrorworld-universe",
+    "name": "trade-or-bust",
+    "url": "https://github.com/mirrorworld-universe/trade-or-bust",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "klaymakers-2023",
+        "brand": "klaytn",
+        "periodStart": "2023-01-01",
+        "periodEnd": "2023-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2023"
+      }
+    ]
+  },
+  {
+    "owner": "monaou",
+    "name": "oasis2023-phasser",
+    "url": "https://github.com/monaou/oasis2023-phasser",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "klaymakers-2023",
+        "brand": "klaytn",
+        "periodStart": "2023-01-01",
+        "periodEnd": "2023-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2023"
+      }
+    ]
+  },
+  {
+    "owner": "moverse-app",
+    "name": null,
+    "url": "https://github.com/moverse-app",
+    "type": "org",
+    "sources": [
+      {
+        "program": "klaymakers-2022",
+        "brand": "klaytn",
+        "periodStart": "2022-01-01",
+        "periodEnd": "2022-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2022"
+      }
+    ]
+  },
+  {
+    "owner": "muhammad-usman56",
+    "name": "blocinsured",
+    "url": "https://github.com/muhammad-usman56/blocinsured",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "klaymakers-2023",
+        "brand": "klaytn",
+        "periodStart": "2023-01-01",
+        "periodEnd": "2023-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2023"
+      }
+    ]
+  },
+  {
+    "owner": "MultiversePlay",
+    "name": null,
+    "url": "https://github.com/MultiversePlay",
+    "type": "org",
+    "sources": [
+      {
+        "program": "klaymakers-2022",
+        "brand": "klaytn",
+        "periodStart": "2022-01-01",
+        "periodEnd": "2022-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2022"
+      }
+    ]
+  },
+  {
+    "owner": "nam2ee",
+    "name": "HelixProtocol",
+    "url": "https://github.com/nam2ee/HelixProtocol",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "klaymakers-2023",
+        "brand": "klaytn",
+        "periodStart": "2023-01-01",
+        "periodEnd": "2023-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2023"
+      }
+    ]
+  },
+  {
+    "owner": "NFTime24",
+    "name": "KlayMakers23",
+    "url": "https://github.com/NFTime24/KlayMakers23",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "klaymakers-2023",
+        "brand": "klaytn",
+        "periodStart": "2023-01-01",
+        "periodEnd": "2023-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2023"
+      }
+    ]
+  },
+  {
+    "owner": "nftwar",
+    "name": null,
+    "url": "https://github.com/nftwar",
+    "type": "org",
+    "sources": [
+      {
+        "program": "klaymakers-2022",
+        "brand": "klaytn",
+        "periodStart": "2022-01-01",
+        "periodEnd": "2022-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2022"
+      }
+    ]
+  },
+  {
+    "owner": "NguyenLoi851",
+    "name": "nft-creator",
+    "url": "https://github.com/NguyenLoi851/nft-creator",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "klaymakers-2023",
+        "brand": "klaytn",
+        "periodStart": "2023-01-01",
+        "periodEnd": "2023-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2023"
+      }
+    ]
+  },
+  {
+    "owner": "nhansunshine4",
+    "name": "KaiaCert",
+    "url": "https://github.com/nhansunshine4/KaiaCert",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "kaia-2024-bounties",
+        "brand": "kaia",
+        "periodStart": "2024-09-01",
+        "periodEnd": "2025-12-31",
+        "notes": "Kaia era bounty / community repos 2024-2025"
+      }
+    ]
+  },
+  {
+    "owner": "nhatlapross",
+    "name": "Wefit-AI-Trainer",
+    "url": "https://github.com/nhatlapross/Wefit-AI-Trainer",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "kaia-2024-bounties",
+        "brand": "kaia",
+        "periodStart": "2024-09-01",
+        "periodEnd": "2025-12-31",
+        "notes": "Kaia era bounty / community repos 2024-2025"
+      }
+    ]
+  },
+  {
+    "owner": "nkn18",
+    "name": "kaia-staking-insight-agent",
+    "url": "https://github.com/nkn18/kaia-staking-insight-agent",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "kaia-2024-bounties",
+        "brand": "kaia",
+        "periodStart": "2024-09-01",
+        "periodEnd": "2025-12-31",
+        "notes": "Kaia era bounty / community repos 2024-2025"
+      }
+    ]
+  },
+  {
+    "owner": "Nomis-cc",
+    "name": "nomis-klaytn",
+    "url": "https://github.com/Nomis-cc/nomis-klaytn",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "klaymakers-2022",
+        "brand": "klaytn",
+        "periodStart": "2022-01-01",
+        "periodEnd": "2022-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2022"
+      }
+    ]
+  },
+  {
+    "owner": "Octan-Labs",
+    "name": "Reputation-scoring",
+    "url": "https://github.com/Octan-Labs/Reputation-scoring",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "klaymakers-2022",
+        "brand": "klaytn",
+        "periodStart": "2022-01-01",
+        "periodEnd": "2022-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2022"
+      }
+    ]
+  },
+  {
+    "owner": "ocvlabs",
+    "name": null,
+    "url": "https://github.com/ocvlabs",
+    "type": "org",
+    "sources": [
+      {
+        "program": "klaymakers-2023",
+        "brand": "klaytn",
+        "periodStart": "2023-01-01",
+        "periodEnd": "2023-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2023"
+      }
+    ]
+  },
+  {
+    "owner": "Oladayo-Ahmod",
+    "name": "botanicity",
+    "url": "https://github.com/Oladayo-Ahmod/botanicity",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "klaymakers-2023",
+        "brand": "klaytn",
+        "periodStart": "2023-01-01",
+        "periodEnd": "2023-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2023"
+      }
+    ]
+  },
+  {
+    "owner": "orignellc",
+    "name": null,
+    "url": "https://github.com/orignellc",
+    "type": "org",
+    "sources": [
+      {
+        "program": "klaymakers-2022",
+        "brand": "klaytn",
+        "periodStart": "2022-01-01",
+        "periodEnd": "2022-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2022"
+      }
+    ]
+  },
+  {
+    "owner": "oscargarza356",
+    "name": "gibi",
+    "url": "https://github.com/oscargarza356/gibi",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "klaymakers-2023",
+        "brand": "klaytn",
+        "periodStart": "2023-01-01",
+        "periodEnd": "2023-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2023"
+      }
+    ]
+  },
+  {
+    "owner": "padiswap",
+    "name": "disperse-klay",
+    "url": "https://github.com/padiswap/disperse-klay",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "klaymakers-2022",
+        "brand": "klaytn",
+        "periodStart": "2022-01-01",
+        "periodEnd": "2022-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2022"
+      }
+    ]
+  },
+  {
+    "owner": "papiasharmin",
+    "name": "NFT-Fashion",
+    "url": "https://github.com/papiasharmin/NFT-Fashion",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "klaymakers-2023",
+        "brand": "klaytn",
+        "periodStart": "2023-01-01",
+        "periodEnd": "2023-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2023"
+      }
+    ]
+  },
+  {
+    "owner": "paschal533",
+    "name": "FundBrave",
+    "url": "https://github.com/paschal533/FundBrave",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "klaymakers-2022",
+        "brand": "klaytn",
+        "periodStart": "2022-01-01",
+        "periodEnd": "2022-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2022"
+      }
+    ]
+  },
+  {
+    "owner": "paschal533",
+    "name": "NFTKastle",
+    "url": "https://github.com/paschal533/NFTKastle",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "klaymakers-2022",
+        "brand": "klaytn",
+        "periodStart": "2022-01-01",
+        "periodEnd": "2022-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2022"
+      }
+    ]
+  },
+  {
+    "owner": "PaulElisha",
+    "name": "analytics-dgswap",
+    "url": "https://github.com/PaulElisha/analytics-dgswap",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "kaia-2024-bounties",
+        "brand": "kaia",
+        "periodStart": "2024-09-01",
+        "periodEnd": "2025-12-31",
+        "notes": "Kaia era bounty / community repos 2024-2025"
+      }
+    ]
+  },
+  {
+    "owner": "PaulElisha",
+    "name": "CreateJsonStructure",
+    "url": "https://github.com/PaulElisha/CreateJsonStructure",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "kaia-2024-bounties",
+        "brand": "kaia",
+        "periodStart": "2024-09-01",
+        "periodEnd": "2025-12-31",
+        "notes": "Kaia era bounty / community repos 2024-2025"
+      }
+    ]
+  },
+  {
+    "owner": "PaulElisha",
+    "name": "dgswap-v2-sdk",
+    "url": "https://github.com/PaulElisha/dgswap-v2-sdk",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "kaia-2024-bounties",
+        "brand": "kaia",
+        "periodStart": "2024-09-01",
+        "periodEnd": "2025-12-31",
+        "notes": "Kaia era bounty / community repos 2024-2025"
+      }
+    ]
+  },
+  {
+    "owner": "PaulElisha",
+    "name": "dragonswap-docs",
+    "url": "https://github.com/PaulElisha/dragonswap-docs",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "kaia-2024-bounties",
+        "brand": "kaia",
+        "periodStart": "2024-09-01",
+        "periodEnd": "2025-12-31",
+        "notes": "Kaia era bounty / community repos 2024-2025"
+      }
+    ]
+  },
+  {
+    "owner": "PaulElisha",
+    "name": "Kaia-Airdrop-Distribution",
+    "url": "https://github.com/PaulElisha/Kaia-Airdrop-Distribution",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "kaia-2024-bounties",
+        "brand": "kaia",
+        "periodStart": "2024-09-01",
+        "periodEnd": "2025-12-31",
+        "notes": "Kaia era bounty / community repos 2024-2025"
+      }
+    ]
+  },
+  {
+    "owner": "PaulElisha",
+    "name": "Kaia-Foundry-Guide",
+    "url": "https://github.com/PaulElisha/Kaia-Foundry-Guide",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "kaia-2024-bounties",
+        "brand": "kaia",
+        "periodStart": "2024-09-01",
+        "periodEnd": "2025-12-31",
+        "notes": "Kaia era bounty / community repos 2024-2025"
+      }
+    ]
+  },
+  {
+    "owner": "PaulElisha",
+    "name": "Kaia-Oracle-Toolkit",
+    "url": "https://github.com/PaulElisha/Kaia-Oracle-Toolkit",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "kaia-2024-bounties",
+        "brand": "kaia",
+        "periodStart": "2024-09-01",
+        "periodEnd": "2025-12-31",
+        "notes": "Kaia era bounty / community repos 2024-2025"
+      }
+    ]
+  },
+  {
+    "owner": "PaulElisha",
+    "name": "Kaia-Precompile-Toolkit",
+    "url": "https://github.com/PaulElisha/Kaia-Precompile-Toolkit",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "kaia-2024-bounties",
+        "brand": "kaia",
+        "periodStart": "2024-09-01",
+        "periodEnd": "2025-12-31",
+        "notes": "Kaia era bounty / community repos 2024-2025"
+      }
+    ]
+  },
+  {
+    "owner": "PaulElisha",
+    "name": "kaiachain-foundryTemplate--pricefeedManager-Price-converter",
+    "url": "https://github.com/PaulElisha/kaiachain-foundryTemplate--pricefeedManager-Price-converter",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "kaia-2024-bounties",
+        "brand": "kaia",
+        "periodStart": "2024-09-01",
+        "periodEnd": "2025-12-31",
+        "notes": "Kaia era bounty / community repos 2024-2025"
+      }
+    ]
+  },
+  {
+    "owner": "PaulElisha",
+    "name": "kaiascan-sdk-go",
+    "url": "https://github.com/PaulElisha/kaiascan-sdk-go",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "kaia-2024-bounties",
+        "brand": "kaia",
+        "periodStart": "2024-09-01",
+        "periodEnd": "2025-12-31",
+        "notes": "Kaia era bounty / community repos 2024-2025"
+      }
+    ]
+  },
+  {
+    "owner": "PaulElisha",
+    "name": "kaiascan-sdk-py",
+    "url": "https://github.com/PaulElisha/kaiascan-sdk-py",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "kaia-2024-bounties",
+        "brand": "kaia",
+        "periodStart": "2024-09-01",
+        "periodEnd": "2025-12-31",
+        "notes": "Kaia era bounty / community repos 2024-2025"
+      }
+    ]
+  },
+  {
+    "owner": "PaulElisha",
+    "name": "kaiascan-sdk-rs",
+    "url": "https://github.com/PaulElisha/kaiascan-sdk-rs",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "kaia-2024-bounties",
+        "brand": "kaia",
+        "periodStart": "2024-09-01",
+        "periodEnd": "2025-12-31",
+        "notes": "Kaia era bounty / community repos 2024-2025"
+      }
+    ]
+  },
+  {
+    "owner": "PaulElisha",
+    "name": "kaiascan-sdk-ts",
+    "url": "https://github.com/PaulElisha/kaiascan-sdk-ts",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "kaia-2024-bounties",
+        "brand": "kaia",
+        "periodStart": "2024-09-01",
+        "periodEnd": "2025-12-31",
+        "notes": "Kaia era bounty / community repos 2024-2025"
+      }
+    ]
+  },
+  {
+    "owner": "PaulElisha",
+    "name": "oklink-kaiachain-ts",
+    "url": "https://github.com/PaulElisha/oklink-kaiachain-ts",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "kaia-2024-bounties",
+        "brand": "kaia",
+        "periodStart": "2024-09-01",
+        "periodEnd": "2025-12-31",
+        "notes": "Kaia era bounty / community repos 2024-2025"
+      }
+    ]
+  },
+  {
+    "owner": "PaulElisha",
+    "name": "oklink-sdk-kaiachain-py",
+    "url": "https://github.com/PaulElisha/oklink-sdk-kaiachain-py",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "kaia-2024-bounties",
+        "brand": "kaia",
+        "periodStart": "2024-09-01",
+        "periodEnd": "2025-12-31",
+        "notes": "Kaia era bounty / community repos 2024-2025"
+      }
+    ]
+  },
+  {
+    "owner": "PaulElisha",
+    "name": "Permit2",
+    "url": "https://github.com/PaulElisha/Permit2",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "kaia-2024-bounties",
+        "brand": "kaia",
+        "periodStart": "2024-09-01",
+        "periodEnd": "2025-12-31",
+        "notes": "Kaia era bounty / community repos 2024-2025"
+      }
+    ]
+  },
+  {
+    "owner": "PaulElisha",
+    "name": "permit2-test-integration",
+    "url": "https://github.com/PaulElisha/permit2-test-integration",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "kaia-2024-bounties",
+        "brand": "kaia",
+        "periodStart": "2024-09-01",
+        "periodEnd": "2025-12-31",
+        "notes": "Kaia era bounty / community repos 2024-2025"
+      }
+    ]
+  },
+  {
+    "owner": "PaulElisha",
+    "name": "subgraph-dgswap",
+    "url": "https://github.com/PaulElisha/subgraph-dgswap",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "kaia-2024-bounties",
+        "brand": "kaia",
+        "periodStart": "2024-09-01",
+        "periodEnd": "2025-12-31",
+        "notes": "Kaia era bounty / community repos 2024-2025"
+      }
+    ]
+  },
+  {
+    "owner": "Pcharlesme",
+    "name": "Solbaseapp",
+    "url": "https://github.com/Pcharlesme/Solbaseapp",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "klaymakers-2022",
+        "brand": "klaytn",
+        "periodStart": "2022-01-01",
+        "periodEnd": "2022-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2022"
+      }
+    ]
+  },
+  {
+    "owner": "PDANGIU",
+    "name": "PLaywithKaia",
+    "url": "https://github.com/PDANGIU/PLaywithKaia",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "kaia-2024-bounties",
+        "brand": "kaia",
+        "periodStart": "2024-09-01",
+        "periodEnd": "2025-12-31",
+        "notes": "Kaia era bounty / community repos 2024-2025"
+      }
+    ]
+  },
+  {
+    "owner": "Pepe17031",
+    "name": "TreasureIsland",
+    "url": "https://github.com/Pepe17031/TreasureIsland",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "klaymakers-2023",
+        "brand": "klaytn",
+        "periodStart": "2023-01-01",
+        "periodEnd": "2023-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2023"
+      }
+    ]
+  },
+  {
+    "owner": "phamdat721101",
+    "name": "oauth-wallet",
+    "url": "https://github.com/phamdat721101/oauth-wallet",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "kaia-2024-bounties",
+        "brand": "kaia",
+        "periodStart": "2024-09-01",
+        "periodEnd": "2025-12-31",
+        "notes": "Kaia era bounty / community repos 2024-2025"
+      }
+    ]
+  },
+  {
+    "owner": "poqopo",
+    "name": "NFT-Rental-Protocol",
+    "url": "https://github.com/poqopo/NFT-Rental-Protocol",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "klaymakers-2022",
+        "brand": "klaytn",
+        "periodStart": "2022-01-01",
+        "periodEnd": "2022-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2022"
+      }
+    ]
+  },
+  {
+    "owner": "predictionClub",
+    "name": null,
+    "url": "https://github.com/predictionClub",
+    "type": "org",
+    "sources": [
+      {
+        "program": "klaymakers-2023",
+        "brand": "klaytn",
+        "periodStart": "2023-01-01",
+        "periodEnd": "2023-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2023"
+      }
+    ]
+  },
+  {
+    "owner": "preetsinghmakkar",
+    "name": "kaia-erc20-creater",
+    "url": "https://github.com/preetsinghmakkar/kaia-erc20-creater",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "kaia-2024-bounties",
+        "brand": "kaia",
+        "periodStart": "2024-09-01",
+        "periodEnd": "2025-12-31",
+        "notes": "Kaia era bounty / community repos 2024-2025"
+      }
+    ]
+  },
+  {
+    "owner": "PrestareFinance",
+    "name": null,
+    "url": "https://github.com/PrestareFinance",
+    "type": "org",
+    "sources": [
+      {
+        "program": "klaymakers-2022",
+        "brand": "klaytn",
+        "periodStart": "2022-01-01",
+        "periodEnd": "2022-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2022"
+      }
+    ]
+  },
+  {
+    "owner": "Project-morimori",
+    "name": "TTM",
+    "url": "https://github.com/Project-morimori/TTM",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "klaymakers-2023",
+        "brand": "klaytn",
+        "periodStart": "2023-01-01",
+        "periodEnd": "2023-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2023"
+      }
+    ]
+  },
+  {
+    "owner": "raldblox",
+    "name": "namespace",
+    "url": "https://github.com/raldblox/namespace",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "klaymakers-2023",
+        "brand": "klaytn",
+        "periodStart": "2023-01-01",
+        "periodEnd": "2023-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2023"
+      }
+    ]
+  },
+  {
+    "owner": "raldblox",
+    "name": "tokentreats",
+    "url": "https://github.com/raldblox/tokentreats",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "klaymakers-2023",
+        "brand": "klaytn",
+        "periodStart": "2023-01-01",
+        "periodEnd": "2023-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2023"
+      }
+    ]
+  },
+  {
+    "owner": "receiveme",
+    "name": null,
+    "url": "https://github.com/receiveme",
+    "type": "org",
+    "sources": [
+      {
+        "program": "klaymakers-2023",
+        "brand": "klaytn",
+        "periodStart": "2023-01-01",
+        "periodEnd": "2023-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2023"
+      }
+    ]
+  },
+  {
+    "owner": "renzel505",
+    "name": "repo",
+    "url": "https://github.com/renzel505/repo",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "klaymakers-2023",
+        "brand": "klaytn",
+        "periodStart": "2023-01-01",
+        "periodEnd": "2023-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2023"
+      }
+    ]
+  },
+  {
+    "owner": "RevereLabs",
+    "name": null,
+    "url": "https://github.com/RevereLabs",
+    "type": "org",
+    "sources": [
+      {
+        "program": "klaymakers-2022",
+        "brand": "klaytn",
+        "periodStart": "2022-01-01",
+        "periodEnd": "2022-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2022"
+      }
+    ]
+  },
+  {
+    "owner": "RickYoon",
+    "name": "klaylabs_",
+    "url": "https://github.com/RickYoon/klaylabs_",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "klaymakers-2022",
+        "brand": "klaytn",
+        "periodStart": "2022-01-01",
+        "periodEnd": "2022-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2022"
+      }
+    ]
+  },
+  {
+    "owner": "rwa-rise",
+    "name": null,
+    "url": "https://github.com/rwa-rise",
+    "type": "org",
+    "sources": [
+      {
+        "program": "klaymakers-2023",
+        "brand": "klaytn",
+        "periodStart": "2023-01-01",
+        "periodEnd": "2023-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2023"
+      }
+    ]
+  },
+  {
+    "owner": "SAE-HUN",
+    "name": "Early-Bird",
+    "url": "https://github.com/SAE-HUN/Early-Bird",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "klaymakers-2022",
+        "brand": "klaytn",
+        "periodStart": "2022-01-01",
+        "periodEnd": "2022-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2022"
+      }
+    ]
+  },
+  {
+    "owner": "SaitamaCoderVN",
+    "name": "Contract_SoulBoundNFT_Community",
+    "url": "https://github.com/SaitamaCoderVN/Contract_SoulBoundNFT_Community",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "kaia-2024-bounties",
+        "brand": "kaia",
+        "periodStart": "2024-09-01",
+        "periodEnd": "2025-12-31",
+        "notes": "Kaia era bounty / community repos 2024-2025"
+      }
+    ]
+  },
+  {
+    "owner": "SaitamaCoderVN",
+    "name": "Dragon_SoulBound_NFT",
+    "url": "https://github.com/SaitamaCoderVN/Dragon_SoulBound_NFT",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "kaia-2024-bounties",
+        "brand": "kaia",
+        "periodStart": "2024-09-01",
+        "periodEnd": "2025-12-31",
+        "notes": "Kaia era bounty / community repos 2024-2025"
+      }
+    ]
+  },
+  {
+    "owner": "SaitamaCoderVN",
+    "name": "LLM-Athenai-BE",
+    "url": "https://github.com/SaitamaCoderVN/LLM-Athenai-BE",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "kaia-2024-bounties",
+        "brand": "kaia",
+        "periodStart": "2024-09-01",
+        "periodEnd": "2025-12-31",
+        "notes": "Kaia era bounty / community repos 2024-2025"
+      }
+    ]
+  },
+  {
+    "owner": "SaitamaCoderVN",
+    "name": "ShitFire",
+    "url": "https://github.com/SaitamaCoderVN/ShitFire",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "kaia-2024-bounties",
+        "brand": "kaia",
+        "periodStart": "2024-09-01",
+        "periodEnd": "2025-12-31",
+        "notes": "Kaia era bounty / community repos 2024-2025"
+      }
+    ]
+  },
+  {
+    "owner": "SaitamaCoderVN",
+    "name": "ShitFire-Contract-Foundary",
+    "url": "https://github.com/SaitamaCoderVN/ShitFire-Contract-Foundary",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "kaia-2024-bounties",
+        "brand": "kaia",
+        "periodStart": "2024-09-01",
+        "periodEnd": "2025-12-31",
+        "notes": "Kaia era bounty / community repos 2024-2025"
+      }
+    ]
+  },
+  {
+    "owner": "SaitamaCoderVN",
+    "name": "ShitFire-Contract-Foundary-Kaia-Blockchain",
+    "url": "https://github.com/SaitamaCoderVN/ShitFire-Contract-Foundary-Kaia-Blockchain",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "kaia-2024-bounties",
+        "brand": "kaia",
+        "periodStart": "2024-09-01",
+        "periodEnd": "2025-12-31",
+        "notes": "Kaia era bounty / community repos 2024-2025"
+      }
+    ]
+  },
+  {
+    "owner": "Santiago0412",
+    "name": "ImbalanceCommitLog",
+    "url": "https://github.com/Santiago0412/ImbalanceCommitLog",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "klaymakers-2023",
+        "brand": "klaytn",
+        "periodStart": "2023-01-01",
+        "periodEnd": "2023-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2023"
+      }
+    ]
+  },
+  {
+    "owner": "seichris",
+    "name": "klaytn-hack",
+    "url": "https://github.com/seichris/klaytn-hack",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "klaymakers-2023",
+        "brand": "klaytn",
+        "periodStart": "2023-01-01",
+        "periodEnd": "2023-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2023"
+      }
+    ]
+  },
+  {
+    "owner": "SeogyuGim",
+    "name": "Klaymakers2022-Lillybox",
+    "url": "https://github.com/SeogyuGim/Klaymakers2022-Lillybox",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "klaymakers-2022",
+        "brand": "klaytn",
+        "periodStart": "2022-01-01",
+        "periodEnd": "2022-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2022"
+      }
+    ]
+  },
+  {
+    "owner": "shanejonas",
+    "name": "1of1-creation",
+    "url": "https://github.com/shanejonas/1of1-creation",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "klaymakers-2022",
+        "brand": "klaytn",
+        "periodStart": "2022-01-01",
+        "periodEnd": "2022-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2022"
+      }
+    ]
+  },
+  {
+    "owner": "ShivamAgarwal-code",
+    "name": "Polka-Craft",
+    "url": "https://github.com/ShivamAgarwal-code/Polka-Craft",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "klaymakers-2023",
+        "brand": "klaytn",
+        "periodStart": "2023-01-01",
+        "periodEnd": "2023-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2023"
+      }
+    ]
+  },
+  {
+    "owner": "sholance",
+    "name": "efundz",
+    "url": "https://github.com/sholance/efundz",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "klaymakers-2022",
+        "brand": "klaytn",
+        "periodStart": "2022-01-01",
+        "periodEnd": "2022-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2022"
+      }
+    ]
+  },
+  {
+    "owner": "Shuriken-labs",
+    "name": null,
+    "url": "https://github.com/Shuriken-labs",
+    "type": "org",
+    "sources": [
+      {
+        "program": "klaymakers-2023",
+        "brand": "klaytn",
+        "periodStart": "2023-01-01",
+        "periodEnd": "2023-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2023"
+      }
+    ]
+  },
+  {
+    "owner": "SInoLabs-Blockchain",
+    "name": null,
+    "url": "https://github.com/SInoLabs-Blockchain",
+    "type": "org",
+    "sources": [
+      {
+        "program": "klaymakers-2023",
+        "brand": "klaytn",
+        "periodStart": "2023-01-01",
+        "periodEnd": "2023-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2023"
+      }
+    ]
+  },
+  {
+    "owner": "Solidity-CheckUp",
+    "name": "Solidity-CheckUp-Governance",
+    "url": "https://github.com/Solidity-CheckUp/Solidity-CheckUp-Governance",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "klaymakers-2022",
+        "brand": "klaytn",
+        "periodStart": "2022-01-01",
+        "periodEnd": "2022-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2022"
+      }
+    ]
+  },
+  {
+    "owner": "SonarX-Team",
+    "name": "sonarmeta-v4.2-contract",
+    "url": "https://github.com/SonarX-Team/sonarmeta-v4.2-contract",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "klaymakers-2023",
+        "brand": "klaytn",
+        "periodStart": "2023-01-01",
+        "periodEnd": "2023-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2023"
+      }
+    ]
+  },
+  {
+    "owner": "songonha",
+    "name": null,
+    "url": "https://github.com/songonha",
+    "type": "org",
+    "sources": [
+      {
+        "program": "klaymakers-2023",
+        "brand": "klaytn",
+        "periodStart": "2023-01-01",
+        "periodEnd": "2023-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2023"
+      }
+    ]
+  },
+  {
+    "owner": "soumalya340",
+    "name": "TokenFest",
+    "url": "https://github.com/soumalya340/TokenFest",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "klaymakers-2023",
+        "brand": "klaytn",
+        "periodStart": "2023-01-01",
+        "periodEnd": "2023-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2023"
+      }
+    ]
+  },
+  {
+    "owner": "splytlabs",
+    "name": null,
+    "url": "https://github.com/splytlabs",
+    "type": "org",
+    "sources": [
+      {
+        "program": "klaymakers-2022",
+        "brand": "klaytn",
+        "periodStart": "2022-01-01",
+        "periodEnd": "2022-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2022"
+      }
+    ]
+  },
+  {
+    "owner": "Spydiecy",
+    "name": "ProtectedPay_Kaia",
+    "url": "https://github.com/Spydiecy/ProtectedPay_Kaia",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "kaia-2024-bounties",
+        "brand": "kaia",
+        "periodStart": "2024-09-01",
+        "periodEnd": "2025-12-31",
+        "notes": "Kaia era bounty / community repos 2024-2025"
+      }
+    ]
+  },
+  {
+    "owner": "startup-dreamer",
+    "name": "LoanVista",
+    "url": "https://github.com/startup-dreamer/LoanVista",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "klaymakers-2023",
+        "brand": "klaytn",
+        "periodStart": "2023-01-01",
+        "periodEnd": "2023-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2023"
+      }
+    ]
+  },
+  {
+    "owner": "StasPodyachev",
+    "name": "GoDerivatives",
+    "url": "https://github.com/StasPodyachev/GoDerivatives",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "klaymakers-2022",
+        "brand": "klaytn",
+        "periodStart": "2022-01-01",
+        "periodEnd": "2022-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2022"
+      }
+    ]
+  },
+  {
+    "owner": "stebansaa",
+    "name": null,
+    "url": "https://github.com/stebansaa",
+    "type": "org",
+    "sources": [
+      {
+        "program": "klaymakers-2023",
+        "brand": "klaytn",
+        "periodStart": "2023-01-01",
+        "periodEnd": "2023-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2023"
+      }
+    ]
+  },
+  {
+    "owner": "STPDevteam",
+    "name": null,
+    "url": "https://github.com/STPDevteam",
+    "type": "org",
+    "sources": [
+      {
+        "program": "klaymakers-2022",
+        "brand": "klaytn",
+        "periodStart": "2022-01-01",
+        "periodEnd": "2022-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2022"
+      }
+    ]
+  },
+  {
+    "owner": "supersquad-challenge",
+    "name": "supersquad-klaytn",
+    "url": "https://github.com/supersquad-challenge/supersquad-klaytn",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "klaymakers-2023",
+        "brand": "klaytn",
+        "periodStart": "2023-01-01",
+        "periodEnd": "2023-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2023"
+      }
+    ]
+  },
+  {
+    "owner": "SVET-Rating",
+    "name": "SvetIndex",
+    "url": "https://github.com/SVET-Rating/SvetIndex",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "klaymakers-2022",
+        "brand": "klaytn",
+        "periodStart": "2022-01-01",
+        "periodEnd": "2022-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2022"
+      }
+    ]
+  },
+  {
+    "owner": "TaichiaDao",
+    "name": "MegaHack",
+    "url": "https://github.com/TaichiaDao/MegaHack",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "klaymakers-2022",
+        "brand": "klaytn",
+        "periodStart": "2022-01-01",
+        "periodEnd": "2022-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2022"
+      }
+    ]
+  },
+  {
+    "owner": "taijusanagi",
+    "name": "klayfarm",
+    "url": "https://github.com/taijusanagi/klayfarm",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "klaymakers-2023",
+        "brand": "klaytn",
+        "periodStart": "2023-01-01",
+        "periodEnd": "2023-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2023"
+      }
+    ]
+  },
+  {
+    "owner": "taijusanagi",
+    "name": "soumatou",
+    "url": "https://github.com/taijusanagi/soumatou",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "klaymakers-2022",
+        "brand": "klaytn",
+        "periodStart": "2022-01-01",
+        "periodEnd": "2022-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2022"
+      }
+    ]
+  },
+  {
+    "owner": "Tiketo-NFT",
+    "name": null,
+    "url": "https://github.com/Tiketo-NFT",
+    "type": "org",
+    "sources": [
+      {
+        "program": "klaymakers-2022",
+        "brand": "klaytn",
+        "periodStart": "2022-01-01",
+        "periodEnd": "2022-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2022"
+      }
+    ]
+  },
+  {
+    "owner": "tkeith",
+    "name": "autogov",
+    "url": "https://github.com/tkeith/autogov",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "klaymakers-2023",
+        "brand": "klaytn",
+        "periodStart": "2023-01-01",
+        "periodEnd": "2023-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2023"
+      }
+    ]
+  },
+  {
+    "owner": "tomosaigon",
+    "name": "klaypal",
+    "url": "https://github.com/tomosaigon/klaypal",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "kaia-2024-bounties",
+        "brand": "kaia",
+        "periodStart": "2024-09-01",
+        "periodEnd": "2025-12-31",
+        "notes": "Kaia era bounty / community repos 2024-2025"
+      }
+    ]
+  },
+  {
+    "owner": "trandrewsg91",
+    "name": "Bloody-Hunter-Multiplayer-Shooting-Game-On-KAIA",
+    "url": "https://github.com/trandrewsg91/Bloody-Hunter-Multiplayer-Shooting-Game-On-KAIA",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "kaia-2024-bounties",
+        "brand": "kaia",
+        "periodStart": "2024-09-01",
+        "periodEnd": "2025-12-31",
+        "notes": "Kaia era bounty / community repos 2024-2025"
+      }
+    ]
+  },
+  {
+    "owner": "trandrewsg91",
+    "name": "Desert-Hunter-Game-On-Kaia",
+    "url": "https://github.com/trandrewsg91/Desert-Hunter-Game-On-Kaia",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "kaia-2024-bounties",
+        "brand": "kaia",
+        "periodStart": "2024-09-01",
+        "periodEnd": "2025-12-31",
+        "notes": "Kaia era bounty / community repos 2024-2025"
+      }
+    ]
+  },
+  {
+    "owner": "tungleanh0902",
+    "name": "SatoriPlay-smc-evm",
+    "url": "https://github.com/tungleanh0902/SatoriPlay-smc-evm",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "kaia-2024-bounties",
+        "brand": "kaia",
+        "periodStart": "2024-09-01",
+        "periodEnd": "2025-12-31",
+        "notes": "Kaia era bounty / community repos 2024-2025"
+      }
+    ]
+  },
+  {
+    "owner": "vadrthanh",
+    "name": "private_key_change",
+    "url": "https://github.com/vadrthanh/private_key_change",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "kaia-2024-bounties",
+        "brand": "kaia",
+        "periodStart": "2024-09-01",
+        "periodEnd": "2025-12-31",
+        "notes": "Kaia era bounty / community repos 2024-2025"
+      }
+    ]
+  },
+  {
+    "owner": "voucherlabs",
+    "name": "web3voucher",
+    "url": "https://github.com/voucherlabs/web3voucher",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "klaymakers-2023",
+        "brand": "klaytn",
+        "periodStart": "2023-01-01",
+        "periodEnd": "2023-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2023"
+      }
+    ]
+  },
+  {
+    "owner": "w1729",
+    "name": "pandawallet",
+    "url": "https://github.com/w1729/pandawallet",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "klaymakers-2023",
+        "brand": "klaytn",
+        "periodStart": "2023-01-01",
+        "periodEnd": "2023-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2023"
+      }
+    ]
+  },
+  {
+    "owner": "walnutwaldo",
+    "name": "D-DALLE",
+    "url": "https://github.com/walnutwaldo/D-DALLE",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "klaymakers-2022",
+        "brand": "klaytn",
+        "periodStart": "2022-01-01",
+        "periodEnd": "2022-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2022"
+      }
+    ]
+  },
+  {
+    "owner": "WASD3Rplay",
+    "name": "aadex-contract",
+    "url": "https://github.com/WASD3Rplay/aadex-contract",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "klaymakers-2023",
+        "brand": "klaytn",
+        "periodStart": "2023-01-01",
+        "periodEnd": "2023-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2023"
+      }
+    ]
+  },
+  {
+    "owner": "waylad",
+    "name": "ipfs-nft-generator-toolbox",
+    "url": "https://github.com/waylad/ipfs-nft-generator-toolbox",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "klaymakers-2022",
+        "brand": "klaytn",
+        "periodStart": "2022-01-01",
+        "periodEnd": "2022-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2022"
+      }
+    ]
+  },
+  {
+    "owner": "waylad",
+    "name": "war-alpha-metaverse",
+    "url": "https://github.com/waylad/war-alpha-metaverse",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "klaymakers-2022",
+        "brand": "klaytn",
+        "periodStart": "2022-01-01",
+        "periodEnd": "2022-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2022"
+      }
+    ]
+  },
+  {
+    "owner": "Web3-Agent",
+    "name": "klay-web3agent",
+    "url": "https://github.com/Web3-Agent/klay-web3agent",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "klaymakers-2023",
+        "brand": "klaytn",
+        "periodStart": "2023-01-01",
+        "periodEnd": "2023-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2023"
+      }
+    ]
+  },
+  {
+    "owner": "web3deepeyes",
+    "name": "landingpage",
+    "url": "https://github.com/web3deepeyes/landingpage",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "klaymakers-2023",
+        "brand": "klaytn",
+        "periodStart": "2023-01-01",
+        "periodEnd": "2023-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2023"
+      }
+    ]
+  },
+  {
+    "owner": "WeTranscend-labs",
+    "name": "KAIACamp",
+    "url": "https://github.com/WeTranscend-labs/KAIACamp",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "kaia-2024-bounties",
+        "brand": "kaia",
+        "periodStart": "2024-09-01",
+        "periodEnd": "2025-12-31",
+        "notes": "Kaia era bounty / community repos 2024-2025"
+      }
+    ]
+  },
+  {
+    "owner": "WuBruno",
+    "name": "klaytn-hack",
+    "url": "https://github.com/WuBruno/klaytn-hack",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "klaymakers-2023",
+        "brand": "klaytn",
+        "periodStart": "2023-01-01",
+        "periodEnd": "2023-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2023"
+      }
+    ]
+  },
+  {
+    "owner": "xdao-app",
+    "name": "xdao-contracts",
+    "url": "https://github.com/xdao-app/xdao-contracts",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "klaymakers-2022",
+        "brand": "klaytn",
+        "periodStart": "2022-01-01",
+        "periodEnd": "2022-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2022"
+      }
+    ]
+  },
+  {
+    "owner": "XLetter",
+    "name": null,
+    "url": "https://github.com/XLetter",
+    "type": "org",
+    "sources": [
+      {
+        "program": "klaymakers-2022",
+        "brand": "klaytn",
+        "periodStart": "2022-01-01",
+        "periodEnd": "2022-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2022"
+      }
+    ]
+  },
+  {
+    "owner": "ykute07",
+    "name": "Algorand_Build-A-Bull",
+    "url": "https://github.com/ykute07/Algorand_Build-A-Bull",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "klaymakers-2023",
+        "brand": "klaytn",
+        "periodStart": "2023-01-01",
+        "periodEnd": "2023-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2023"
+      }
+    ]
+  },
+  {
+    "owner": "ykute07",
+    "name": "Klaymakers_2023_Global",
+    "url": "https://github.com/ykute07/Klaymakers_2023_Global",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "klaymakers-2023",
+        "brand": "klaytn",
+        "periodStart": "2023-01-01",
+        "periodEnd": "2023-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2023"
+      }
+    ]
+  },
+  {
+    "owner": "yoh-app",
+    "name": "yoh-hackathon",
+    "url": "https://github.com/yoh-app/yoh-hackathon",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "klaymakers-2022",
+        "brand": "klaytn",
+        "periodStart": "2022-01-01",
+        "periodEnd": "2022-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2022"
+      }
+    ]
+  },
+  {
+    "owner": "YouJun-IWON",
+    "name": "NFT-Card-Game",
+    "url": "https://github.com/YouJun-IWON/NFT-Card-Game",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "klaymakers-2023",
+        "brand": "klaytn",
+        "periodStart": "2023-01-01",
+        "periodEnd": "2023-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2023"
+      }
+    ]
+  },
+  {
+    "owner": "youngancient",
+    "name": "SonikDropApp",
+    "url": "https://github.com/youngancient/SonikDropApp",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "kaia-2024-bounties",
+        "brand": "kaia",
+        "periodStart": "2024-09-01",
+        "periodEnd": "2025-12-31",
+        "notes": "Kaia era bounty / community repos 2024-2025"
+      }
+    ]
+  },
+  {
+    "owner": "youngancient",
+    "name": "SonikFoundry",
+    "url": "https://github.com/youngancient/SonikFoundry",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "kaia-2024-bounties",
+        "brand": "kaia",
+        "periodStart": "2024-09-01",
+        "periodEnd": "2025-12-31",
+        "notes": "Kaia era bounty / community repos 2024-2025"
+      }
+    ]
+  },
+  {
+    "owner": "yuzurushX",
+    "name": "KaiaNodit-PythonSDK",
+    "url": "https://github.com/yuzurushX/KaiaNodit-PythonSDK",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "kaia-2024-bounties",
+        "brand": "kaia",
+        "periodStart": "2024-09-01",
+        "periodEnd": "2025-12-31",
+        "notes": "Kaia era bounty / community repos 2024-2025"
+      }
+    ]
+  },
+  {
+    "owner": "yuzurushX",
+    "name": "kaianodit-sdk-go",
+    "url": "https://github.com/yuzurushX/kaianodit-sdk-go",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "kaia-2024-bounties",
+        "brand": "kaia",
+        "periodStart": "2024-09-01",
+        "periodEnd": "2025-12-31",
+        "notes": "Kaia era bounty / community repos 2024-2025"
+      },
+      {
+        "program": "kaia-2024-bounties",
+        "brand": "kaia",
+        "periodStart": "2024-09-01",
+        "periodEnd": "2025-12-31",
+        "notes": "Kaia era bounty / community repos 2024-2025"
+      }
+    ]
+  },
+  {
+    "owner": "yuzurushX",
+    "name": "kaianodit-sdk-ts",
+    "url": "https://github.com/yuzurushX/kaianodit-sdk-ts",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "kaia-2024-bounties",
+        "brand": "kaia",
+        "periodStart": "2024-09-01",
+        "periodEnd": "2025-12-31",
+        "notes": "Kaia era bounty / community repos 2024-2025"
+      }
+    ]
+  },
+  {
+    "owner": "ZclubWeb3",
+    "name": null,
+    "url": "https://github.com/ZclubWeb3",
+    "type": "org",
+    "sources": [
+      {
+        "program": "klaymakers-2022",
+        "brand": "klaytn",
+        "periodStart": "2022-01-01",
+        "periodEnd": "2022-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2022"
+      }
+    ]
+  },
+  {
+    "owner": "zekaehq",
+    "name": "zekae-contracts",
+    "url": "https://github.com/zekaehq/zekae-contracts",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "kaia-2024-bounties",
+        "brand": "kaia",
+        "periodStart": "2024-09-01",
+        "periodEnd": "2025-12-31",
+        "notes": "Kaia era bounty / community repos 2024-2025"
+      }
+    ]
+  },
+  {
+    "owner": "zekaehq",
+    "name": "zekae-dapp",
+    "url": "https://github.com/zekaehq/zekae-dapp",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "kaia-2024-bounties",
+        "brand": "kaia",
+        "periodStart": "2024-09-01",
+        "periodEnd": "2025-12-31",
+        "notes": "Kaia era bounty / community repos 2024-2025"
+      }
+    ]
+  },
+  {
+    "owner": "ziptalk",
+    "name": null,
+    "url": "https://github.com/ziptalk",
+    "type": "org",
+    "sources": [
+      {
+        "program": "klaymakers-2023",
+        "brand": "klaytn",
+        "periodStart": "2023-01-01",
+        "periodEnd": "2023-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2023"
+      }
+    ]
+  },
+  {
+    "owner": "ziptalk",
+    "name": "Invincible_Node_Contracts",
+    "url": "https://github.com/ziptalk/Invincible_Node_Contracts",
+    "type": "repo",
+    "sources": [
+      {
+        "program": "klaymakers-2023",
+        "brand": "klaytn",
+        "periodStart": "2023-01-01",
+        "periodEnd": "2023-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2023"
+      }
+    ]
+  },
+  {
+    "owner": "ZNS-Connect",
+    "name": null,
+    "url": "https://github.com/ZNS-Connect",
+    "type": "org",
+    "sources": [
+      {
+        "program": "klaymakers-2023",
+        "brand": "klaytn",
+        "periodStart": "2023-01-01",
+        "periodEnd": "2023-12-31",
+        "notes": "Hackathon submissions for Klaymakers 2023"
+      }
+    ]
+  }
+]

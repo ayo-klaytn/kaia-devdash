@@ -1,6 +1,23 @@
 import { NextRequest, NextResponse } from "next/server";
 import db from "@/lib/db";
 import { sql } from "drizzle-orm";
+import { getCachedData, setCachedData, generateCacheKey, CACHE_TTL } from "@/lib/cache";
+
+// Check if is_fork column exists
+async function hasIsForkColumn(): Promise<boolean> {
+  try {
+    const result = await db.execute(sql`
+      SELECT column_name 
+      FROM information_schema.columns 
+      WHERE table_name = 'repository' 
+      AND column_name = 'is_fork';
+    `)
+    const rows = Array.isArray(result) ? result : (result.rows ?? [])
+    return rows.length > 0
+  } catch {
+    return false
+  }
+}
 
 // Count unique developers for a rolling window (28-31 days)
 // Since we have full commit history in DB, we just query by date range - no allowlist needed
@@ -10,15 +27,25 @@ async function countUniqueDevelopersForWindow(
 ): Promise<number> {
   const tsFrom = windowStart.toISOString();
   const tsTo = windowEnd.toISOString();
+  const hasForkColumn = await hasIsForkColumn();
+  const forkFilter = hasForkColumn ? sql`AND (COALESCE(r.is_fork, false) = false)` : sql``;
+  const excludeSpecificRepos = sql`
+    AND NOT (
+      (LOWER(r.owner) = 'kaiachain' AND LOWER(r.name) = 'kaia')
+      OR (LOWER(r.owner) = 'carv-protocol' AND LOWER(r.name) = 'eliza-d.a.t.a')
+    )
+  `;
 
   const rows = await db.execute(sql`
     SELECT COUNT(DISTINCT LOWER(TRIM(c.committer_email)))::int AS cnt
     FROM "commit" c
+    JOIN repository r ON r.id = c.repository_id
     WHERE c.timestamp >= ${tsFrom} 
       AND c.timestamp < ${tsTo}
       AND c.committer_email IS NOT NULL 
       AND c.committer_email <> ''
       AND LOWER(c.committer_email) NOT LIKE '%noreply@github.com%'
+      ${forkFilter} ${excludeSpecificRepos}
   `);
   
   const first = Array.isArray(rows) && rows.length > 0 ? rows[0] as Record<string, unknown> : {};
@@ -84,17 +111,36 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
   const pFrom = prevFrom || defaultPrevFrom;
   const pTo = prevTo || defaultPrevTo;
 
+  // Check cache first
+  const cacheKey = generateCacheKey("active-developers", { 
+    from: curFrom, 
+    to: curTo, 
+    prevFrom: pFrom, 
+    prevTo: pTo 
+  });
+  const cached = await getCachedData<any>(cacheKey);
+  if (cached) {
+    const res = NextResponse.json(cached);
+    res.headers.set('Cache-Control', 'public, s-maxage=21600, stale-while-revalidate=86400');
+    return res;
+  }
+
   try {
     const [current, previous] = await Promise.all([
       countActiveDevelopers(curFrom, curTo),
       countActiveDevelopers(pFrom, pTo)
     ]);
     const yoy = previous > 0 ? ((current - previous) / previous) * 100 : null;
-    const res = NextResponse.json({
+    const responseData = {
       current: { from: curFrom, to: curTo, activeDevelopers: current },
       previous: { from: pFrom, to: pTo, activeDevelopers: previous },
       yoyPercent: yoy,
-    });
+    };
+    
+    // Cache the response
+    await setCachedData(cacheKey, responseData, CACHE_TTL.ACTIVE_DEVELOPERS_YOY);
+    
+    const res = NextResponse.json(responseData);
     res.headers.set('Cache-Control', 'public, s-maxage=21600, stale-while-revalidate=86400');
     return res;
   } catch (e: unknown) {
