@@ -36,7 +36,6 @@ const EXCLUDE_REPOS_SQL = `
   )
 `;
 
-import { sql as sqlTag } from "drizzle-orm"; // alias if necessary?
 import { getCachedData, setCachedData, generateCacheKey, CACHE_TTL } from "@/lib/cache";
 
 
@@ -64,7 +63,17 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
 
   // Check cache first
   const cacheKey = generateCacheKey("developers", { page, limit });
-  const cached = await getCachedData<any>(cacheKey);
+  type DevelopersResponse = {
+    numberOfDevelopers: number;
+    numberOfActiveMonthlyDevelopers: number;
+    monthlyActiveDevelopers: Array<{ email: string | null; name: string | null }>;
+    newDevelopers365d: Array<{ email: string | null; name: string | null; firstAt: string }>;
+    monthlyMadProgress: Array<{ month: string; count: number; year: number; monthNumber: number }>;
+    uniqueDevelopersAcrossPeriod: number;
+    totalDeveloperMonths: number;
+    developers: unknown[];
+  };
+  const cached = await getCachedData<DevelopersResponse>(cacheKey);
   if (cached) {
     const res = NextResponse.json(cached);
     res.headers.set('Cache-Control', 'public, s-maxage=600, stale-while-revalidate=1200');

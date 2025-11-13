@@ -199,7 +199,13 @@ export async function GET(req: NextRequest) {
     
     // Check cache first
     const cacheKey = generateCacheKey("developer-metrics", { metric });
-    const cached = await getCachedData<any>(cacheKey);
+    type DeveloperMetricsResponse = {
+      metric: "mad" | "new";
+      periods: Array<{ id: string; label: string; brand: "klaytn" | "kaia" }>;
+      items: Array<{ month: string; values: Record<string, number> }>;
+      summary: Array<{ id: string; label: string; total: number; yoyPercent: number | null }>;
+    };
+    const cached = await getCachedData<DeveloperMetricsResponse>(cacheKey);
     if (cached) {
       return NextResponse.json(cached);
     }

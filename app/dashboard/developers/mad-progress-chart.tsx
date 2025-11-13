@@ -18,6 +18,8 @@ interface MadProgressChartProps {
 }
 
 export function MadProgressChart({ data, uniqueDevelopersAcrossPeriod: _uniqueDevelopersAcrossPeriod, totalDeveloperMonths }: MadProgressChartProps) {
+  // uniqueDevelopersAcrossPeriod is kept for API compatibility but not used in this component
+  void _uniqueDevelopersAcrossPeriod;
   const sortedData = useMemo(
     () =>
       [...data].sort((a, b) =>

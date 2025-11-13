@@ -118,7 +118,12 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
     prevFrom: pFrom, 
     prevTo: pTo 
   });
-  const cached = await getCachedData<any>(cacheKey);
+  type ActiveDevelopersResponse = {
+    current: { from: string; to: string; activeDevelopers: number };
+    previous: { from: string; to: string; activeDevelopers: number };
+    yoyPercent: number | null;
+  };
+  const cached = await getCachedData<ActiveDevelopersResponse>(cacheKey);
   if (cached) {
     const res = NextResponse.json(cached);
     res.headers.set('Cache-Control', 'public, s-maxage=21600, stale-while-revalidate=86400');

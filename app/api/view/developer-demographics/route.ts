@@ -31,7 +31,17 @@ export async function GET(req: NextRequest) {
 
     // Check cache first
     const cacheKey = generateCacheKey("developer-demographics", { limit, days });
-    const cached = await getCachedData<any>(cacheKey);
+    type DeveloperDemographicsResponse = {
+      totalContributors: number;
+      contributorsWithLocation: number;
+      countryBreakdown: Array<{
+        country: string;
+        developerCount: number;
+        totalCommits: number;
+        topDevelopers: Array<{ name: string; commitCount: number }>;
+      }>;
+    };
+    const cached = await getCachedData<DeveloperDemographicsResponse>(cacheKey);
     if (cached) {
       return NextResponse.json(cached);
     }
@@ -171,7 +181,7 @@ export async function GET(req: NextRequest) {
 
     const responseData = {
       totalContributors: contributorsWithLocation.length,
-      contributorsWithLocation: contributorsWithLocation.filter((c: any) => c.location).length,
+      contributorsWithLocation: contributorsWithLocation.filter((c) => c.location !== null).length,
       countryBreakdown,
     };
 

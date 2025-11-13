@@ -90,7 +90,32 @@ export async function GET(req: NextRequest) {
     
     // Check cache first
     const cacheKey = generateCacheKey("github-metrics", { period: period.id });
-    const cached = await getCachedData<any>(cacheKey);
+    type GithubMetricsResponse = {
+      period: {
+        id: string;
+        label: string;
+        brand: "klaytn" | "kaia";
+        start: string;
+        end: string | null;
+      };
+      availablePeriods: Array<{ id: string; label: string; brand: "klaytn" | "kaia" }>;
+      metrics: {
+        repositories: number;
+        commits: number;
+        developers: number;
+        newDevelopers: number;
+      };
+      repositories: Array<{
+        id: string;
+        owner: string;
+        name: string;
+        url: string | null;
+        commitCount: number;
+        developerCount: number;
+        lastCommitAt: string | null;
+      }>;
+    };
+    const cached = await getCachedData<GithubMetricsResponse>(cacheKey);
     if (cached) {
       return NextResponse.json(cached);
     }
