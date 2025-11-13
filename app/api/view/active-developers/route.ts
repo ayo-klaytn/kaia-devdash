@@ -12,7 +12,9 @@ async function hasIsForkColumn(): Promise<boolean> {
       WHERE table_name = 'repository' 
       AND column_name = 'is_fork';
     `)
-    const rows = Array.isArray(result) ? result : (result.rows ?? [])
+    const rows = Array.isArray(result) 
+      ? result 
+      : ('rows' in result && Array.isArray(result.rows) ? result.rows : [])
     return rows.length > 0
   } catch {
     return false
