@@ -71,6 +71,11 @@ export async function GET(req: NextRequest) {
     const thresholdDateStr = thresholdDate.toISOString();
 
     // Get top contributors directly
+    type ContributorRow = {
+      email: string;
+      name: string | null;
+      commit_count: number;
+    };
     const topContributorsResult = await db.execute(sql`
       SELECT 
         LOWER(TRIM(c.committer_email)) AS email,
@@ -84,16 +89,11 @@ export async function GET(req: NextRequest) {
       GROUP BY LOWER(TRIM(c.committer_email))
       ORDER BY commit_count DESC
       LIMIT ${limit};
-    `);
+    `) as ContributorRow[] | { rows?: ContributorRow[] };
 
-    type ContributorRow = {
-      email: string;
-      name: string | null;
-      commit_count: number;
-    };
     const contributors = Array.isArray(topContributorsResult)
-      ? (topContributorsResult as unknown as ContributorRow[])
-      : ((topContributorsResult.rows ?? []) as unknown as ContributorRow[]);
+      ? topContributorsResult
+      : (topContributorsResult.rows ?? []);
 
     // Get all developers with locations in one query
     const allDevelopers = await db
