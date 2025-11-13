@@ -149,20 +149,42 @@ export async function umamiFetch(endpoint: string): Promise<unknown> {
   
   console.log('Umami API call:', url);
   
-  const res = await fetch(url, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-      Accept: 'application/json',
-    },
-  });
+  try {
+    // Add timeout to prevent hanging (15 seconds)
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 15000);
+    
+    const res = await fetch(url, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: 'application/json',
+      },
+      signal: controller.signal,
+    });
+    
+    clearTimeout(timeoutId);
 
-  if (!res.ok) {
-    const text = await res.text().catch(() => '');
-    console.error('Umami upstream error:', res.status, res.statusText, text);
-    throw new Error(`Umami API error: ${res.status} ${res.statusText} ${text ? `- ${text}` : ''}`);
+    if (!res.ok) {
+      const text = await res.text().catch(() => '');
+      console.error('Umami upstream error:', res.status, res.statusText, text);
+      throw new Error(`Umami API error: ${res.status} ${res.statusText} ${text ? `- ${text}` : ''}`);
+    }
+
+    return res.json();
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      // Check for DNS/network errors
+      if (error.message.includes('ENOTFOUND') || error.message.includes('getaddrinfo')) {
+        console.error('Umami DNS/Network error - hostname may be unreachable:', baseUrl);
+        throw new Error(`Umami hostname unreachable: ${baseUrl}. Check if the service is running and accessible.`);
+      }
+      if (error.name === 'AbortError') {
+        console.error('Umami request timeout');
+        throw new Error('Umami request timeout - service may be slow or unreachable');
+      }
+    }
+    throw error;
   }
-
-  return res.json();
 }
 
 export async function getUmamiStats(startAt: number, endAt: number): Promise<UmamiStats> {

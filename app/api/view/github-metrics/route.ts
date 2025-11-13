@@ -133,6 +133,16 @@ export async function GET(req: NextRequest) {
     `;
     const forkFilter = hasForkColumn ? sql`AND (COALESCE(r.is_fork, false) = false)` : sql``;
 
+    type RepoRow = {
+      id: string;
+      owner: string;
+      name: string;
+      url: string | null;
+      commit_count: number;
+      developer_count: number;
+      last_commit_at: string | null;
+    };
+
     const repoRowsResult = await db.execute(sql`
       SELECT
         r.id,
@@ -151,27 +161,11 @@ export async function GET(req: NextRequest) {
       GROUP BY r.id, r.owner, r.name, r.url
       HAVING COUNT(c.sha) > 0
       ORDER BY LOWER(r.owner) ASC, LOWER(r.name) ASC;
-    `);
+    `) as RepoRow[] | { rows?: RepoRow[] };
 
     const repoRows = Array.isArray(repoRowsResult)
-      ? (repoRowsResult as Array<{
-          id: string;
-          owner: string;
-          name: string;
-          url: string | null;
-          commit_count: number;
-          developer_count: number;
-          last_commit_at: string | null;
-        }>)
-      : ((repoRowsResult.rows ?? []) as Array<{
-          id: string;
-          owner: string;
-          name: string;
-          url: string | null;
-          commit_count: number;
-          developer_count: number;
-          last_commit_at: string | null;
-        }>);
+      ? repoRowsResult
+      : (repoRowsResult.rows ?? []);
     
     const totalsResult = await db.execute(sql`
       SELECT
