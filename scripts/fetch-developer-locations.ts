@@ -117,7 +117,14 @@ async function fetchGitHubLocation(username: string): Promise<string | null> {
       // Check rate limit
       try {
         const { data: rateLimit } = await octokit.rest.rateLimit.get();
-        console.log(`  Rate limit: ${rateLimit.remaining}/${rateLimit.limit} (resets at ${new Date(rateLimit.reset * 1000).toISOString()})`);
+        const coreRate =
+          rateLimit.resources?.core ??
+          rateLimit.rate;
+        if (coreRate) {
+          console.log(
+            `  Rate limit: ${coreRate.remaining}/${coreRate.limit} (resets at ${new Date(coreRate.reset * 1000).toISOString()})`
+          );
+        }
       } catch {
         // Rate limit endpoint might not be available
       }
