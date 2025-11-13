@@ -94,7 +94,8 @@ export async function invalidateCache(pattern: string): Promise<number> {
       if (Array.isArray(response)) {
         return response.length;
       }
-      return response.rowCount ?? 0;
+      const result = response as { rowCount?: number };
+      return result.rowCount ?? 0;
     } else {
       // Exact match
       await db
@@ -116,11 +117,12 @@ export async function cleanupExpiredCache(): Promise<number> {
     const response = await db.execute(sql`
       DELETE FROM api_cache
       WHERE expires_at < NOW()
-    `);
+    `) as unknown[] | { rowCount?: number };
     if (Array.isArray(response)) {
       return response.length;
     }
-    return response.rowCount ?? 0;
+    const result = response as { rowCount?: number };
+    return result.rowCount ?? 0;
   } catch (error) {
     console.error('Error cleaning up expired cache:', error);
     return 0;
