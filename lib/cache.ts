@@ -90,7 +90,7 @@ export async function invalidateCache(pattern: string): Promise<number> {
       const response = await db.execute(sql`
         DELETE FROM api_cache
         WHERE cache_key LIKE ${pattern}
-      `);
+      `) as unknown[] | { rowCount?: number };
       if (Array.isArray(response)) {
         return response.length;
       }
