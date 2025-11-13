@@ -10,16 +10,21 @@ async function addIsForkColumn() {
     console.log('Adding is_fork column to repository table...');
     
     // Check if column already exists
+    type ColumnCheckRow = { column_name: string };
     const checkResult = await db.execute(sql`
       SELECT column_name 
       FROM information_schema.columns 
       WHERE table_name = 'repository' 
       AND column_name = 'is_fork';
-    `);
+    `) as ColumnCheckRow[] | { rows?: ColumnCheckRow[] };
     
-    const exists = Array.isArray(checkResult) 
-      ? checkResult.length > 0 
-      : (checkResult.rows?.length ?? 0) > 0;
+    let exists = false;
+    if (Array.isArray(checkResult)) {
+      exists = checkResult.length > 0;
+    } else {
+      const rows = (checkResult as { rows?: ColumnCheckRow[] } | undefined)?.rows ?? [];
+      exists = rows.length > 0;
+    }
     
     if (exists) {
       console.log('✅ Column is_fork already exists');
