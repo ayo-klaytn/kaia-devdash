@@ -10,16 +10,18 @@ async function addLocationColumn() {
   console.log('Adding location column to developer table...');
   try {
     // Check if column already exists
+    type ColumnCheckRow = { column_name: string };
     const checkResult = await db.execute(sql`
       SELECT column_name 
       FROM information_schema.columns 
       WHERE table_name = 'developer' 
       AND column_name = 'location';
-    `);
+    `) as ColumnCheckRow[] | { rows?: ColumnCheckRow[] };
     
-    const exists = Array.isArray(checkResult) 
-      ? checkResult.length > 0 
-      : (checkResult.rows?.length ?? 0) > 0;
+    const rows = Array.isArray(checkResult)
+      ? checkResult
+      : ((checkResult as { rows?: ColumnCheckRow[] } | undefined)?.rows ?? []);
+    const exists = rows.length > 0;
     
     if (exists) {
       console.log('✅ Column location already exists');

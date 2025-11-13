@@ -18,13 +18,10 @@ async function addIsForkColumn() {
       AND column_name = 'is_fork';
     `) as ColumnCheckRow[] | { rows?: ColumnCheckRow[] };
     
-    let exists = false;
-    if (Array.isArray(checkResult)) {
-      exists = checkResult.length > 0;
-    } else {
-      const rows = (checkResult as { rows?: ColumnCheckRow[] } | undefined)?.rows ?? [];
-      exists = rows.length > 0;
-    }
+    const rows = Array.isArray(checkResult)
+      ? checkResult
+      : ((checkResult as { rows?: ColumnCheckRow[] } | undefined)?.rows ?? []);
+    const exists = rows.length > 0;
     
     if (exists) {
       console.log('✅ Column is_fork already exists');

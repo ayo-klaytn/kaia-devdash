@@ -18,13 +18,10 @@ async function addApiCacheTable() {
       AND table_name = 'api_cache';
     `) as TableCheckRow[] | { rows?: TableCheckRow[] };
     
-    let exists = false;
-    if (Array.isArray(checkResult)) {
-      exists = checkResult.length > 0;
-    } else {
-      const rows = (checkResult as { rows?: TableCheckRow[] } | undefined)?.rows ?? [];
-      exists = rows.length > 0;
-    }
+    const rows = Array.isArray(checkResult)
+      ? checkResult
+      : ((checkResult as { rows?: TableCheckRow[] } | undefined)?.rows ?? []);
+    const exists = rows.length > 0;
     
     if (exists) {
       console.log('✅ Table api_cache already exists');
