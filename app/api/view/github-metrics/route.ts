@@ -167,6 +167,12 @@ export async function GET(req: NextRequest) {
       ? repoRowsResult
       : (repoRowsResult.rows ?? []);
     
+    type TotalsRow = {
+      repositories: number;
+      commits: number;
+      developers: number;
+    };
+
     const totalsResult = await db.execute(sql`
       SELECT
         COUNT(DISTINCT r.id)::int AS repositories,
@@ -177,16 +183,20 @@ export async function GET(req: NextRequest) {
       WHERE ${timeCondition}
         AND ${sql.raw(EMAIL_FILTER_SQL)}
         ${excludeSpecificRepos} ${forkFilter};
-    `);
+    `) as TotalsRow[] | { rows?: TotalsRow[] };
 
     const totalsRow = Array.isArray(totalsResult)
-      ? (totalsResult[0] as { repositories: number; commits: number; developers: number })
-      : ((totalsResult.rows?.[0] as { repositories?: number; commits?: number; developers?: number }) ?? {
+      ? (totalsResult[0] ?? { repositories: 0, commits: 0, developers: 0 })
+      : ((totalsResult.rows?.[0] as TotalsRow | undefined) ?? {
           repositories: 0,
           commits: 0,
           developers: 0,
         });
     
+    type NewDevelopersRow = {
+      count: number;
+    };
+
     const newDevelopersResult = await db.execute(sql`
       WITH all_first_commits AS (
         SELECT
@@ -202,13 +212,11 @@ export async function GET(req: NextRequest) {
       FROM all_first_commits
       WHERE first_ts >= ${start}
         ${end ? sql`AND first_ts < ${end}` : sql``};
-    `);
+    `) as NewDevelopersRow[] | { rows?: NewDevelopersRow[] };
 
     const newDevelopers = Array.isArray(newDevelopersResult)
-      ? Number((newDevelopersResult[0] as { count: number }).count ?? 0)
-      : Number(
-          (newDevelopersResult.rows?.[0] as { count?: number } | undefined)?.count ?? 0
-        );
+      ? Number((newDevelopersResult[0]?.count ?? 0))
+      : Number((newDevelopersResult.rows?.[0]?.count ?? 0));
 
     const responseData = {
       period: {
