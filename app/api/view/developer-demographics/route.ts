@@ -12,7 +12,7 @@ async function hasIsForkColumn(): Promise<boolean> {
       FROM information_schema.columns 
       WHERE table_name = 'repository' 
       AND column_name = 'is_fork';
-    `);
+    `) as Array<{ column_name: string }> | { rows?: Array<{ column_name: string }> };
     const rows = Array.isArray(result) ? result : (result.rows ?? []);
     return rows.length > 0;
   } catch {
