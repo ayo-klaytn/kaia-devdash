@@ -10,16 +10,21 @@ async function addApiCacheTable() {
   console.log('Adding api_cache table...');
   try {
     // Check if table already exists
+    type TableCheckRow = { table_name: string };
     const checkResult = await db.execute(sql`
       SELECT table_name 
       FROM information_schema.tables 
       WHERE table_schema = 'public' 
       AND table_name = 'api_cache';
-    `);
+    `) as TableCheckRow[] | { rows?: TableCheckRow[] };
     
-    const exists = Array.isArray(checkResult) 
-      ? checkResult.length > 0 
-      : (checkResult.rows?.length ?? 0) > 0;
+    let exists = false;
+    if (Array.isArray(checkResult)) {
+      exists = checkResult.length > 0;
+    } else {
+      const rows = (checkResult as { rows?: TableCheckRow[] } | undefined)?.rows ?? [];
+      exists = rows.length > 0;
+    }
     
     if (exists) {
       console.log('✅ Table api_cache already exists');
