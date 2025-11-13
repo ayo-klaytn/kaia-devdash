@@ -18,41 +18,87 @@ interface MadProgressChartProps {
 }
 
 export function MadProgressChart({ data, uniqueDevelopersAcrossPeriod, totalDeveloperMonths }: MadProgressChartProps) {
-  // Memoize calculations to prevent unnecessary re-renders
+  const sortedData = useMemo(
+    () =>
+      [...data].sort((a, b) =>
+        a.year === b.year ? a.monthNumber - b.monthNumber : a.year - b.year,
+      ),
+    [data],
+  );
+
   const metrics = useMemo(() => {
-    const averagePerMonth = data.length > 0 ? Math.round(totalDeveloperMonths / data.length) : 0;
-    
-    // Calculate growth from first to last month
-    const firstMonth = data[0]?.count || 0;
-    const lastMonth = data[data.length - 1]?.count || 0;
-    const growthPercentage = firstMonth > 0 ? Math.round(((lastMonth - firstMonth) / firstMonth) * 100) : 0;
-    
-    // Find peak and lowest months
-    const peakMonth = data.reduce((max, item) => item.count > max.count ? item : max, data[0] || { month: 'N/A', count: 0 });
-    const lowestMonth = data.reduce((min, item) => item.count < min.count ? item : min, data[0] || { month: 'N/A', count: 0 });
-    
+    if (sortedData.length === 0) {
+      const defaultMonths = [
+        "Jan 2025",
+        "Feb 2025",
+        "Mar 2025",
+        "Apr 2025",
+        "May 2025",
+        "Jun 2025",
+        "Jul 2025",
+        "Aug 2025",
+        "Sep 2025",
+        "Oct 2025",
+      ];
+      return {
+        averagePerMonth: 0,
+        growthPercentage: 0,
+        peakMonth: { month: defaultMonths[0], count: 0 },
+        lowestMonth: { month: defaultMonths[0], count: 0 },
+        startMonth: defaultMonths[0],
+        endMonth: defaultMonths[defaultMonths.length - 1],
+      };
+    }
+
+    const averagePerMonth =
+      sortedData.length > 0
+        ? Math.round(totalDeveloperMonths / sortedData.length)
+        : 0;
+
+    const firstMonthCount = sortedData[0]?.count ?? 0;
+    const lastMonthCount = sortedData[sortedData.length - 1]?.count ?? 0;
+    const growthPercentage =
+      firstMonthCount > 0
+        ? Math.round(((lastMonthCount - firstMonthCount) / firstMonthCount) * 100)
+        : 0;
+
+    const peakMonth = sortedData.reduce(
+      (max, item) => (item.count > max.count ? item : max),
+      sortedData[0],
+    );
+    const lowestMonth = sortedData.reduce(
+      (min, item) => (item.count < min.count ? item : min),
+      sortedData[0],
+    );
+
     return {
       averagePerMonth,
       growthPercentage,
       peakMonth,
-      lowestMonth
+      lowestMonth,
+      startMonth: sortedData[0]?.month ?? "N/A",
+      endMonth: sortedData[sortedData.length - 1]?.month ?? "N/A",
     };
-  }, [data, totalDeveloperMonths]);
+  }, [sortedData, totalDeveloperMonths]);
 
   return (
     <Card>
       <CardHeader>
         <CardTitle>Monthly Active Developers Progress</CardTitle>
         <CardDescription>
-          Tracking developer engagement from January to September 2025
+          Tracking developer engagement from {metrics.startMonth} to {metrics.endMonth}
         </CardDescription>
       </CardHeader>
       <CardContent>
         {/* Key Metrics */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
           <div className="text-center p-3 bg-muted rounded-lg">
-            <div className="text-2xl font-bold text-blue-600">{uniqueDevelopersAcrossPeriod}</div>
-            <div className="text-sm text-muted-foreground">Unique Developers</div>
+            <div className="text-2xl font-bold text-blue-600">
+              {totalDeveloperMonths}
+            </div>
+            <div className="text-sm text-muted-foreground">
+              Total Active Dev
+            </div>
           </div>
           <div className="text-center p-3 bg-muted rounded-lg">
             <div className="text-2xl font-bold text-green-600">{metrics.averagePerMonth}</div>
@@ -110,9 +156,12 @@ export function MadProgressChart({ data, uniqueDevelopersAcrossPeriod, totalDeve
           <ul className="text-sm text-muted-foreground space-y-1">
             <li>• Peak month: <strong>{metrics.peakMonth.month}</strong> with {metrics.peakMonth.count} developers</li>
             <li>• Lowest month: <strong>{metrics.lowestMonth.month}</strong> with {metrics.lowestMonth.count} developers</li>
-            <li>• <strong>{uniqueDevelopersAcrossPeriod}</strong> unique developers contributed across Jan-Sep 2025</li>
-            <li>• <strong>{totalDeveloperMonths}</strong> total developer-months of activity in 2025</li>
-            <li>• {metrics.growthPercentage >= 0 ? 'Growing' : 'Declining'} monthly engagement from Jan to Sep 2025</li>
+            <li>
+              • <strong>{totalDeveloperMonths}</strong> total active developers across Jan–Oct 2025 (sum of monthly counts)
+            </li>
+            <li>
+              • {metrics.growthPercentage >= 0 ? 'Growing' : 'Declining'} monthly engagement across the period
+            </li>
           </ul>
         </div>
       </CardContent>

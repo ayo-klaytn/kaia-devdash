@@ -2,9 +2,11 @@
 
 import { Home, Code, Radio, MessageSquareText, Earth, ChartLine, Ship, Users, Waves, Megaphone, AlignEndVertical, Wrench } from "lucide-react"
 import { usePathname } from 'next/navigation';
+import Image from "next/image";
 import {
   Sidebar,
   SidebarContent,
+  SidebarHeader,
   SidebarGroup,
   SidebarGroupContent,
   SidebarGroupLabel,
@@ -69,11 +71,12 @@ const data = {
           url: "/dashboard/onchain-metrics",
           icon: ChartLine,
         },
+        /*
         {
           title: "Kaia Wave",
           url: "/dashboard/kaia-wave",
           icon: Waves,
-        },
+        }, */
       ],
     },
     {
@@ -96,6 +99,7 @@ const data = {
         },
       ],
     },
+    /*
     {
       title: "Dev Core Components",
       items: [
@@ -110,7 +114,7 @@ const data = {
           icon: Ship,
         }
       ],
-    }
+    } */
   ],
 }
  
@@ -118,40 +122,91 @@ export function AppSidebar() {
   const pathname = usePathname();
   
   return (
-    <Sidebar>
-      <SidebarContent>
+    <Sidebar className="border-r">
+      <SidebarHeader className="border-b bg-muted/30 backdrop-blur-sm">
+        <div className="flex items-center gap-3 px-4 py-4">
+          <div className="relative">
+            <Image
+              src="/kaia-logo.jpg"
+              alt="Kaia Logo"
+              width={36}
+              height={36}
+              className="object-contain shrink-0 rounded-md"
+              priority
+            />
+          </div>
+          <div className="flex flex-col items-start">
+            <span className="text-sm font-semibold tracking-tight">Kaia</span>
+            <span className="text-xs text-muted-foreground font-medium">Foundation</span>
+          </div>
+        </div>
+      </SidebarHeader>
+      <SidebarContent className="gap-1">
         <SidebarGroup>
-          <SidebarGroupLabel>Kaia Foundation</SidebarGroupLabel>
+          <SidebarGroupLabel className="px-4 text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">
+            Navigation
+          </SidebarGroupLabel>
           <SidebarGroupContent>
-            <SidebarMenu>
-              {data.navMain.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
-                    {
-                      item.title === "Home" ? (
-                        <Link className="font-medium" href="/dashboard">
-                          {item.icon && <item.icon className="w-4 h-4" />}
-                          {item.title}
-                        </Link>
-                      ) : (
-                        <p className="font-medium">{item.title}</p>
-                      )
-                    }
-                  </SidebarMenuButton>
-                  {item.items?.length ? (
-                    <SidebarMenuSub>
-                      {item.items.map((item) => (
-                        <SidebarMenuSubItem key={item.title}>
-                          <SidebarMenuSubButton asChild isActive={pathname === item.url}>
-                            <Link href={item.url ?? "/"}>
-                              {'icon' in item && <item.icon className="w-4 h-4" />}
-                              {item.title}
-                            </Link>
-                          </SidebarMenuSubButton>
-                        </SidebarMenuSubItem>
-                      ))}
-                    </SidebarMenuSub>
-                  ) : null}
+            <SidebarMenu className="space-y-1 px-2">
+              {data.navMain.map((item, groupIndex) => (
+                <SidebarMenuItem key={item.title} className="group">
+                  {item.title === "Home" ? (
+                    <SidebarMenuButton asChild className="rounded-lg">
+                      <Link 
+                        href="/dashboard"
+                        className={`flex items-center gap-3 px-3 py-2.5 font-medium transition-all ${
+                          pathname === "/dashboard"
+                            ? "bg-primary text-primary-foreground shadow-sm"
+                            : "hover:bg-muted/70"
+                        }`}
+                      >
+                        {item.icon && <item.icon className="w-4 h-4 shrink-0" />}
+                        <span>{item.title}</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  ) : (
+                    <>
+                      <div className="px-3 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+                        {item.title}
+                      </div>
+                      {item.items?.length ? (
+                        <SidebarMenuSub className="space-y-0.5">
+                          {item.items.map((subItem) => {
+                            const isActive = pathname === subItem.url;
+                            return (
+                              <SidebarMenuSubItem key={subItem.title}>
+                                <SidebarMenuSubButton 
+                                  asChild 
+                                  isActive={isActive}
+                                  className={`rounded-lg transition-all relative ${
+                                    isActive 
+                                      ? "bg-primary/10 text-primary font-medium" 
+                                      : "hover:bg-muted/60"
+                                  }`}
+                                >
+                                  <Link 
+                                    href={subItem.url ?? "/"} 
+                                    className="flex items-center gap-3 px-3 py-2 min-w-0"
+                                  >
+                                    {isActive && (
+                                      <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-5 bg-primary rounded-r-full" />
+                                    )}
+                                    {'icon' in subItem && (
+                                      <subItem.icon className={`w-4 h-4 shrink-0 ${isActive ? "text-primary" : ""}`} />
+                                    )}
+                                    <span className="text-sm truncate flex-1 min-w-0">{subItem.title}</span>
+                                  </Link>
+                                </SidebarMenuSubButton>
+                              </SidebarMenuSubItem>
+                            );
+                          })}
+                        </SidebarMenuSub>
+                      ) : null}
+                      {groupIndex < data.navMain.length - 1 && (
+                        <div className="h-px bg-border/50 mx-3 my-2" />
+                      )}
+                    </>
+                  )}
                 </SidebarMenuItem>
               ))}
             </SidebarMenu>

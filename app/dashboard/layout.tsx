@@ -1,6 +1,7 @@
 import Header from "@/components/header";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/app-sidebar";
+import { DashboardFooter } from "@/components/dashboard-footer";
 
 export default async function DashboardLayout({
   children,
@@ -11,9 +12,12 @@ export default async function DashboardLayout({
   return (
     <SidebarProvider defaultOpen={true}>
       <AppSidebar />
-      <section className="flex flex-col w-full">
+      <section className="flex flex-col w-full min-h-screen">
         <Header />
-        {children}
+        <main className="flex-1">
+          {children}
+        </main>
+        <DashboardFooter />
       </section>
     </SidebarProvider>
   );

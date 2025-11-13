@@ -2,6 +2,7 @@
 import { useMemo } from 'react';
 import kaiaProjects from "@/lib/mocks/kaia-projects.json"
 import { Code, BookOpen, Video, ExternalLink, Github } from "lucide-react";
+import { Card, CardContent } from "@/components/ui/card";
 type ProjectData = {
   id?: string | number;
   name?: string;
@@ -359,139 +360,189 @@ export default function CodeContentPage() {
     [data]
   );
 
+  const kpiCards = [
+    {
+      value: sampleCodesAndRepos.length,
+      label: "Code Samples",
+      delta: "+4 QoQ",
+      sublabel: "Published this year",
+      icon: Code,
+      iconColor: "text-blue-600",
+      iconBg: "bg-blue-50 dark:bg-blue-950/20",
+      gradient: "from-blue-50 to-blue-100/50 dark:from-blue-950/20 dark:to-blue-900/10",
+    },
+    {
+      value: technicalWrittenGuides.length,
+      label: "Technical Guides",
+      delta: "+7 YoY",
+      sublabel: "Articles & tutorials this year",
+      icon: BookOpen,
+      iconColor: "text-green-600",
+      iconBg: "bg-green-50 dark:bg-green-950/20",
+      gradient: "from-green-50 to-green-100/50 dark:from-green-950/20 dark:to-green-900/10",
+    },
+    {
+      value: technicalVideoGuides.length,
+      label: "Video Guides",
+      delta: "+3 last 90d",
+      sublabel: "Videos released this year",
+      icon: Video,
+      iconColor: "text-purple-600",
+      iconBg: "bg-purple-50 dark:bg-purple-950/20",
+      gradient: "from-purple-50 to-purple-100/50 dark:from-purple-950/20 dark:to-purple-900/10",
+    },
+  ];
+
   return (
-    <div className="flex flex-col gap-6 p-4">
-      <div className="flex flex-col gap-4">
-        <h1 className="text-2xl font-bold">Code & Content</h1>
-        <p className="text-sm text-muted-foreground">
-          Explore sample codes, technical guides, and video tutorials for Kaia development.
+    <div className="flex flex-col gap-6 p-6">
+      <div className="flex flex-col gap-2">
+        <h1 className="text-3xl font-bold tracking-tight">Code & Content</h1>
+        <p className="text-muted-foreground">
+          Explore sample codes, technical guides, and video tutorials for Kaia development
         </p>
       </div>
 
       {/* KPI Summary */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div className="flex flex-col gap-2 p-4 border rounded-lg">
-          <div className="flex items-center justify-between">
-            <span className="text-xs text-muted-foreground">Code Samples</span>
-            <span className="text-xs text-green-700">+4 QoQ</span>
-          </div>
-          <div className="text-3xl font-bold">{sampleCodesAndRepos.length}</div>
-          <div className="text-xs text-muted-foreground">Published this year</div>
-        </div>
-        <div className="flex flex-col gap-2 p-4 border rounded-lg">
-          <div className="flex items-center justify-between">
-            <span className="text-xs text-muted-foreground">Technical Guides</span>
-            <span className="text-xs text-green-700">+7 YoY</span>
-          </div>
-          <div className="text-3xl font-bold">{technicalWrittenGuides.length}</div>
-          <div className="text-xs text-muted-foreground">Articles & tutorials this year</div>
-        </div>
-        <div className="flex flex-col gap-2 p-4 border rounded-lg">
-          <div className="flex items-center justify-between">
-            <span className="text-xs text-muted-foreground">Video Guides</span>
-            <span className="text-xs text-green-700">+3 last 90d</span>
-          </div>
-          <div className="text-3xl font-bold">{technicalVideoGuides.length}</div>
-          <div className="text-xs text-muted-foreground">Videos released this year</div>
-        </div>
+        {kpiCards.map((card, index) => {
+          const Icon = card.icon;
+          return (
+            <Card 
+              key={index}
+              className="relative overflow-hidden transition-all duration-200 hover:shadow-md hover:scale-[1.02] border-0 shadow-sm"
+            >
+              <div className={`absolute inset-0 bg-gradient-to-br ${card.gradient} opacity-50`} />
+              <CardContent className="relative p-6">
+                <div className="flex items-start justify-between mb-3">
+                  <p className="text-sm font-medium text-muted-foreground">{card.label}</p>
+                  <span className="text-xs font-medium text-green-600">{card.delta}</span>
+                </div>
+                <div className="flex items-start justify-between">
+                  <div className="flex-1">
+                    <h2 className="text-3xl font-bold tracking-tight mb-1">{card.value}</h2>
+                    <p className="text-xs text-muted-foreground">{card.sublabel}</p>
+                  </div>
+                  <div className={`${card.iconBg} p-3 rounded-lg`}>
+                    <Icon className={`w-5 h-5 ${card.iconColor}`} />
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          );
+        })}
       </div>
 
       {/* Sample Codes and Repos */}
-      <div className="flex flex-col gap-4 border rounded-md p-4">
-        <div className="flex items-center gap-2">
-          <Code className="w-5 h-5" />
-          <h2 className="text-xl font-semibold">Sample Codes and Repos</h2>
-        </div>
-        <p className="text-sm text-muted-foreground">
-          Open source examples and sample implementations ({sampleCodesAndRepos.length} total)
-        </p>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {sampleCodesAndRepos.map((item) => (
-            <div key={item.id} className="flex flex-col gap-2 p-4 border rounded-lg hover:bg-muted/50 transition-colors">
-              <div className="flex items-start justify-between">
-                <h3 className="font-medium text-sm">{item.name}</h3>
-                <a 
-                  href={item.github} 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="text-muted-foreground hover:text-foreground"
-                >
-                  <Github className="w-4 h-4" />
-                </a>
+      <Card className="border-0 shadow-sm">
+        <CardContent className="p-6">
+          <div className="flex items-center gap-2 mb-4">
+            <Code className="w-5 h-5 text-primary" />
+            <h2 className="text-xl font-semibold">Sample Codes and Repos</h2>
+          </div>
+          <p className="text-sm text-muted-foreground mb-4">
+            Open source examples and sample implementations ({sampleCodesAndRepos.length} total)
+          </p>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {sampleCodesAndRepos.map((item) => (
+              <div 
+                key={item.id} 
+                className="flex flex-col gap-3 p-4 rounded-lg border hover:bg-muted/50 transition-all hover:shadow-sm"
+              >
+                <div className="flex items-start justify-between">
+                  <h3 className="font-semibold text-sm flex-1">{item.name}</h3>
+                  <a 
+                    href={item.github} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="text-muted-foreground hover:text-primary transition-colors shrink-0 ml-2"
+                  >
+                    <Github className="w-4 h-4" />
+                  </a>
+                </div>
+                <p className="text-xs text-muted-foreground">{item.description}</p>
+                <div className="flex items-center gap-2">
+                  <span className="text-xs bg-primary/10 text-primary px-2 py-1 rounded font-medium">{item.category}</span>
+                </div>
               </div>
-              <p className="text-xs text-muted-foreground">{item.description}</p>
-              <div className="flex items-center gap-2">
-                <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded">{item.category}</span>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
 
       {/* Technical Written Guides */}
-      <div className="flex flex-col gap-4 border rounded-md p-4">
-        <div className="flex items-center gap-2">
-          <BookOpen className="w-5 h-5" />
-          <h2 className="text-xl font-semibold">Technical Written Guides</h2>
-        </div>
-        <p className="text-sm text-muted-foreground">
-          Comprehensive documentation and step-by-step tutorials ({technicalWrittenGuides.length} total)
-        </p>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {technicalWrittenGuides.map((item) => (
-            <div key={item.id} className="flex flex-col gap-2 p-4 border rounded-lg hover:bg-muted/50 transition-colors">
-              <div className="flex items-start justify-between">
-                <h3 className="font-medium text-sm">{item.name}</h3>
-                <a 
-                  href={item.url} 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="text-muted-foreground hover:text-foreground"
-                >
-                  <ExternalLink className="w-4 h-4" />
-                </a>
+      <Card className="border-0 shadow-sm">
+        <CardContent className="p-6">
+          <div className="flex items-center gap-2 mb-4">
+            <BookOpen className="w-5 h-5 text-primary" />
+            <h2 className="text-xl font-semibold">Technical Written Guides</h2>
+          </div>
+          <p className="text-sm text-muted-foreground mb-4">
+            Comprehensive documentation and step-by-step tutorials ({technicalWrittenGuides.length} total)
+          </p>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {technicalWrittenGuides.map((item) => (
+              <div 
+                key={item.id} 
+                className="flex flex-col gap-3 p-4 rounded-lg border hover:bg-muted/50 transition-all hover:shadow-sm"
+              >
+                <div className="flex items-start justify-between">
+                  <h3 className="font-semibold text-sm flex-1">{item.name}</h3>
+                  <a 
+                    href={item.url} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="text-muted-foreground hover:text-primary transition-colors shrink-0 ml-2"
+                  >
+                    <ExternalLink className="w-4 h-4" />
+                  </a>
+                </div>
+                <p className="text-xs text-muted-foreground">{item.description}</p>
+                <div className="flex items-center gap-2">
+                  <span className="text-xs bg-green-100 text-green-800 dark:bg-green-950/30 dark:text-green-400 px-2 py-1 rounded font-medium">{item.category}</span>
+                </div>
               </div>
-              <p className="text-xs text-muted-foreground">{item.description}</p>
-              <div className="flex items-center gap-2">
-                <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded">{item.category}</span>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
 
       {/* Technical Video Guides */}
-      <div className="flex flex-col gap-4 border rounded-md p-4">
-        <div className="flex items-center gap-2">
-          <Video className="w-5 h-5" />
-          <h2 className="text-xl font-semibold">Technical Video Guides</h2>
-        </div>
-        <p className="text-sm text-muted-foreground">
-          Video tutorials and workshops for hands-on learning ({technicalVideoGuides.length} total)
-        </p>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {technicalVideoGuides.map((item) => (
-            <div key={item.id} className="flex flex-col gap-2 p-4 border rounded-lg hover:bgMuted/50 transition-colors">
-              <div className="flex items-start justify-between">
-                <h3 className="font-medium text-sm">{item.name}</h3>
-                <a 
-                  href={item.url} 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="text-muted-foreground hover:text-foreground"
-                >
-                  <ExternalLink className="w-4 h-4" />
-                </a>
+      <Card className="border-0 shadow-sm">
+        <CardContent className="p-6">
+          <div className="flex items-center gap-2 mb-4">
+            <Video className="w-5 h-5 text-primary" />
+            <h2 className="text-xl font-semibold">Technical Video Guides</h2>
+          </div>
+          <p className="text-sm text-muted-foreground mb-4">
+            Video tutorials and workshops for hands-on learning ({technicalVideoGuides.length} total)
+          </p>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {technicalVideoGuides.map((item) => (
+              <div 
+                key={item.id} 
+                className="flex flex-col gap-3 p-4 rounded-lg border hover:bg-muted/50 transition-all hover:shadow-sm"
+              >
+                <div className="flex items-start justify-between">
+                  <h3 className="font-semibold text-sm flex-1">{item.name}</h3>
+                  <a 
+                    href={item.url} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="text-muted-foreground hover:text-primary transition-colors shrink-0 ml-2"
+                  >
+                    <ExternalLink className="w-4 h-4" />
+                  </a>
+                </div>
+                <p className="text-xs text-muted-foreground">{item.description}</p>
+                <div className="flex items-center gap-2">
+                  <span className="text-xs bg-purple-100 text-purple-800 dark:bg-purple-950/30 dark:text-purple-400 px-2 py-1 rounded font-medium">{item.category}</span>
+                  <span className="text-xs text-muted-foreground">{item.duration}</span>
+                </div>
               </div>
-              <p className="text-xs text-muted-foreground">{item.description}</p>
-              <div className="flex items-center gap-2">
-                <span className="text-xs bg-purple-100 text-purple-800 px-2 py-1 rounded">{item.category}</span>
-                <span className="text-xs text-muted-foreground">{item.duration}</span>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
     </div>
   );
 }

@@ -34,6 +34,61 @@ const EMAIL_FILTER_SQL = `
   AND LOWER(c.committer_email) NOT LIKE '%bot@%'
 `
 
+const EXCLUDED_NAMES = [
+  'ayo-klaytn',
+  'praveen-kaia',
+  'praveen-klaytn',
+  'zxstim',
+  'scott lee',
+  'github',
+  'ollie',
+  'kaia-docs',
+  'sotatek-quangdo',
+  'sotatek-longpham2',
+  'sotatek-tule2',
+  'sotatek-tinnnguyen',
+  'github-actions',
+  'github-actions[bot]',
+  'jingxuan-kaia',
+  'gpt-engineer-app[bot]',
+  'google-labs-jules[bot]',
+  'sawyer',
+  'firebase studio',
+  'ollie.j',
+  'yumiel yoomee1313',
+  'dragon-swap',
+  'hyeonlewis',
+  'kjeom',
+  'your name',
+  'root',
+  'gitbook-bot',
+  'sitongliu-klaytn',
+  'aidan',
+  'aidenpark-kaia',
+  'neoofklaytn',
+  'markyim-klaytn',
+  'tnasu',
+  'shogo hyodo',
+  'cursor agent',
+  'vibe torch bot',
+]
+
+const EXCLUDED_NAMES_SQL = (() => {
+  if (EXCLUDED_NAMES.length === 0) return ''
+  const clauses = EXCLUDED_NAMES.map((name) => {
+    const escaped = name.toLowerCase().replace(/'/g, "''")
+    return `LOWER(c.committer_name) LIKE '%${escaped}%' OR LOWER(c.committer_email) LIKE '%${escaped}%'`
+  })
+  return clauses.length ? `AND NOT (${clauses.join(' OR ')})` : ''
+})()
+
+const EXCLUDE_REPOS_SQL = `
+  AND NOT (
+    (LOWER(r.owner) = 'kaiachain' AND LOWER(r.name) = 'kaia') OR
+    (LOWER(r.owner) = 'carv-protocol' AND LOWER(r.name) = 'eliza-d.a.t.a')
+  )
+`
+
 // Check if is_fork column exists
 async function hasIsForkColumn(): Promise<boolean> {
   try {
@@ -52,7 +107,6 @@ async function hasIsForkColumn(): Promise<boolean> {
 
 function buildMADQuery(includeForkFilter: boolean) {
   const forkFilter = includeForkFilter ? 'AND (COALESCE(r.is_fork, false) = false)' : ''
-  const excludeSpecificRepos = 'AND NOT ((LOWER(r.owner) = \'kaiachain\' AND LOWER(r.name) = \'kaia\') OR (LOWER(r.owner) = \'carv-protocol\' AND LOWER(r.name) = \'eliza-d.a.t.a\'))'
   const periodArray = PERIOD_ORDER.map((r) => `'${r}'`).join(', ')
   const sqlString = 
     'WITH months AS (' +
@@ -73,9 +127,9 @@ function buildMADQuery(includeForkFilter: boolean) {
     '  FROM "commit" c ' +
     '  JOIN repository r ON r.id = c.repository_id ' +
     '  WHERE ' + EMAIL_FILTER_SQL.trim() + ' ' +
-    '    AND r.remark IS NOT NULL ' +
         '    ' + forkFilter + ' ' +
-        '    ' + excludeSpecificRepos +
+        '    ' + EXCLUDED_NAMES_SQL + ' ' +
+        '    ' + EXCLUDE_REPOS_SQL +
     ') ' +
     'SELECT ' +
     '  m.month, ' +
@@ -93,7 +147,6 @@ function buildMADQuery(includeForkFilter: boolean) {
 
 function buildNewDevsQuery(includeForkFilter: boolean) {
   const forkFilter = includeForkFilter ? 'AND (COALESCE(r.is_fork, false) = false)' : ''
-  const excludeSpecificRepos = 'AND NOT ((LOWER(r.owner) = \'kaiachain\' AND LOWER(r.name) = \'kaia\') OR (LOWER(r.owner) = \'carv-protocol\' AND LOWER(r.name) = \'eliza-d.a.t.a\'))'
   const periodArray = PERIOD_ORDER.map((r) => `'${r}'`).join(', ')
   const sqlString = 
     'WITH months AS (' +
@@ -114,9 +167,9 @@ function buildNewDevsQuery(includeForkFilter: boolean) {
     '  FROM "commit" c ' +
     '  JOIN repository r ON r.id = c.repository_id ' +
     '  WHERE ' + EMAIL_FILTER_SQL.trim() + ' ' +
-    '    AND r.remark IS NOT NULL ' +
         '    ' + forkFilter + ' ' +
-        '    ' + excludeSpecificRepos +
+        '    ' + EXCLUDED_NAMES_SQL + ' ' +
+        '    ' + EXCLUDE_REPOS_SQL +
     '), ' +
     'first_commits AS (' +
     '  SELECT ' +

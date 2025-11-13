@@ -1,4 +1,5 @@
-import { Package, UserPen, Users } from "lucide-react";
+import { Package, UserPen, Users, GitBranch, Eye, FileText, TrendingUp } from "lucide-react";
+import { Card, CardContent } from "@/components/ui/card";
 
 export const dynamic = 'force-dynamic'
 
@@ -41,108 +42,165 @@ export default async function Dashboard() {
   const repositoriesCount = 282;
   const activeContracts = 1247;
 
+  const kpiCards = [
+    {
+      value: monthlyActiveDevs,
+      label: "Monthly Active Developers",
+      icon: Users,
+      iconColor: "text-blue-600",
+      iconBg: "bg-blue-50 dark:bg-blue-950/20",
+      gradient: "from-blue-50 to-blue-100/50 dark:from-blue-950/20 dark:to-blue-900/10",
+    },
+    {
+      value: newDevelopers365,
+      label: "New Developers",
+      icon: TrendingUp,
+      iconColor: "text-green-600",
+      iconBg: "bg-green-50 dark:bg-green-950/20",
+      gradient: "from-green-50 to-green-100/50 dark:from-green-950/20 dark:to-green-900/10",
+    },
+    {
+      value: repositoriesCount,
+      label: "Repositories",
+      icon: GitBranch,
+      iconColor: "text-purple-600",
+      iconBg: "bg-purple-50 dark:bg-purple-950/20",
+      gradient: "from-purple-50 to-purple-100/50 dark:from-purple-950/20 dark:to-purple-900/10",
+    },
+    {
+      value: views30d,
+      label: "Views",
+      icon: Eye,
+      iconColor: "text-orange-600",
+      iconBg: "bg-orange-50 dark:bg-orange-950/20",
+      gradient: "from-orange-50 to-orange-100/50 dark:from-orange-950/20 dark:to-orange-900/10",
+    },
+    {
+      value: visits30d,
+      label: "Visits",
+      icon: UserPen,
+      iconColor: "text-cyan-600",
+      iconBg: "bg-cyan-50 dark:bg-cyan-950/20",
+      gradient: "from-cyan-50 to-cyan-100/50 dark:from-cyan-950/20 dark:to-cyan-900/10",
+    },
+    {
+      value: activeContracts,
+      label: "Active Contracts",
+      icon: Package,
+      iconColor: "text-indigo-600",
+      iconBg: "bg-indigo-50 dark:bg-indigo-950/20",
+      gradient: "from-indigo-50 to-indigo-100/50 dark:from-indigo-950/20 dark:to-indigo-900/10",
+    },
+  ];
+
+  const majorLeads = [
+    "Technical Content Rollout",
+    "Bootcamps and Dev Bounties",
+    "KR Stablecoin Hackathon",
+    "Kaia Wave Stablecoin Summer Hackathon",
+    "Tech upgrades and rollouts",
+    "Global Events and Activations (e.g Kaia Chinese Tour)",
+  ];
+
+  const majorLags = [
+    { text: `${newDevelopers365.toLocaleString()} New Developers (365d)`, value: newDevelopers365 },
+    { text: `${visits30d.toLocaleString()} Visits / Month`, value: visits30d },
+    { text: `${monthlyActiveDevs.toLocaleString()} active developers (28d)`, value: monthlyActiveDevs },
+    { text: `${activeContracts.toLocaleString()} active contracts / month`, value: activeContracts },
+    { text: "5 active products launched", value: null, strikethrough: true },
+  ];
+
   return (
-      <div className="flex flex-col gap-4 p-4">
-        <div className="flex flex-col gap-4">
-          <h1 className="text-2xl font-bold">Overview</h1>
-          <p className="text-sm text-muted-foreground">
-            Summary of North Star metrics.
+      <div className="flex flex-col gap-6 p-6">
+        <div className="flex flex-col gap-2">
+          <h1 className="text-3xl font-bold tracking-tight">Overview</h1>
+          <p className="text-muted-foreground">
+            Summary of North Star metrics
           </p>
         </div>
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-          <div className="flex flex-col gap-4 border rounded-md p-4">
-            <h1 className="text-2xl font-bold">{monthlyActiveDevs.toLocaleString()}</h1>
-            <div className="flex items-center gap-2">
-              <UserPen className="w-4 h-4" />
-              <p className="text-sm">Monthly Active Developers</p>
-            </div>
-          </div>
-          <div className="flex flex-col gap-4 border rounded-md p-4">
-            <h1 className="text-2xl font-bold">{newDevelopers365.toLocaleString()}</h1>
-            <div className="flex items-center gap-2">
-              <UserPen className="w-4 h-4" />
-              <p className="text-sm">New Developers</p>
-            </div>
-          </div>
-          <div className="flex flex-col gap-4 border rounded-md p-4">
-            <h1 className="text-2xl font-bold">{repositoriesCount.toLocaleString()}</h1>
-            <div className="flex items-center gap-2">
-              <Users className="w-4 h-4" />
-              <p className="text-sm">Repositories</p>
-            </div>
-          </div>
+
+        {/* KPI Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {kpiCards.map((card, index) => {
+            const Icon = card.icon;
+            return (
+              <Card 
+                key={index}
+                className="relative overflow-hidden transition-all duration-200 hover:shadow-md hover:scale-[1.02] border-0 shadow-sm"
+              >
+                <div className={`absolute inset-0 bg-gradient-to-br ${card.gradient} opacity-50`} />
+                <CardContent className="relative p-6">
+                  <div className="flex items-start justify-between">
+                    <div className="flex-1">
+                      <p className="text-sm font-medium text-muted-foreground mb-2">{card.label}</p>
+                      <h2 className="text-3xl font-bold tracking-tight">{card.value.toLocaleString()}</h2>
+                    </div>
+                    <div className={`${card.iconBg} p-3 rounded-lg`}>
+                      <Icon className={`w-5 h-5 ${card.iconColor}`} />
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            );
+          })}
         </div>
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-          <div className="flex flex-col gap-4 border rounded-md p-4">
-            <h1 className="text-2xl font-bold">{views30d.toLocaleString()}</h1>
-            <div className="flex items-center gap-2">
-              <Package className="w-4 h-4" />
-              <p className="text-sm">Views</p>
-            </div>
-          </div>
-          <div className="flex flex-col gap-4 border rounded-md p-4">
-            <h1 className="text-2xl font-bold">{visits30d.toLocaleString()}</h1>
-            <div className="flex items-center gap-2">
-              <UserPen className="w-4 h-4" />
-              <p className="text-sm">Visits</p>
-            </div>
-          </div>
-          <div className="flex flex-col gap-4 border rounded-md p-4">
-            <h1 className="text-2xl font-bold">{activeContracts.toLocaleString()}</h1>
-            <div className="flex items-center gap-2">
-              <Users className="w-4 h-4" />
-              <p className="text-sm">Active Contracts</p>
-            </div>
-          </div>
-        </div>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-          <div className="flex flex-col gap-4 border rounded-md p-4">
-            <h1 className="text-1xl font-bold">Major Leads (What did we do to influence the major outcomes)</h1>
-            <table className="w-full border-collapse">
-              <tbody>
-              <tr className="border">
-                  <td className="p-2 border">Technical Content Rollout</td>
-                </tr>
-                <tr className="border">
-                  <td className="p-2 border">Bootcamps and Dev Bounties</td>
-                </tr>
-                <tr className="border">
-                  <td className="p-2 border">KR Stablecoin Hackathon</td>
-                </tr>
-                <tr className="border">
-                  <td className="p-2 border">Kaia Wave Stablecoin Summer Hackathon</td>
-                </tr>
-                <tr className="border">
-                  <td className="p-2 border">Tech upgrades and rollouts</td>
-                </tr>
-                <tr className="border">
-                  <td className="p-2 border">Global Events and Activations (e.g Kaia Chinese Tour)</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <div className="flex flex-col gap-4 border rounded-md p-4">
-            <h1 className="text-1xl font-bold">Major Lags (the major outcomes)</h1>
-            <table className="w-full border-collapse">
-              <tbody>
-                <tr className="border">
-                  <td className="p-2 border">{newDevelopers365.toLocaleString()} New Developers (365d)</td>
-                </tr>
-                <tr className="border">
-                  <td className="p-2 border">{visits30d.toLocaleString()} Visits / Month</td>
-                </tr>
-                <tr className="border">
-                  <td className="p-2 border">{monthlyActiveDevs.toLocaleString()} active developers (28d)</td>
-                </tr>
-                <tr className="border">
-                  <td className="p-2 border">{activeContracts.toLocaleString()} active contracts / month</td>
-                </tr>
-                <tr className="border">
-                  <td className="p-2 border line-through">5 active products launched</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+
+        {/* Major Leads & Lags */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <Card className="border-0 shadow-sm">
+            <CardContent className="p-6">
+              <div className="flex items-center gap-2 mb-4">
+                <FileText className="w-5 h-5 text-primary" />
+                <h2 className="text-xl font-semibold">Major Leads</h2>
+              </div>
+              <p className="text-sm text-muted-foreground mb-4">
+                What did we do to influence the major outcomes
+              </p>
+              <ul className="space-y-2">
+                {majorLeads.map((lead, index) => (
+                  <li 
+                    key={index}
+                    className="flex items-start gap-3 p-3 rounded-lg hover:bg-muted/50 transition-colors"
+                  >
+                    <span className="shrink-0 w-6 h-6 rounded-full bg-primary/10 text-primary text-xs font-medium flex items-center justify-center mt-0.5">
+                      {index + 1}
+                    </span>
+                    <span className="text-sm">{lead}</span>
+                  </li>
+                ))}
+              </ul>
+            </CardContent>
+          </Card>
+
+          <Card className="border-0 shadow-sm">
+            <CardContent className="p-6">
+              <div className="flex items-center gap-2 mb-4">
+                <TrendingUp className="w-5 h-5 text-primary" />
+                <h2 className="text-xl font-semibold">Major Lags</h2>
+              </div>
+              <p className="text-sm text-muted-foreground mb-4">
+                The major outcomes
+              </p>
+              <ul className="space-y-2">
+                {majorLags.map((lag, index) => (
+                  <li 
+                    key={index}
+                    className="flex items-center gap-3 p-3 rounded-lg hover:bg-muted/50 transition-colors"
+                  >
+                    <span className="shrink-0 w-2 h-2 rounded-full bg-primary" />
+                    <span className={`text-sm flex-1 ${lag.strikethrough ? 'line-through text-muted-foreground' : ''}`}>
+                      {lag.text}
+                    </span>
+                    {lag.value !== null && (
+                      <span className="text-xs font-medium text-muted-foreground">
+                        {lag.value.toLocaleString()}
+                      </span>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </CardContent>
+          </Card>
         </div>
       </div>
     )

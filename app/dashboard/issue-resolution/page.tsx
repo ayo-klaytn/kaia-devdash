@@ -5,29 +5,29 @@ export const dynamic = 'force-dynamic'
 
 export default async function IssueResolutionPage() {
   return (
-    <div className="flex flex-col gap-4 p-4">
-      <div className="flex flex-col gap-4">
-        <h1 className="text-2xl font-bold">Issue Resolution</h1>
-        <p className="text-sm text-muted-foreground">
-          Developer issues that led to improved DevEx and community support.
+    <div className="flex flex-col gap-6 p-6">
+      <div className="flex flex-col gap-2">
+        <h1 className="text-3xl font-bold tracking-tight">Issue Resolution</h1>
+        <p className="text-muted-foreground">
+          Developer issues that led to improved DevEx and community support
         </p>
       </div>
 
       {/* Dev Issues that led to improved DevEx */}
-      <Card>
+      <Card className="border-0 shadow-sm">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <Wrench className="w-5 h-5" />
+            <Wrench className="w-5 h-5 text-primary" />
             Dev Issues that led to improved DevEx
           </CardTitle>
           <CardDescription>
-            Issues reported by developers that resulted in documentation improvements and fixes.
+            Issues reported by developers that resulted in documentation improvements and fixes
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
           {/* Gas estimate error issues */}
-          <div className="border-l-4 border-blue-500 pl-4">
-            <h3 className="font-semibold text-lg mb-2">Gas estimate error issues while deploying</h3>
+          <div className="border-l-4 border-primary pl-4 py-2 rounded-r-lg hover:bg-muted/30 transition-colors">
+            <h3 className="font-semibold text-lg mb-3">Gas estimate error issues while deploying</h3>
             <div className="space-y-2 text-sm">
               <div className="flex items-start gap-2">
                 <span className="font-medium text-muted-foreground">Source:</span>
@@ -55,8 +55,8 @@ export default async function IssueResolutionPage() {
           </div>
 
           {/* Canonical WKLAY updated to WKAIA */}
-          <div className="border-l-4 border-green-500 pl-4">
-            <h3 className="font-semibold text-lg mb-2">Canonical WKLAY updated to WKAIA</h3>
+          <div className="border-l-4 border-green-500 pl-4 py-2 rounded-r-lg hover:bg-muted/30 transition-colors">
+            <h3 className="font-semibold text-lg mb-3">Canonical WKLAY updated to WKAIA</h3>
             <div className="space-y-2 text-sm">
               <div className="flex items-start gap-2">
                 <span className="font-medium text-muted-foreground">Source:</span>
@@ -97,21 +97,21 @@ export default async function IssueResolutionPage() {
       </Card>
 
       {/* Dev Questions on Discord Answered */}
-      <Card>
+      <Card className="border-0 shadow-sm">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <MessageSquare className="w-5 h-5" />
+            <MessageSquare className="w-5 h-5 text-primary" />
             Dev Questions on Discord Answered
           </CardTitle>
           <CardDescription>
-            Community questions that were successfully resolved through Discord support.
+            Community questions that were successfully resolved through Discord support
           </CardDescription>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-3">
-              <div className="flex items-start gap-2 p-3 border rounded-lg hover:bg-muted/50 transition-colors">
-                <CheckCircle className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" />
+              <div className="flex items-start gap-3 p-4 border rounded-lg hover:bg-muted/50 transition-colors hover:shadow-sm">
+                <CheckCircle className="w-5 h-5 text-green-600 mt-0.5 shrink-0" />
                 <div className="flex-1">
                   <p className="font-medium text-sm">Migrating endpoint-node from Klaytn to Kaia</p>
                   <a 
@@ -125,8 +125,8 @@ export default async function IssueResolutionPage() {
                 </div>
               </div>
 
-              <div className="flex items-start gap-2 p-3 border rounded-lg hover:bg-muted/50 transition-colors">
-                <CheckCircle className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" />
+              <div className="flex items-start gap-3 p-4 border rounded-lg hover:bg-muted/50 transition-colors hover:shadow-sm">
+                <CheckCircle className="w-5 h-5 text-green-600 mt-0.5 shrink-0" />
                 <div className="flex-1">
                   <p className="font-medium text-sm">Disk space usage for running node</p>
                   <a 
@@ -140,8 +140,8 @@ export default async function IssueResolutionPage() {
                 </div>
               </div>
 
-              <div className="flex items-start gap-2 p-3 border rounded-lg hover:bg-muted/50 transition-colors">
-                <CheckCircle className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" />
+              <div className="flex items-start gap-3 p-4 border rounded-lg hover:bg-muted/50 transition-colors hover:shadow-sm">
+                <CheckCircle className="w-5 h-5 text-green-600 mt-0.5 shrink-0" />
                 <div className="flex-1">
                   <p className="font-medium text-sm">Enabling state-live-pruning</p>
                   <a 
@@ -155,8 +155,8 @@ export default async function IssueResolutionPage() {
                 </div>
               </div>
 
-              <div className="flex items-start gap-2 p-3 border rounded-lg hover:bg-muted/50 transition-colors">
-                <CheckCircle className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" />
+              <div className="flex items-start gap-3 p-4 border rounded-lg hover:bg-muted/50 transition-colors hover:shadow-sm">
+                <CheckCircle className="w-5 h-5 text-green-600 mt-0.5 shrink-0" />
                 <div className="flex-1">
                   <p className="font-medium text-sm">Do we have to update Kaia v1.0.3</p>
                   <a 
@@ -170,8 +170,8 @@ export default async function IssueResolutionPage() {
                 </div>
               </div>
 
-              <div className="flex items-start gap-2 p-3 border rounded-lg hover:bg-muted/50 transition-colors">
-                <CheckCircle className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" />
+              <div className="flex items-start gap-3 p-4 border rounded-lg hover:bg-muted/50 transition-colors hover:shadow-sm">
+                <CheckCircle className="w-5 h-5 text-green-600 mt-0.5 shrink-0" />
                 <div className="flex-1">
                   <p className="font-medium text-sm">Contract verification in Foundry CLI for Kaia</p>
                   <a 
@@ -185,8 +185,8 @@ export default async function IssueResolutionPage() {
                 </div>
               </div>
 
-              <div className="flex items-start gap-2 p-3 border rounded-lg hover:bg-muted/50 transition-colors">
-                <CheckCircle className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" />
+              <div className="flex items-start gap-3 p-4 border rounded-lg hover:bg-muted/50 transition-colors hover:shadow-sm">
+                <CheckCircle className="w-5 h-5 text-green-600 mt-0.5 shrink-0" />
                 <div className="flex-1">
                   <p className="font-medium text-sm">How to get Kaia Balance</p>
                   <a 
@@ -200,8 +200,8 @@ export default async function IssueResolutionPage() {
                 </div>
               </div>
 
-              <div className="flex items-start gap-2 p-3 border rounded-lg hover:bg-muted/50 transition-colors">
-                <CheckCircle className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" />
+              <div className="flex items-start gap-3 p-4 border rounded-lg hover:bg-muted/50 transition-colors hover:shadow-sm">
+                <CheckCircle className="w-5 h-5 text-green-600 mt-0.5 shrink-0" />
                 <div className="flex-1">
                   <p className="font-medium text-sm">Which RPC works best</p>
                   <div className="flex gap-2 mt-1">
@@ -227,8 +227,8 @@ export default async function IssueResolutionPage() {
             </div>
 
             <div className="space-y-3">
-              <div className="flex items-start gap-2 p-3 border rounded-lg hover:bg-muted/50 transition-colors">
-                <CheckCircle className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" />
+              <div className="flex items-start gap-3 p-4 border rounded-lg hover:bg-muted/50 transition-colors hover:shadow-sm">
+                <CheckCircle className="w-5 h-5 text-green-600 mt-0.5 shrink-0" />
                 <div className="flex-1">
                   <p className="font-medium text-sm">Size of an Archival node</p>
                   <a 
@@ -242,8 +242,8 @@ export default async function IssueResolutionPage() {
                 </div>
               </div>
 
-              <div className="flex items-start gap-2 p-3 border rounded-lg hover:bg-muted/50 transition-colors">
-                <CheckCircle className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" />
+              <div className="flex items-start gap-3 p-4 border rounded-lg hover:bg-muted/50 transition-colors hover:shadow-sm">
+                <CheckCircle className="w-5 h-5 text-green-600 mt-0.5 shrink-0" />
                 <div className="flex-1">
                   <p className="font-medium text-sm">Gas estimation error while deploying on Kaia network using Foundry</p>
                   <a 
@@ -257,8 +257,8 @@ export default async function IssueResolutionPage() {
                 </div>
               </div>
 
-              <div className="flex items-start gap-2 p-3 border rounded-lg hover:bg-muted/50 transition-colors">
-                <CheckCircle className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" />
+              <div className="flex items-start gap-3 p-4 border rounded-lg hover:bg-muted/50 transition-colors hover:shadow-sm">
+                <CheckCircle className="w-5 h-5 text-green-600 mt-0.5 shrink-0" />
                 <div className="flex-1">
                   <p className="font-medium text-sm">Available Grants</p>
                   <a 
@@ -272,8 +272,8 @@ export default async function IssueResolutionPage() {
                 </div>
               </div>
 
-              <div className="flex items-start gap-2 p-3 border rounded-lg hover:bg-muted/50 transition-colors">
-                <CheckCircle className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" />
+              <div className="flex items-start gap-3 p-4 border rounded-lg hover:bg-muted/50 transition-colors hover:shadow-sm">
+                <CheckCircle className="w-5 h-5 text-green-600 mt-0.5 shrink-0" />
                 <div className="flex-1">
                   <p className="font-medium text-sm">Kaiascope shutdown spotlight to a developer issue</p>
                   <a 
@@ -287,8 +287,8 @@ export default async function IssueResolutionPage() {
                 </div>
               </div>
 
-              <div className="flex items-start gap-2 p-3 border rounded-lg hover:bg-muted/50 transition-colors">
-                <CheckCircle className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" />
+              <div className="flex items-start gap-3 p-4 border rounded-lg hover:bg-muted/50 transition-colors hover:shadow-sm">
+                <CheckCircle className="w-5 h-5 text-green-600 mt-0.5 shrink-0" />
                 <div className="flex-1">
                   <p className="font-medium text-sm">Verifying contracts on Remix</p>
                   <a 
@@ -302,8 +302,8 @@ export default async function IssueResolutionPage() {
                 </div>
               </div>
 
-              <div className="flex items-start gap-2 p-3 border rounded-lg hover:bg-muted/50 transition-colors">
-                <CheckCircle className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" />
+              <div className="flex items-start gap-3 p-4 border rounded-lg hover:bg-muted/50 transition-colors hover:shadow-sm">
+                <CheckCircle className="w-5 h-5 text-green-600 mt-0.5 shrink-0" />
                 <div className="flex-1">
                   <p className="font-medium text-sm">Bootnode address</p>
                   <a 

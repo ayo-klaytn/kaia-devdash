@@ -4,6 +4,39 @@ export const runtime = 'nodejs'
 import db from "@/lib/db";
 import { developer, commit, developerSummary } from "@/lib/db/schema";
 import { asc, sql } from "drizzle-orm";
+async function hasIsForkColumn(): Promise<boolean> {
+  try {
+    const result = await db.execute(sql`
+      SELECT column_name
+      FROM information_schema.columns
+      WHERE table_name = 'repository'
+        AND column_name = 'is_fork';
+    `);
+    const rows = Array.isArray(result) ? result : result.rows ?? [];
+    return rows.length > 0;
+  } catch {
+    return false;
+  }
+}
+
+const EMAIL_FILTER_SQL = `
+  c.committer_email IS NOT NULL
+  AND c.committer_email <> ''
+  AND c.timestamp IS NOT NULL
+  AND LOWER(c.committer_email) NOT LIKE '%noreply@github.com%'
+  AND LOWER(c.committer_email) NOT LIKE '%github-actions%'
+  AND LOWER(c.committer_email) NOT LIKE '%[bot]%'
+  AND LOWER(c.committer_email) NOT LIKE '%bot@%'
+`;
+
+const EXCLUDE_REPOS_SQL = `
+  AND NOT (
+    (LOWER(r.owner) = 'kaiachain' AND LOWER(r.name) = 'kaia')
+    OR (LOWER(r.owner) = 'carv-protocol' AND LOWER(r.name) = 'eliza-d.a.t.a')
+  )
+`;
+
+import { sql as sqlTag } from "drizzle-orm"; // alias if necessary?
 import { getCachedData, setCachedData, generateCacheKey, CACHE_TTL } from "@/lib/cache";
 
 
@@ -64,11 +97,19 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
 
     // Names to exclude (shared between MAD and new devs)
     const excludedNames = [
-      'ayo-klaytn', 'praveen-kaia', 'zxstim', 'scott lee', 'github', 'ollie', 
-      'kaia-docs', 'sotatek-quangdo', 'sotatek-longpham2', 'github-actions', 'jingxuan-kaia',
-      'gpt-engineer-app[bot]', 'google-labs-jules[bot]', 'sawyer', 'firebase studio', 
-      'ollie.j', 'sotatek-tinnnguyen', 'yumiel yoomee1313'
+      'ayo-klaytn', 'praveen-kaia', 'praveen-klaytn', 'zxstim', 'scott lee', 'github', 'ollie', 
+      'kaia-docs', 'sotatek-quangdo', 'sotatek-longpham2', 'sotatek-tule2', 'sotatek-tinnnguyen', 
+      'github-actions', 'github-actions[bot]', 'jingxuan-kaia', 'gpt-engineer-app[bot]', 
+      'google-labs-jules[bot]', 'sawyer', 'firebase studio', 'ollie.j', 'yumiel yoomee1313',
+      'dragon-swap', 'hyeonlewis', 'kjeom', 'your name', 'root', 'gitbook-bot', 
+      'sitongliu-klaytn', 'aidan', 'aidenpark-kaia', 'neoofklaytn', 'markyim-klaytn', 
+      'tnasu', 'shogo hyodo', 'cursor agent', 'vibe torch bot'
     ];
+    const excludedNameClauses = excludedNames.map((name) => {
+      const escaped = name.toLowerCase().replace(/'/g, "''");
+      return `(LOWER(c.committer_name) LIKE '%${escaped}%' OR LOWER(c.committer_email) LIKE '%${escaped}%')`;
+    });
+    const excludedNamesSQL = excludedNameClauses.length ? `AND NOT (${excludedNameClauses.join(' OR ')})` : '';
 
     // list developers (lightweight columns only)
     console.log("Fetching developers...");
@@ -204,7 +245,33 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
         .orderBy(asc(developerSummary.firstCommitAt))
         .limit(1000);
       if (rows.length > 0) {
-        newDevelopers365d = rows.map(r => ({ 
+        // Filter out excluded names from summary data
+        const filtered = rows.filter(dev => {
+          const email = dev.email || '';
+          const name = (dev.name || '').toLowerCase();
+          const emailLower = email.toLowerCase();
+          
+          // Skip bots
+          if (name.includes('[bot]') || name.includes('bot') || emailLower.includes('bot')) return false;
+          
+          // Check exclusion list with more robust matching
+          const isExcluded = excludedNames.some(ex => {
+            const exLower = ex.toLowerCase();
+            return name.includes(exLower) || 
+                   emailLower.includes(exLower) ||
+                   name === exLower ||
+                   emailLower === exLower;
+          });
+          
+          if (isExcluded) {
+            console.log(`Excluding new developer from summary: ${dev.name} (${dev.email})`);
+            return false;
+          }
+          
+          return true;
+        });
+        
+        newDevelopers365d = filtered.map(r => ({ 
           email: r.email, 
           name: r.name, 
           firstAt: r.firstAt ? r.firstAt.toISOString() : '' 
@@ -263,78 +330,99 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
       newDevelopers365d = [];
     }
 
-    // Monthly MAD progress: True monthly aggregation for Jan-Sep 2025
+    const hasForkColumn = await hasIsForkColumn();
+    const forkFilterSQL = hasForkColumn ? 'AND (COALESCE(r.is_fork, false) = false)' : '';
+
+    const startOfWindow = new Date(Date.UTC(2025, 0, 1));
+    const endOfWindow = new Date(Date.UTC(2025, 9, 31, 23, 59, 59, 999)); // Oct 31 2025
+
+    // Monthly MAD progress: Jan 2025 – Oct 2025
+    // Use the EXACT same logic as developer-metrics to ensure consistency
     let monthlyMadProgress: Array<{ month: string; count: number; year: number; monthNumber: number }> = [];
     try {
-      // Generate all months from January to September 2025
-      const months = [];
-      for (let month = 0; month < 9; month++) { // Jan (0) to Sep (8)
-        const year = 2025;
-        const monthStart = new Date(year, month, 1);
-        const monthEnd = new Date(year, month + 1, 0); // Last day of the month
-        
-        months.push({
-          start: monthStart,
-          end: monthEnd,
-          monthName: monthStart.toLocaleDateString('en-US', { month: 'short', year: 'numeric' }),
-          monthNumber: month + 1
+      // This query matches the developer-metrics query structure exactly
+      // It uses the same period classification logic (kaia-2024 = timestamp >= 2024-09-01)
+      // and filters to Jan-Oct 2025 months
+      const PERIOD_CASE_SQL = `
+        CASE
+          WHEN c.timestamp::timestamp >= '2024-09-01' THEN 'kaia-2024'
+          WHEN c.timestamp::timestamp >= '2024-01-01' THEN 'klaytn-2024'
+          WHEN c.timestamp::timestamp >= '2023-01-01' THEN 'klaytn-2023'
+          ELSE 'klaytn-2022'
+        END
+      `;
+      
+      const monthlyQuery = `
+        WITH months AS (
+          SELECT generate_series(
+            date_trunc('month', '2025-01-01'::date),
+            date_trunc('month', '2025-10-01'::date),
+            interval '1 month'
+          ) AS month_start
+        ),
+        commit_data AS (
+          SELECT 
+            date_trunc('month', c.timestamp::timestamp) AS month,
+            ${PERIOD_CASE_SQL.trim()} AS period,
+            lower(trim(c.committer_email)) AS committer_email
+          FROM "commit" c
+          JOIN repository r ON r.id = c.repository_id
+          WHERE c.timestamp::timestamp >= '2025-01-01'::timestamp
+            AND c.timestamp::timestamp < '2025-11-01'::timestamp
+            AND ${EMAIL_FILTER_SQL.trim()}
+            ${forkFilterSQL}
+            ${excludedNamesSQL}
+            ${EXCLUDE_REPOS_SQL}
+        ),
+        monthly_counts AS (
+          SELECT month, COUNT(DISTINCT committer_email) AS developer_count
+          FROM commit_data
+          WHERE period = 'kaia-2024'
+          GROUP BY month
+        )
+        SELECT months.month_start AS month, COALESCE(monthly_counts.developer_count, 0) AS developer_count
+        FROM months
+        LEFT JOIN monthly_counts ON monthly_counts.month = months.month_start
+        ORDER BY months.month_start;
+      `;
+
+      const monthlyResult = await db.execute(sql.raw(monthlyQuery));
+      const rows = Array.isArray(monthlyResult)
+        ? (monthlyResult as Array<{ month: Date | string; developer_count: number }>)
+        : ((monthlyResult.rows ?? []) as Array<{ month: Date | string; developer_count: number }>);
+
+      if (rows.length) {
+        monthlyMadProgress = rows.map((row) => {
+          const monthDate = new Date(row.month);
+          return {
+            month: monthDate.toLocaleDateString('en-US', { month: 'short', year: 'numeric' }),
+            count: Number(row.developer_count ?? 0),
+            year: monthDate.getUTCFullYear(),
+            monthNumber: monthDate.getUTCMonth() + 1,
+          };
+        });
+      } else {
+        monthlyMadProgress = Array.from({ length: 10 }).map((_, index) => {
+          const monthDate = new Date(Date.UTC(2025, index, 1));
+          return {
+            month: monthDate.toLocaleDateString('en-US', { month: 'short', year: 'numeric' }),
+            count: 0,
+            year: 2025,
+            monthNumber: index + 1,
+          };
         });
       }
-      
-      // Query each month for unique developers with exclusion filtering
-      const monthlyPromises = months.map(async (monthData) => {
-        // Get all developers for the month first
-        const monthlyDevelopers = await db
-          .select({ 
-            committerEmail: commit.committerEmail,
-            committerName: commit.committerName
-          })
-          .from(commit)
-          .where(sql`${commit.timestamp} >= ${monthData.start.toISOString()} AND ${commit.timestamp} <= ${monthData.end.toISOString()}`)
-          .groupBy(commit.committerEmail, commit.committerName)
-          .limit(1000);
-          
-        // Apply exclusion filtering
-        const filteredDevelopers = monthlyDevelopers.filter(dev => {
-          const email = dev.committerEmail || '';
-          const name = (dev.committerName || '').toLowerCase();
-          const emailLower = email.toLowerCase();
-          
-          // Skip bots
-          if (name.includes('[bot]') || name.includes('bot') || emailLower.includes('bot')) return false;
-          
-          // Check exclusion list with more robust matching
-          const isExcluded = excludedNames.some(ex => {
-            const exLower = ex.toLowerCase();
-            return name.includes(exLower) || 
-                   emailLower.includes(exLower) ||
-                   name === exLower ||
-                   emailLower === exLower;
-          });
-          
-          if (isExcluded) {
-            console.log(`Excluding from monthly progress: ${dev.committerName} (${dev.committerEmail})`);
-            return false;
-          }
-          
-          return true;
-        });
-        
-        // Count unique developers after filtering
-        const uniqueEmails = new Set(filteredDevelopers.map(dev => dev.committerEmail).filter(Boolean));
-        
-        return {
-          month: monthData.monthName,
-          count: uniqueEmails.size,
-          year: 2025,
-          monthNumber: monthData.monthNumber,
-        };
-      });
-      
-      monthlyMadProgress = await Promise.all(monthlyPromises);
     } catch (error) {
       console.error('Error fetching monthly MAD progress:', error);
-      monthlyMadProgress = [];
+      monthlyMadProgress = Array.from({ length: 10 }).map((_, index) => {
+        const monthDate = new Date(Date.UTC(2025, index, 1));
+        return {
+          month: monthDate.toLocaleDateString('en-US', { month: 'short', year: 'numeric' }),
+          count: 0,
+          year: 2025,
+          monthNumber: index + 1,
+        };
+      });
     }
 
     // Calculate unique developers across last 12 months and total developer-months
@@ -346,18 +434,23 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
       totalDeveloperMonths = monthlyMadProgress.reduce((sum, m) => sum + m.count, 0);
       
       // Get unique developers across last 12 months with optimized query
-      const twelveMonthsAgo = new Date();
-      twelveMonthsAgo.setMonth(twelveMonthsAgo.getMonth() - 12);
-      
-      const unique = await db
-        .select({
-          countDistinct: sql<number>`COUNT(DISTINCT ${commit.committerEmail})`.as('countDistinct')
-        })
-        .from(commit)
-        .where(sql`${commit.timestamp} >= ${twelveMonthsAgo.toISOString()}`)
-        .limit(1);
-        
-      uniqueDevelopersAcrossPeriod = Number(unique[0]?.countDistinct || 0);
+      const uniqueResult = await db.execute(sql`
+        SELECT COUNT(DISTINCT LOWER(TRIM(c.committer_email)))::int AS developer_count
+        FROM "commit" c
+        JOIN repository r ON r.id = c.repository_id
+        WHERE c.timestamp::timestamp >= ${startOfWindow.toISOString()}
+          AND c.timestamp::timestamp <= ${endOfWindow.toISOString()}
+          AND ${sql.raw(EMAIL_FILTER_SQL)}
+          ${hasForkColumn ? sql`AND (COALESCE(r.is_fork, false) = false)` : sql``}
+          ${excludedNamesSQL ? sql.raw(excludedNamesSQL) : sql``}
+          ${sql.raw(EXCLUDE_REPOS_SQL)}
+      `);
+
+      const uniqueRows = Array.isArray(uniqueResult)
+        ? uniqueResult as Array<{ developer_count: number }>
+        : (uniqueResult.rows ?? []) as Array<{ developer_count: number }>;
+
+      uniqueDevelopersAcrossPeriod = Number(uniqueRows[0]?.developer_count ?? 0);
     } catch (uniqueError) {
       console.error('Unique developers calculation failed:', uniqueError);
       uniqueDevelopersAcrossPeriod = 0;

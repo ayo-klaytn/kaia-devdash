@@ -267,17 +267,6 @@ export function MultiYearDeveloperMetrics() {
                     activeDot={{ r: 4 }}
                   />
                 ))}
-                <ReferenceLine
-                  x={monthLabel(AUG_2024)}
-                  stroke="hsl(var(--primary))"
-                  strokeDasharray="4 4"
-                  label={{
-                    value: "Kaia Launch (Aug 2024)",
-                    position: "top",
-                    fill: "hsl(var(--primary))",
-                    fontSize: 11,
-                  }}
-                />
               </LineChart>
             </ResponsiveContainer>
           </ChartContainer>

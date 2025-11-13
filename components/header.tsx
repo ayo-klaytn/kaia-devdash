@@ -34,28 +34,39 @@ export default function Header() {
   };
 
   return (
-    <div className="flex flex-row justify-between items-center w-full p-4 border-b">
-      <div className="flex h-5 items-center space-x-4 text-sm">
+    <div className="flex flex-row justify-between items-center w-full px-6 py-4 border-b bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60">
+      <div className="flex items-center gap-4">
         <SidebarTrigger />
-        <Separator orientation="vertical" />
+        <Separator orientation="vertical" className="h-5" />
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem>
-              <BreadcrumbLink href="/dashboard">Home</BreadcrumbLink>
+              <BreadcrumbLink 
+                href="/dashboard"
+                className="flex items-center gap-1.5 hover:text-primary transition-colors"
+              >
+                Home
+              </BreadcrumbLink>
             </BreadcrumbItem>
             {segments.map((segment, index) => {
               const path = `/${segments.slice(0, index + 1).join('/')}`;
               const isLast = index === segments.length - 1;
+              const displayName = segment.charAt(0).toUpperCase() + segment.slice(1).replace(/-/g, ' ');
 
               return (
                 <React.Fragment key={path}>
                   <BreadcrumbSeparator />
-                  <BreadcrumbItem key={path}>
+                  <BreadcrumbItem>
                     {isLast ? (
-                      <BreadcrumbPage>{segment.charAt(0).toUpperCase() + segment.slice(1).replace(/-/g, ' ')}</BreadcrumbPage>
+                      <BreadcrumbPage className="text-foreground">
+                        {displayName}
+                      </BreadcrumbPage>
                     ) : (
-                      <BreadcrumbLink href={path}>
-                        {segment.charAt(0).toUpperCase() + segment.slice(1).replace(/-/g, ' ')}
+                      <BreadcrumbLink 
+                        href={path}
+                        className="hover:text-primary transition-colors"
+                      >
+                        {displayName}
                       </BreadcrumbLink>
                     )}
                   </BreadcrumbItem>
@@ -65,8 +76,13 @@ export default function Header() {
           </BreadcrumbList>
         </Breadcrumb>
       </div>
-      <Button variant="outline" size="icon" onClick={signOut} className="hover:cursor-pointer">
-        <LogOut />
+      <Button 
+        variant="outline" 
+        size="icon" 
+        onClick={signOut} 
+        className="hover:cursor-pointer hover:bg-muted transition-colors"
+      >
+        <LogOut className="w-4 h-4" />
       </Button>
     </div>
   );

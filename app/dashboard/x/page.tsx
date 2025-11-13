@@ -3,7 +3,8 @@ import { XChart, type SocialMetric } from "@/app/dashboard/x/chart";
 import { BokChart } from "@/app/dashboard/x/bok-chart";
 import fs from "fs/promises";
 import path from "path";
-import { Eye, Heart, Repeat2, ExternalLink } from "lucide-react";
+import { Eye, Heart, Repeat2, ExternalLink, TrendingUp, BarChart3, MessageSquare } from "lucide-react";
+import { Card, CardContent } from "@/components/ui/card";
 
 export const dynamic = "force-dynamic";
 
@@ -398,160 +399,228 @@ export default async function XPage() {
     }
   ];
 
-  return (
-    <div className="flex flex-col gap-4 p-4">
-      <div className="flex flex-col gap-4">
-        <h1 className="text-2xl font-bold">X (Twitter) Analytics</h1>
-        <p className="text-sm text-muted-foreground">
-          Track engagement and performance across X/Twitter channels.
-        </p>
-      </div>
+  const insightCards = [
+    {
+      value: developerContent.length.toString(),
+      label: "Total Content Pieces",
+      sublabel: "Developer-focused posts",
+      icon: MessageSquare,
+      iconColor: "text-blue-600",
+      iconBg: "bg-blue-50 dark:bg-blue-950/20",
+      gradient: "from-blue-50 to-blue-100/50 dark:from-blue-950/20 dark:to-blue-900/10",
+    },
+    {
+      value: "5.2k",
+      label: "Average Views",
+      sublabel: "Per content piece",
+      icon: Eye,
+      iconColor: "text-green-600",
+      iconBg: "bg-green-50 dark:bg-green-950/20",
+      gradient: "from-green-50 to-green-100/50 dark:from-green-950/20 dark:to-green-900/10",
+    },
+    {
+      value: "Integration",
+      label: "Top Content Type",
+      sublabel: "Most engaging category",
+      icon: TrendingUp,
+      iconColor: "text-purple-600",
+      iconBg: "bg-purple-50 dark:bg-purple-950/20",
+      gradient: "from-purple-50 to-purple-100/50 dark:from-purple-950/20 dark:to-purple-900/10",
+    },
+    {
+      value: "7.8%",
+      label: "Engagement Rate",
+      sublabel: "Average across all posts",
+      icon: BarChart3,
+      iconColor: "text-orange-600",
+      iconBg: "bg-orange-50 dark:bg-orange-950/20",
+      gradient: "from-orange-50 to-orange-100/50 dark:from-orange-950/20 dark:to-orange-900/10",
+    },
+  ];
 
-      {/* Developer Content Engagement Section */}
-      <div className="flex flex-col gap-4 border rounded-md p-4">
-        <div className="flex items-center gap-2">
-          <h2 className="text-lg font-semibold">Developer Content Engagement</h2>
-        </div>
-        <p className="text-sm text-muted-foreground">
-          Track views, likes, and retweets for developer-focused announcements and content.
+  return (
+    <div className="flex flex-col gap-6 p-6">
+      <div className="flex flex-col gap-2">
+        <h1 className="text-3xl font-bold tracking-tight">X (Twitter) Analytics</h1>
+        <p className="text-muted-foreground">
+          Track engagement and performance across X/Twitter channels
         </p>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 max-h-96 overflow-y-auto">
-          {developerContent.map((content, index) => (
-            <div key={index} className="flex flex-col gap-2 p-3 border rounded-lg">
-              <div className="flex items-start justify-between gap-2">
-                <h3 className="font-medium text-sm line-clamp-2">{content.title}</h3>
-                <ExternalLink className="w-3 h-3 text-muted-foreground flex-shrink-0 mt-0.5" />
-              </div>
-              <div className="flex items-center gap-3 text-xs text-muted-foreground">
-                <div className="flex items-center gap-1">
-                  <Eye className="w-3 h-3" />
-                  <span>{content.views}</span>
-                </div>
-                <div className="flex items-center gap-1">
-                  <Heart className="w-3 h-3 text-muted-foreground" />
-                  <span>{content.likes}</span>
-                </div>
-                <div className="flex items-center gap-1">
-                  <Repeat2 className="w-3 h-3 text-muted-foreground" />
-                  <span>{content.retweets}</span>
-                </div>
-              </div>
-              <div className="flex items-center justify-between text-xs">
-                <span className="text-muted-foreground">{content.date}</span>
-                <span className="px-2 py-1 bg-blue-100 text-blue-800 rounded-full text-xs">
-                  {content.type}
-                </span>
-              </div>
-            </div>
-          ))}
-        </div>
       </div>
 
       {/* Key Insights Section */}
-      <div className="flex flex-col gap-4 border rounded-md p-4">
-        <div className="flex items-center gap-2">
-          <h2 className="text-lg font-semibold">Key Insights</h2>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          <div className="flex flex-col gap-2 p-3 border rounded-lg">
-            <h3 className="font-medium text-sm">Total Content Pieces</h3>
-            <p className="text-2xl font-bold">{developerContent.length}</p>
-            <p className="text-xs text-muted-foreground">Developer-focused posts</p>
-          </div>
-          <div className="flex flex-col gap-2 p-3 border rounded-lg">
-            <h3 className="font-medium text-sm">Average Views</h3>
-            <p className="text-2xl font-bold">5.2k</p>
-            <p className="text-xs text-muted-foreground">Per content piece</p>
-          </div>
-          <div className="flex flex-col gap-2 p-3 border rounded-lg">
-            <h3 className="font-medium text-sm">Top Content Type</h3>
-            <p className="text-2xl font-bold">Integration</p>
-            <p className="text-xs text-muted-foreground">Most engaging category</p>
-          </div>
-          <div className="flex flex-col gap-2 p-3 border rounded-lg">
-            <h3 className="font-medium text-sm">Engagement Rate</h3>
-            <p className="text-2xl font-bold">7.8%</p>
-            <p className="text-xs text-muted-foreground">Average across all posts</p>
-          </div>
-        </div>
-        <div className="mt-4 p-3 bg-blue-50 rounded-lg">
-          <h4 className="font-medium text-sm mb-2">Performance Summary</h4>
-          <ul className="text-xs text-muted-foreground space-y-1">
-            <li>• Integration announcements perform best with 5.8k average views</li>
-            <li>• Tutorial content shows strong engagement with 6.2% average rate</li>
-            <li>• Peak performance during Q4 2024 with 16k views on API announcement</li>
-            <li>• Consistent growth in developer community engagement</li>
-          </ul>
-        </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        {insightCards.map((card, index) => {
+          const Icon = card.icon;
+          return (
+            <Card 
+              key={index}
+              className="relative overflow-hidden transition-all duration-200 hover:shadow-md hover:scale-[1.02] border-0 shadow-sm"
+            >
+              <div className={`absolute inset-0 bg-gradient-to-br ${card.gradient} opacity-50`} />
+              <CardContent className="relative p-6">
+                <div className="flex items-start justify-between">
+                  <div className="flex-1">
+                    <p className="text-sm font-medium text-muted-foreground mb-2">{card.label}</p>
+                    <h2 className="text-3xl font-bold tracking-tight">{card.value}</h2>
+                    <p className="text-xs text-muted-foreground mt-1">{card.sublabel}</p>
+                  </div>
+                  <div className={`${card.iconBg} p-3 rounded-lg`}>
+                    <Icon className={`w-5 h-5 ${card.iconColor}`} />
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          );
+        })}
       </div>
+
+      {/* Developer Content Engagement Section */}
+      <Card className="border-0 shadow-sm">
+        <CardContent className="p-6">
+          <div className="flex items-center gap-2 mb-4">
+            <MessageSquare className="w-5 h-5 text-primary" />
+            <h2 className="text-xl font-semibold">Developer Content Engagement</h2>
+          </div>
+          <p className="text-sm text-muted-foreground mb-4">
+            Track views, likes, and retweets for developer-focused announcements and content
+          </p>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 max-h-96 overflow-y-auto">
+            {developerContent.map((content, index) => (
+              <a
+                key={index}
+                href={content.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex flex-col gap-3 p-4 rounded-lg border hover:bg-muted/50 transition-all hover:shadow-sm group"
+              >
+                <div className="flex items-start justify-between gap-2">
+                  <h3 className="font-medium text-sm line-clamp-2 group-hover:text-primary transition-colors">{content.title}</h3>
+                  <ExternalLink className="w-3 h-3 text-muted-foreground group-hover:text-primary transition-colors shrink-0 mt-0.5" />
+                </div>
+                <div className="flex items-center gap-3 text-xs text-muted-foreground">
+                  <div className="flex items-center gap-1">
+                    <Eye className="w-3 h-3" />
+                    <span>{content.views}</span>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <Heart className="w-3 h-3" />
+                    <span>{content.likes}</span>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <Repeat2 className="w-3 h-3" />
+                    <span>{content.retweets}</span>
+                  </div>
+                </div>
+                <div className="flex items-center justify-between text-xs">
+                  <span className="text-muted-foreground">{content.date}</span>
+                  <span className="px-2 py-1 bg-primary/10 text-primary rounded-full text-xs font-medium">
+                    {content.type}
+                  </span>
+                </div>
+              </a>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Performance Summary */}
+      <Card className="border-0 shadow-sm bg-primary/5">
+        <CardContent className="p-6">
+          <h4 className="font-semibold text-sm mb-3">Performance Summary</h4>
+          <ul className="text-sm text-muted-foreground space-y-2">
+            <li className="flex items-start gap-2">
+              <span className="shrink-0 w-1.5 h-1.5 rounded-full bg-primary mt-2" />
+              <span>Integration announcements perform best with 5.8k average views</span>
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="shrink-0 w-1.5 h-1.5 rounded-full bg-primary mt-2" />
+              <span>Tutorial content shows strong engagement with 6.2% average rate</span>
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="shrink-0 w-1.5 h-1.5 rounded-full bg-primary mt-2" />
+              <span>Peak performance during Q4 2024 with 16k views on API announcement</span>
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="shrink-0 w-1.5 h-1.5 rounded-full bg-primary mt-2" />
+              <span>Consistent growth in developer community engagement</span>
+            </li>
+          </ul>
+        </CardContent>
+      </Card>
 
       {/* Build on Kaia - Analytics */}
-      <div className="flex flex-col gap-4 border rounded-md p-4">
-        <div className="flex items-center gap-2">
-          <h2 className="text-lg font-semibold">Build on Kaia — Analytics</h2>
-        </div>
-        <BokChart data={monthlySeries} />
-        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3">
-          {(() => {
-            const totals = daily.reduce(
-              (a, b) => ({
-                impressions: a.impressions + b.impressions,
-                engagements: a.engagements + b.engagements,
-                profileVisits: a.profileVisits + b.profileVisits,
-                replies: a.replies + b.replies,
-                likes: a.likes + b.likes,
-                reposts: a.reposts + b.reposts,
-                bookmarks: a.bookmarks + b.bookmarks,
-                shares: a.shares + b.shares,
-              }),
-              { impressions: 0, engagements: 0, profileVisits: 0, replies: 0, likes: 0, reposts: 0, bookmarks: 0, shares: 0 }
-            );
-            const engagementRate = totals.impressions > 0 ? ((totals.engagements / totals.impressions) * 100).toFixed(1) : 0;
-            return (
-              <>
-                <div className="flex flex-col gap-1 p-2 border rounded text-center">
-                  <span className="text-lg font-bold">{totals.impressions.toLocaleString()}</span>
-                  <span className="text-xs text-muted-foreground">Impressions</span>
-                </div>
-                <div className="flex flex-col gap-1 p-2 border rounded text-center">
-                  <span className="text-lg font-bold">{totals.engagements.toLocaleString()}</span>
-                  <span className="text-xs text-muted-foreground">Engagements</span>
-                </div>
-                <div className="flex flex-col gap-1 p-2 border rounded text-center">
-                  <span className="text-lg font-bold">{engagementRate}%</span>
-                  <span className="text-xs text-muted-foreground">Engagement Rate</span>
-                </div>
-                <div className="flex flex-col gap-1 p-2 border rounded text-center">
-                  <span className="text-lg font-bold">{totals.likes.toLocaleString()}</span>
-                  <span className="text-xs text-muted-foreground">Likes</span>
-                </div>
-                <div className="flex flex-col gap-1 p-2 border rounded text-center">
-                  <span className="text-lg font-bold">{totals.reposts.toLocaleString()}</span>
-                  <span className="text-xs text-muted-foreground">Reposts</span>
-                </div>
-                <div className="flex flex-col gap-1 p-2 border rounded text-center">
-                  <span className="text-lg font-bold">{totals.profileVisits.toLocaleString()}</span>
-                  <span className="text-xs text-muted-foreground">Profile Visits</span>
-                </div>
-              </>
-            );
-          })()}
-        </div>
-      </div>
+      <Card className="border-0 shadow-sm">
+        <CardContent className="p-6">
+          <div className="flex items-center gap-2 mb-4">
+            <BarChart3 className="w-5 h-5 text-primary" />
+            <h2 className="text-xl font-semibold">Build on Kaia — Analytics</h2>
+          </div>
+          <BokChart data={monthlySeries} />
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 mt-4">
+            {(() => {
+              const totals = daily.reduce(
+                (a, b) => ({
+                  impressions: a.impressions + b.impressions,
+                  engagements: a.engagements + b.engagements,
+                  profileVisits: a.profileVisits + b.profileVisits,
+                  replies: a.replies + b.replies,
+                  likes: a.likes + b.likes,
+                  reposts: a.reposts + b.reposts,
+                  bookmarks: a.bookmarks + b.bookmarks,
+                  shares: a.shares + b.shares,
+                }),
+                { impressions: 0, engagements: 0, profileVisits: 0, replies: 0, likes: 0, reposts: 0, bookmarks: 0, shares: 0 }
+              );
+              const engagementRate = totals.impressions > 0 ? ((totals.engagements / totals.impressions) * 100).toFixed(1) : 0;
+              return (
+                <>
+                  <div className="flex flex-col gap-1 p-3 rounded-lg border text-center hover:bg-muted/50 transition-colors">
+                    <span className="text-xl font-bold">{totals.impressions.toLocaleString()}</span>
+                    <span className="text-xs text-muted-foreground">Impressions</span>
+                  </div>
+                  <div className="flex flex-col gap-1 p-3 rounded-lg border text-center hover:bg-muted/50 transition-colors">
+                    <span className="text-xl font-bold">{totals.engagements.toLocaleString()}</span>
+                    <span className="text-xs text-muted-foreground">Engagements</span>
+                  </div>
+                  <div className="flex flex-col gap-1 p-3 rounded-lg border text-center hover:bg-muted/50 transition-colors">
+                    <span className="text-xl font-bold">{engagementRate}%</span>
+                    <span className="text-xs text-muted-foreground">Engagement Rate</span>
+                  </div>
+                  <div className="flex flex-col gap-1 p-3 rounded-lg border text-center hover:bg-muted/50 transition-colors">
+                    <span className="text-xl font-bold">{totals.likes.toLocaleString()}</span>
+                    <span className="text-xs text-muted-foreground">Likes</span>
+                  </div>
+                  <div className="flex flex-col gap-1 p-3 rounded-lg border text-center hover:bg-muted/50 transition-colors">
+                    <span className="text-xl font-bold">{totals.reposts.toLocaleString()}</span>
+                    <span className="text-xs text-muted-foreground">Reposts</span>
+                  </div>
+                  <div className="flex flex-col gap-1 p-3 rounded-lg border text-center hover:bg-muted/50 transition-colors">
+                    <span className="text-xl font-bold">{totals.profileVisits.toLocaleString()}</span>
+                    <span className="text-xs text-muted-foreground">Profile Visits</span>
+                  </div>
+                </>
+              );
+            })()}
+          </div>
+        </CardContent>
+      </Card>
 
       {/* Kaia Dev Intern */}
-      <div className="flex flex-col gap-4 border rounded-md p-4">
-        <div className="flex items-center gap-2">
-          <h2 className="text-lg font-semibold">Kaia Dev Intern</h2>
-        </div>
-        {chartData && chartData.length > 0 ? (
-          <XChart chartData={chartData} />
-        ) : (
-          <div className="p-4 text-center text-muted-foreground">
-            No data available for Kaia Dev Intern
+      <Card className="border-0 shadow-sm">
+        <CardContent className="p-6">
+          <div className="flex items-center gap-2 mb-4">
+            <BarChart3 className="w-5 h-5 text-primary" />
+            <h2 className="text-xl font-semibold">Kaia Dev Intern</h2>
           </div>
-        )}
-      </div>
+          {chartData && chartData.length > 0 ? (
+            <XChart chartData={chartData} />
+          ) : (
+            <div className="p-8 text-center text-muted-foreground rounded-lg border border-dashed">
+              No data available for Kaia Dev Intern
+            </div>
+          )}
+        </CardContent>
+      </Card>
     </div>
   );
 }

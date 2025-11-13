@@ -43,11 +43,11 @@ function colorForIndex(i: number) {
 
 export default function ToolAdoptionPage() {
   return (
-    <div className="flex flex-col gap-4 p-4">
-      <div className="flex flex-col gap-4">
-        <h1 className="text-2xl font-bold">Tool Adoption</h1>
-        <p className="text-sm text-muted-foreground">
-          Track SDK downloads, and tool adoption metrics.
+    <div className="flex flex-col gap-6 p-6">
+      <div className="flex flex-col gap-2">
+        <h1 className="text-3xl font-bold tracking-tight">Tool Adoption</h1>
+        <p className="text-muted-foreground">
+          Track SDK downloads and tool adoption metrics
         </p>
       </div>
       <WeeklyDownloadsChart />

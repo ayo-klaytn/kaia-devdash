@@ -1,5 +1,6 @@
 "use client";
-import { Calendar, MapPin, ExternalLink, Users, Clock } from "lucide-react";
+import { Calendar, MapPin, ExternalLink, Users, Clock, CheckCircle2 } from "lucide-react";
+import { Card, CardContent } from "@/components/ui/card";
 
 const events = [
   {
@@ -119,38 +120,66 @@ export default function EventsPage() {
     upcomingEvents: events.filter(event => event.status === "Upcoming").length
   };
 
+  const statCards = [
+    {
+      value: eventStats.totalEvents,
+      label: "Total Events",
+      icon: Calendar,
+      iconColor: "text-blue-600",
+      iconBg: "bg-blue-50 dark:bg-blue-950/20",
+      gradient: "from-blue-50 to-blue-100/50 dark:from-blue-950/20 dark:to-blue-900/10",
+    },
+    {
+      value: eventStats.completedEvents,
+      label: "Completed",
+      icon: CheckCircle2,
+      iconColor: "text-green-600",
+      iconBg: "bg-green-50 dark:bg-green-950/20",
+      gradient: "from-green-50 to-green-100/50 dark:from-green-950/20 dark:to-green-900/10",
+    },
+    {
+      value: eventStats.upcomingEvents,
+      label: "Upcoming",
+      icon: Clock,
+      iconColor: "text-purple-600",
+      iconBg: "bg-purple-50 dark:bg-purple-950/20",
+      gradient: "from-purple-50 to-purple-100/50 dark:from-purple-950/20 dark:to-purple-900/10",
+    },
+  ];
+
   return (
-    <div className="flex flex-col gap-6 p-4">
-      <div className="flex flex-col gap-4">
-        <h1 className="text-2xl font-bold">Events</h1>
-        <p className="text-sm text-muted-foreground">
-          Past and upcoming Kaia ecosystem events, hackathons, and educational sessions.
+    <div className="flex flex-col gap-6 p-6">
+      <div className="flex flex-col gap-2">
+        <h1 className="text-3xl font-bold tracking-tight">Events</h1>
+        <p className="text-muted-foreground">
+          Past and upcoming Kaia ecosystem events, hackathons, and educational sessions
         </p>
       </div>
 
       {/* Event Statistics */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div className="flex flex-col gap-2 p-4 border rounded-lg">
-          <div className="flex items-center gap-2">
-            <Calendar className="w-5 h-5 text-blue-600" />
-            <h3 className="font-semibold">Total Events</h3>
-          </div>
-          <p className="text-2xl font-bold">{eventStats.totalEvents}</p>
-        </div>
-        <div className="flex flex-col gap-2 p-4 border rounded-lg">
-          <div className="flex items-center gap-2">
-            <Clock className="w-5 h-5 text-green-600" />
-            <h3 className="font-semibold">Completed</h3>
-          </div>
-          <p className="text-2xl font-bold">{eventStats.completedEvents}</p>
-        </div>
-        <div className="flex flex-col gap-2 p-4 border rounded-lg">
-          <div className="flex items-center gap-2">
-            <Users className="w-5 h-5 text-purple-600" />
-            <h3 className="font-semibold">Upcoming</h3>
-          </div>
-          <p className="text-2xl font-bold">{eventStats.upcomingEvents}</p>
-        </div>
+        {statCards.map((card, index) => {
+          const Icon = card.icon;
+          return (
+            <Card 
+              key={index}
+              className="relative overflow-hidden transition-all duration-200 hover:shadow-md hover:scale-[1.02] border-0 shadow-sm"
+            >
+              <div className={`absolute inset-0 bg-gradient-to-br ${card.gradient} opacity-50`} />
+              <CardContent className="relative p-6">
+                <div className="flex items-start justify-between">
+                  <div className="flex-1">
+                    <p className="text-sm font-medium text-muted-foreground mb-2">{card.label}</p>
+                    <h2 className="text-3xl font-bold tracking-tight">{card.value}</h2>
+                  </div>
+                  <div className={`${card.iconBg} p-3 rounded-lg`}>
+                    <Icon className={`w-5 h-5 ${card.iconColor}`} />
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          );
+        })}
       </div>
 
       {/* Events List */}
@@ -158,62 +187,72 @@ export default function EventsPage() {
         <h2 className="text-xl font-semibold">All Events</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {events.map((event) => (
-            <div key={event.id} className="flex flex-col gap-3 p-4 border rounded-lg hover:bg-muted/50 transition-colors">
-              <div className="flex items-start justify-between">
-                <h3 className="font-medium text-sm leading-tight">{event.name}</h3>
-                <a 
-                  href={event.url} 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="text-muted-foreground hover:text-foreground flex-shrink-0 ml-2"
-                >
-                  <ExternalLink className="w-4 h-4" />
-                </a>
-              </div>
-              
-              <p className="text-xs text-muted-foreground">{event.description}</p>
-              
-              <div className="flex flex-col gap-2">
-                <div className="flex items-center gap-2">
-                  <MapPin className="w-3 h-3 text-muted-foreground" />
-                  <span className="text-xs text-muted-foreground">{event.location}</span>
+            <Card 
+              key={event.id} 
+              className="border-0 shadow-sm hover:shadow-md transition-all duration-200 hover:scale-[1.01]"
+            >
+              <CardContent className="p-5">
+                <div className="flex items-start justify-between mb-3">
+                  <h3 className="font-semibold text-sm leading-tight flex-1">{event.name}</h3>
+                  <a 
+                    href={event.url} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="text-muted-foreground hover:text-primary transition-colors shrink-0 ml-2"
+                  >
+                    <ExternalLink className="w-4 h-4" />
+                  </a>
                 </div>
                 
-                <div className="flex items-center gap-2">
-                  <span className={`text-xs px-2 py-1 rounded ${
-                    event.status === "Completed" 
-                      ? "bg-green-100 text-green-800" 
-                      : event.status === "Upcoming"
-                      ? "bg-blue-100 text-blue-800"
-                      : "bg-gray-100 text-gray-800"
-                  }`}>
-                    {event.status}
-                  </span>
-                  <span className="text-xs bg-purple-100 text-purple-800 px-2 py-1 rounded">
-                    {event.type}
-                  </span>
+                <p className="text-xs text-muted-foreground mb-4">{event.description}</p>
+                
+                <div className="flex flex-col gap-2">
+                  <div className="flex items-center gap-2">
+                    <MapPin className="w-3 h-3 text-muted-foreground shrink-0" />
+                    <span className="text-xs text-muted-foreground">{event.location}</span>
+                  </div>
+                  
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <span className={`text-xs px-2 py-1 rounded font-medium ${
+                      event.status === "Completed" 
+                        ? "bg-green-100 text-green-800 dark:bg-green-950/30 dark:text-green-400" 
+                        : event.status === "Upcoming"
+                        ? "bg-blue-100 text-blue-800 dark:bg-blue-950/30 dark:text-blue-400"
+                        : "bg-muted text-muted-foreground"
+                    }`}>
+                      {event.status}
+                    </span>
+                    <span className="text-xs bg-purple-100 text-purple-800 dark:bg-purple-950/30 dark:text-purple-400 px-2 py-1 rounded font-medium">
+                      {event.type}
+                    </span>
+                  </div>
                 </div>
-              </div>
-            </div>
+              </CardContent>
+            </Card>
           ))}
         </div>
       </div>
 
       {/* Event Types Summary */}
-      <div className="flex flex-col gap-4 border rounded-md p-4">
-        <h2 className="text-lg font-semibold">Event Types</h2>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-          {Array.from(new Set(events.map(event => event.type))).map((type) => {
-            const count = events.filter(event => event.type === type).length;
-            return (
-              <div key={type} className="flex flex-col items-center gap-1 p-3 border rounded-lg">
-                <span className="text-sm font-medium">{type}</span>
-                <span className="text-xs text-muted-foreground">{count} event{count !== 1 ? 's' : ''}</span>
-              </div>
-            );
-          })}
-        </div>
-      </div>
+      <Card className="border-0 shadow-sm">
+        <CardContent className="p-6">
+          <h2 className="text-xl font-semibold mb-4">Event Types</h2>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+            {Array.from(new Set(events.map(event => event.type))).map((type) => {
+              const count = events.filter(event => event.type === type).length;
+              return (
+                <div 
+                  key={type} 
+                  className="flex flex-col items-center gap-1 p-3 rounded-lg border hover:bg-muted/50 transition-colors"
+                >
+                  <span className="text-sm font-medium">{type}</span>
+                  <span className="text-xs text-muted-foreground">{count} event{count !== 1 ? 's' : ''}</span>
+                </div>
+              );
+            })}
+          </div>
+        </CardContent>
+      </Card>
     </div>
   );
 }
