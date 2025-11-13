@@ -395,10 +395,14 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
         ORDER BY months.month_start;
       `;
 
-      const monthlyResult = await db.execute(sql.raw(monthlyQuery));
+      type MonthlyRow = {
+        month: Date | string;
+        developer_count: number;
+      };
+      const monthlyResult = await db.execute(sql.raw(monthlyQuery)) as MonthlyRow[] | { rows?: MonthlyRow[] };
       const rows = Array.isArray(monthlyResult)
-        ? (monthlyResult as Array<{ month: Date | string; developer_count: number }>)
-        : ((monthlyResult.rows ?? []) as Array<{ month: Date | string; developer_count: number }>);
+        ? monthlyResult
+        : (monthlyResult.rows ?? []);
 
       if (rows.length) {
         monthlyMadProgress = rows.map((row) => {
