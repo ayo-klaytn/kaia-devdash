@@ -86,17 +86,14 @@ export async function GET(req: NextRequest) {
       LIMIT ${limit};
     `);
 
+    type ContributorRow = {
+      email: string;
+      name: string | null;
+      commit_count: number;
+    };
     const contributors = Array.isArray(topContributorsResult)
-      ? (topContributorsResult as Array<{
-          email: string;
-          name: string | null;
-          commit_count: number;
-        }>)
-      : ((topContributorsResult.rows ?? []) as Array<{
-          email: string;
-          name: string | null;
-          commit_count: number;
-        }>);
+      ? (topContributorsResult as unknown as ContributorRow[])
+      : ((topContributorsResult.rows ?? []) as unknown as ContributorRow[]);
 
     // Get all developers with locations in one query
     const allDevelopers = await db
