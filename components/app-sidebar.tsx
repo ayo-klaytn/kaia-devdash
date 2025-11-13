@@ -1,6 +1,6 @@
 "use client"
 
-import { Home, Code, Radio, MessageSquareText, Earth, ChartLine, Ship, Users, Waves, Megaphone, AlignEndVertical, Wrench } from "lucide-react"
+import { Home, Code, Radio, MessageSquareText, Earth, ChartLine, Ship, Users, AlignEndVertical, Wrench } from "lucide-react"
 import { usePathname } from 'next/navigation';
 import Image from "next/image";
 import {

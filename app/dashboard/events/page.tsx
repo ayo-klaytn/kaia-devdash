@@ -1,5 +1,5 @@
 "use client";
-import { Calendar, MapPin, ExternalLink, Users, Clock, CheckCircle2 } from "lucide-react";
+import { Calendar, MapPin, ExternalLink, Clock, CheckCircle2 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 
 const events = [

@@ -1,4 +1,4 @@
-import { UserPen, Package, Users, Eye, Clock, TrendingDown } from "lucide-react";
+import { UserPen, Users, Eye, Clock, TrendingDown } from "lucide-react";
 import { WebTrafficChart, MonthlyViewsChart } from "@/app/dashboard/web-traffic/chart";
 import { Card, CardContent } from "@/components/ui/card";
 

@@ -1,4 +1,4 @@
-import { ExternalLink, Package, UserPen, Users, MessageSquare } from "lucide-react";
+import { ExternalLink, UserPen, Users, MessageSquare } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 // import { DevForumChart } from "@/app/dashboard/devforum/chart";
 

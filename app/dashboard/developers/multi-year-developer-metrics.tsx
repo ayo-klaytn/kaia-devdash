@@ -8,7 +8,6 @@ import {
   XAxis,
   YAxis,
   Tooltip as RechartsTooltip,
-  ReferenceLine,
   ResponsiveContainer,
   TooltipProps,
 } from "recharts";
@@ -51,8 +50,6 @@ const METRIC_OPTIONS: MetricOption[] = [
     description: "First-time committers each month",
   },
 ];
-
-const AUG_2024 = "2024-08-01";
 
 function monthLabel(month: string) {
   const date = new Date(month);
