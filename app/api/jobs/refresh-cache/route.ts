@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 import { aggregateJobLog } from "@/lib/db/schema";
-import { sql } from "drizzle-orm";
 import db from "@/lib/db";
 import { cleanupExpiredCache, invalidateCache } from "@/lib/cache";
 
