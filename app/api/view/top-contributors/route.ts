@@ -43,6 +43,13 @@ export async function GET(req: NextRequest) {
     const thresholdDateStr = thresholdDate.toISOString();
 
     // Get top contributors by commit count
+    type ContributorRow = {
+      email: string;
+      name: string | null;
+      commit_count: number;
+      last_commit_at: string | null;
+    };
+
     const topContributorsResult = await db.execute(sql`
       SELECT 
         LOWER(TRIM(c.committer_email)) AS email,
@@ -57,21 +64,11 @@ export async function GET(req: NextRequest) {
       GROUP BY LOWER(TRIM(c.committer_email))
       ORDER BY commit_count DESC
       LIMIT ${limit};
-    `);
+    `) as ContributorRow[] | { rows?: ContributorRow[] };
 
     const contributors = Array.isArray(topContributorsResult)
-      ? (topContributorsResult as Array<{
-          email: string;
-          name: string | null;
-          commit_count: number;
-          last_commit_at: string | null;
-        }>)
-      : ((topContributorsResult.rows ?? []) as Array<{
-          email: string;
-          name: string | null;
-          commit_count: number;
-          last_commit_at: string | null;
-        }>);
+      ? topContributorsResult
+      : (topContributorsResult.rows ?? []);
 
     // Try to get location from developer table (if we have GitHub username mapping)
     // For now, we'll return the data and let the script enrich it
