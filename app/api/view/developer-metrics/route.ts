@@ -215,12 +215,13 @@ export async function GET(req: NextRequest) {
       ? buildNewDevsQuery(hasForkColumn)
       : buildMADQuery(hasForkColumn)
 
-    const result = await db.execute(query)
-    const rows = (Array.isArray(result) ? result : result.rows ?? []) as Array<{
-      month: Date
-      period: string
-      value: number
-    }>
+    type MetricRow = {
+      month: Date;
+      period: string;
+      value: number;
+    };
+    const result = await db.execute(query) as MetricRow[] | { rows?: MetricRow[] };
+    const rows = Array.isArray(result) ? result : (result.rows ?? []);
 
     const monthsMap = new Map<string, Record<string, number>>()
     for (const row of rows) {
