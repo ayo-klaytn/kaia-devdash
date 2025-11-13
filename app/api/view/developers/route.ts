@@ -447,6 +447,9 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
       totalDeveloperMonths = monthlyMadProgress.reduce((sum, m) => sum + m.count, 0);
       
       // Get unique developers across last 12 months with optimized query
+      type UniqueDeveloperRow = {
+        developer_count: number;
+      };
       const uniqueResult = await db.execute(sql`
         SELECT COUNT(DISTINCT LOWER(TRIM(c.committer_email)))::int AS developer_count
         FROM "commit" c
@@ -457,11 +460,11 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
           ${hasForkColumn ? sql`AND (COALESCE(r.is_fork, false) = false)` : sql``}
           ${excludedNamesSQL ? sql.raw(excludedNamesSQL) : sql``}
           ${sql.raw(EXCLUDE_REPOS_SQL)}
-      `);
+      `) as UniqueDeveloperRow[] | { rows?: UniqueDeveloperRow[] };
 
       const uniqueRows = Array.isArray(uniqueResult)
-        ? uniqueResult as Array<{ developer_count: number }>
-        : (uniqueResult.rows ?? []) as Array<{ developer_count: number }>;
+        ? uniqueResult
+        : (uniqueResult.rows ?? []);
 
       uniqueDevelopersAcrossPeriod = Number(uniqueRows[0]?.developer_count ?? 0);
     } catch (uniqueError) {
