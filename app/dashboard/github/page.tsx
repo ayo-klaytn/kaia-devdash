@@ -5,6 +5,7 @@ import { Card, CardContent } from "@/components/ui/card";
 
 import { columns, RepositoryRow } from "@/app/dashboard/github/columns";
 import { DataTable } from "@/app/dashboard/github/data-table";
+import { FullYearYoYTable, KaiaEraStrategicView } from "@/app/dashboard/github/yoy-views";
 
 export const dynamic = 'force-dynamic'
 
@@ -59,8 +60,11 @@ export default async function GitHub({
 
   const periodId = PERIOD_LABELS[periodParam ?? ""] ? periodParam! : DEFAULT_PERIOD;
 
-  // Add timeout for API calls
-  const fetchWithTimeout = async (url: string, options: RequestInit, timeout = 10000) => {
+  // For server-side fetches, we rely on maxDuration in the API route (60s)
+  // But we still need a timeout to prevent hanging forever
+  const fetchWithTimeout = async (url: string, options: RequestInit, timeout = 300000) => {
+    // Use a very long timeout (5 minutes) for server-side fetches
+    // The actual API limit is maxDuration=60s, but this gives buffer for network
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), timeout);
     
@@ -87,7 +91,7 @@ export default async function GitHub({
           "Content-Type": "application/json",
         },
       },
-      20000
+      120000 // 120 second timeout - API route has maxDuration=60s, this gives plenty of buffer
     );
 
     if (!metricsRes.ok) {
@@ -98,55 +102,6 @@ export default async function GitHub({
     }
 
     const metricsData = (await metricsRes.json()) as GithubMetricsResponse;
-
-    // Fetch all periods for YoY comparison (in chronological order)
-    const allPeriodsData: Array<{ period: string; periodId: string; developers: number; yoyPercent: number | null }> = [];
-    const periodsToFetch = ["klaytn-2022", "klaytn-2023", "klaytn-2024", "kaia-2024"];
-    
-    for (const period of periodsToFetch) {
-      try {
-        const periodRes = await fetchWithTimeout(
-          `${baseUrl}/api/view/github-metrics?period=${encodeURIComponent(period)}`,
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-            },
-          },
-          10000
-        );
-        
-        if (periodRes.ok) {
-          const periodData = (await periodRes.json()) as GithubMetricsResponse;
-          allPeriodsData.push({
-            period: periodData.period.label,
-            periodId: periodData.period.id,
-            developers: periodData.metrics.developers,
-            yoyPercent: null, // Will calculate below
-          });
-        }
-      } catch (e) {
-        console.error(`Error fetching period ${period}:`, e);
-        // Continue with other periods
-      }
-    }
-
-    // Sort by period order (chronological: 2022 -> 2023 -> 2024 -> Kaia)
-    allPeriodsData.sort((a, b) => {
-      const order = ["klaytn-2022", "klaytn-2023", "klaytn-2024", "kaia-2024"];
-      return order.indexOf(a.periodId) - order.indexOf(b.periodId);
-    });
-
-    // Calculate YoY percentages (comparing each year to the previous year)
-    for (let i = 1; i < allPeriodsData.length; i++) {
-      const current = allPeriodsData[i];
-      const previous = allPeriodsData[i - 1];
-      if (previous.developers > 0) {
-        current.yoyPercent = ((current.developers - previous.developers) / previous.developers) * 100;
-      } else if (current.developers > 0) {
-        current.yoyPercent = 100; // Infinite growth from zero
-      }
-    }
 
     const repositories = metricsData.repositories;
     const stats = {
@@ -186,7 +141,7 @@ export default async function GitHub({
       },
       {
         value: stats.totalDevelopers.toLocaleString(),
-        label: "Unique Developers",
+        label: "Monthly Active Developers (MAD Sum)",
         icon: Users,
         iconColor: "text-purple-600",
         iconBg: "bg-purple-50 dark:bg-purple-950/20",
@@ -208,6 +163,14 @@ export default async function GitHub({
           <h1 className="text-3xl font-bold tracking-tight">GitHub</h1>
           <p className="text-muted-foreground">
             View ecosystem wide GitHub activities by period
+          </p>
+        </div>
+        <div className="rounded-lg border bg-muted/40 p-4 text-sm text-muted-foreground">
+          <p className="font-medium text-foreground">About the MAD totals</p>
+          <p>
+            <span className="font-semibold text-foreground">Monthly Active Developers (MAD Sum)</span> adds up each
+            calendar month&apos;s active developers within the selected period. This is the same definition used on the
+            Developers page, so totals remain perfectly aligned across dashboards.
           </p>
         </div>
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
@@ -255,43 +218,24 @@ export default async function GitHub({
           })}
         </div>
 
-        {/* YoY Progress Cards */}
-        {allPeriodsData.length > 0 && (
-          <div className="flex flex-col gap-4">
-            <h2 className="text-xl font-semibold">Year-over-Year Progress</h2>
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
-              {allPeriodsData.map((periodData, index) => (
-                <Card 
-                  key={index}
-                  className="border-0 shadow-sm hover:shadow-md transition-all duration-200 hover:scale-[1.01]"
-                >
-                  <CardContent className="p-6">
-                    <div className="flex items-center justify-between gap-2 mb-3">
-                      <h3 className="text-sm font-semibold truncate flex-1">{periodData.period}</h3>
-                      {periodData.yoyPercent !== null && (
-                        <span
-                          className={`text-xs font-medium px-1.5 py-0.5 rounded shrink-0 ${
-                            periodData.yoyPercent >= 0 
-                              ? "text-green-600 bg-green-50 dark:bg-green-950/30" 
-                              : "text-red-600 bg-red-50 dark:bg-red-950/30"
-                          }`}
-                        >
-                          {periodData.yoyPercent > 0 ? "+" : ""}
-                          {periodData.yoyPercent.toFixed(1)}%
-                        </span>
-                      )}
-                    </div>
-                    <div className="flex items-center gap-2 mb-1">
-                      <Users className="w-5 h-5 text-muted-foreground" />
-                      <p className="text-2xl font-bold">{periodData.developers.toLocaleString()}</p>
-                    </div>
-                    <p className="text-xs text-muted-foreground">Unique Developers</p>
-                  </CardContent>
-                </Card>
-              ))}
+            {/* Year-over-Year Analysis Views */}
+            <div className="flex flex-col gap-6">
+              <div className="flex flex-col gap-3">
+                <h2 className="text-xl font-semibold">Year-over-Year Analysis</h2>
+                <div className="rounded-lg border bg-muted/40 p-4 text-sm text-muted-foreground">
+                  <p className="font-medium text-foreground">Remarks on comparison periods</p>
+                  <p>
+                    Jan–Aug 2024 is the final full window of the Klaytn era, while Kaia launched 29th August 2024. We
+                    benchmark Kaia using Sept&nbsp;2024 onward so stakeholders can track the Kaia transition cleanly.
+                    Once 2025 completes we can add new Kaia-era comparisons without reusing the Jan–Aug lens.
+                  </p>
+                </div>
+              </div>
+              <div className="grid grid-cols-1 gap-6">
+                <FullYearYoYTable />
+                <KaiaEraStrategicView />
+              </div>
             </div>
-          </div>
-        )}
         <div className="py-6">
           <DataTable columns={columns} data={repositories} />
         </div>
@@ -303,8 +247,8 @@ export default async function GitHub({
     // Determine error type for better user feedback
     let errorMessage = 'Unknown error';
     if (error instanceof Error) {
-      if (error.name === 'AbortError') {
-        errorMessage = 'Request timed out. Please try again.';
+      if (error.name === 'AbortError' || error.message.includes('aborted')) {
+        errorMessage = 'Request timed out. The query is taking longer than expected. This may happen on first load. Please try again - subsequent loads should be faster due to caching.';
       } else if (error.message.includes('fetch')) {
         errorMessage = 'Network error. Please check your connection.';
       } else {

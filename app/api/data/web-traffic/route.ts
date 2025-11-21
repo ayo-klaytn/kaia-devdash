@@ -34,7 +34,16 @@ function toMs(t: unknown) {
   return Number.isFinite(n) ? (n < 1e12 ? n * 1000 : n) : Date.now();
 }
 async function safe<T>(p: Promise<T>, fb: T, label: string): Promise<T> {
-  try { return await p; } catch (e) { console.error(`Umami ${label} failed:`, e); return fb; }
+  try { 
+    const result = await p;
+    if (label === 'stats') {
+      console.log(`Umami ${label} success:`, JSON.stringify(result, null, 2));
+    }
+    return result;
+  } catch (e) { 
+    console.error(`Umami ${label} failed:`, e); 
+    return fb; 
+  }
 }
 function getSep01_2024_toNow() {
   // Start monthly aggregation from Sep 1, 2024 (UTC)
@@ -46,9 +55,25 @@ export async function GET(request: NextRequest) {
   const sp = request.nextUrl.searchParams;
   const days = Number(sp.get('days') ?? 30);
   const debug = sp.get('debug') === '1';
+  
+  // Match Umami dashboard's "last 30 days" calculation exactly
+  // Umami dashboard shows data up to the current moment, so use Date.now() as end time
   const now = Date.now();
   const endAtMs = Number(sp.get('endAt')) || now;
-  const startAtMs = Number(sp.get('startAt')) || (endAtMs - days * 86400000);
+  
+  // Calculate start time: exactly N days before end time
+  // This matches Umami's "last N days" calculation (rolling window)
+  const startAtMs = Number(sp.get('startAt')) || (endAtMs - (days * 24 * 60 * 60 * 1000));
+  
+  if (debug) {
+    console.log('Time range:', {
+      days,
+      startAt: new Date(startAtMs).toISOString(),
+      endAt: new Date(endAtMs).toISOString(),
+      startAtMs,
+      endAtMs
+    });
+  }
 
   try {
     const [
@@ -105,12 +130,64 @@ export async function GET(request: NextRequest) {
       visitors: Number(m?.y ?? 0)
     }));
 
-    const pageviewsVal = getStatValue((stats as unknown as Record<string, unknown>)?.pageviews);
-    const visitorsVal = getStatValue((stats as unknown as Record<string, unknown>)?.visitors) || getStatValue((stats as unknown as Record<string, unknown>)?.uniques);
-    const sessionsVal = getStatValue((stats as unknown as Record<string, unknown>)?.visits) || getStatValue((stats as unknown as Record<string, unknown>)?.sessions) || visitorsVal;
-    const bouncesVal = getStatValue((stats as unknown as Record<string, unknown>)?.bounces);
-    const totaltimeVal = getStatValue((stats as unknown as Record<string, unknown>)?.totaltime);
+    // Umami /stats endpoint returns flat numbers, not objects with value/change
+    const statsObj = stats as Record<string, unknown>;
+    
+    // Debug logging
+    if (debug) {
+      console.log('Umami stats response:', JSON.stringify(statsObj, null, 2));
+    }
+    
+    // Helper to extract number value (handles numbers, strings, and objects with value property)
+    const extractNumber = (val: unknown): number => {
+      if (typeof val === 'number') return val;
+      if (typeof val === 'string') {
+        const parsed = Number(val);
+        return Number.isFinite(parsed) ? parsed : 0;
+      }
+      if (val && typeof val === 'object' && 'value' in val) {
+        const value = (val as { value: unknown }).value;
+        if (typeof value === 'number') return value;
+        if (typeof value === 'string') {
+          const parsed = Number(value);
+          return Number.isFinite(parsed) ? parsed : 0;
+        }
+      }
+      return 0;
+    };
+    
+    // Extract values from stats - Umami returns flat numbers: { pageviews: 16900, visitors: 7170, visits: 9190, bounces: 7168, totaltime: 678900 }
+    const pageviewsFromStats = extractNumber(statsObj?.pageviews);
+    const visitorsVal = extractNumber(statsObj?.visitors) || extractNumber(statsObj?.uniques);
+    const sessionsVal = extractNumber(statsObj?.visits) || extractNumber(statsObj?.sessions) || visitorsVal;
+    const bouncesVal = extractNumber(statsObj?.bounces);
+    const totaltimeVal = extractNumber(statsObj?.totaltime);
+    
+    // Calculate pageviews from daily_stats if stats doesn't have it
+    const pageviewsFromDaily = daily_stats.reduce((sum, day) => sum + (day.views || 0), 0);
+    const pageviewsVal = pageviewsFromStats > 0 ? pageviewsFromStats : pageviewsFromDaily;
+    
+    // Log extracted values for debugging
+    if (debug) {
+      console.log('Extracted values:', { 
+        pageviewsFromStats, 
+        pageviewsFromDaily, 
+        pageviewsVal, 
+        visitorsVal, 
+        sessionsVal, 
+        bouncesVal, 
+        totaltimeVal,
+        statsKeys: Object.keys(statsObj || {})
+      });
+    }
     const bounceRate   = sessionsVal ? Math.round((bouncesVal / sessionsVal) * 100) : 0;
+    
+    // Calculate average visit duration: totaltime is total seconds across all visits
+    // Average = totaltime / visits (in seconds), then convert to minutes and seconds
+    const avgVisitDurationSeconds = sessionsVal > 0 ? totaltimeVal / sessionsVal : 0;
+    const visitDurationMinutes = Math.floor(avgVisitDurationSeconds / 60);
+    const visitDurationSeconds = Math.floor(avgVisitDurationSeconds % 60);
+    const visitDurationFormatted = `${visitDurationMinutes}m ${visitDurationSeconds}s`;
 
     const payload: {
       overview: {
@@ -144,7 +221,7 @@ export async function GET(request: NextRequest) {
         visits: { value: sessionsVal,  change: 0 },
         visitors: { value: visitorsVal, change: 0 },
         bounce_rate: { value: bounceRate, change: 0 },
-        visit_duration: { value: `${Math.floor(totaltimeVal/60)}m ${Math.floor(totaltimeVal%60)}s`, change: 0 },
+        visit_duration: { value: visitDurationFormatted, change: 0 },
       },
       daily_stats,
       monthly_views,
@@ -168,7 +245,9 @@ export async function GET(request: NextRequest) {
       };
     }
     const res = NextResponse.json(payload);
-    res.headers.set('Cache-Control', 'public, s-maxage=600, stale-while-revalidate=1800');
+    // Reduced cache time for more real-time sync with Umami dashboard
+    // 5 minutes cache to balance freshness and performance
+    res.headers.set('Cache-Control', 'public, s-maxage=300, stale-while-revalidate=600');
     return res;
   } catch (e: unknown) {
     return NextResponse.json({

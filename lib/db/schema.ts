@@ -172,6 +172,21 @@ export const developer = pgTable("developer", {
   updatedAt: timestamp("updated_at").notNull(),
 });
 
+// GitHub Metrics Cache - Pre-computed metrics for fast retrieval
+export const githubMetricsCache = pgTable("github_metrics_cache", {
+  id: text("id").primaryKey(), // period id (e.g., "kaia-2024", "klaytn-2023")
+  periodId: text("period_id").notNull(),
+  periodLabel: text("period_label").notNull(),
+  brand: text("brand").notNull(), // "klaytn" or "kaia"
+  startDate: timestamp("start_date").notNull(),
+  endDate: timestamp("end_date"),
+  metrics: json("metrics").notNull(), // { repositories, commits, developers, newDevelopers }
+  repositories: json("repositories").notNull(), // Array of repository data
+  computedAt: timestamp("computed_at").notNull(),
+  createdAt: timestamp("created_at").notNull(),
+  updatedAt: timestamp("updated_at").notNull(),
+});
+
 // Project Repository
 export const projectRepository = pgTable("project_repository", {
   id: text("id").primaryKey(),

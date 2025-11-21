@@ -1,8 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
-import { sql } from "drizzle-orm";
+import { SQL, sql } from "drizzle-orm";
 
 import db from "@/lib/db";
+import { githubMetricsCache } from "@/lib/db/schema";
 import { getCachedData, setCachedData, generateCacheKey, CACHE_TTL } from "@/lib/cache";
+
+// Increase timeout for complex queries (Next.js default is 10s, Vercel Pro is 60s)
+// Set to 60s to match Vercel's limit, but allow some buffer
+export const maxDuration = 60;
 
 const PERIOD_CONFIG = [
   { id: "klaytn-2022", label: "2022", brand: "klaytn" as const },
@@ -22,7 +27,116 @@ const EMAIL_FILTER_SQL = `
   AND LOWER(c.committer_email) NOT LIKE '%bot@%'
 `;
 
+const EXCLUDED_NAMES = [
+  'ayo-klaytn',
+  'praveen-kaia',
+  'praveen-klaytn',
+  'zxstim',
+  'scott lee',
+  'github',
+  'ollie',
+  'kaia-docs',
+  'sotatek-quangdo',
+  'sotatek-longpham2',
+  'sotatek-tule2',
+  'sotatek-tinnnguyen',
+  'github-actions',
+  'github-actions[bot]',
+  'jingxuan-kaia',
+  'gpt-engineer-app[bot]',
+  'google-labs-jules[bot]',
+  'sawyer',
+  'firebase studio',
+  'ollie.j',
+  'yumiel yoomee1313',
+  'dragon-swap',
+  'hyeonlewis',
+  'kjeom',
+  'your name',
+  'root',
+  'gitbook-bot',
+  'sitongliu-klaytn',
+  'aidan',
+  'aidenpark-kaia',
+  'neoofklaytn',
+  'markyim-klaytn',
+  'tnasu',
+  'shogo hyodo',
+  'cursor agent',
+  'vibe torch bot',
+];
+
+const EXCLUDED_NAMES_SQL = (() => {
+  if (EXCLUDED_NAMES.length === 0) return '';
+  const clauses = EXCLUDED_NAMES.map((name) => {
+    const escaped = name.toLowerCase().replace(/'/g, "''");
+    return `LOWER(c.committer_name) LIKE '%${escaped}%' OR LOWER(c.committer_email) LIKE '%${escaped}%'`;
+  });
+  return clauses.length ? `AND NOT (${clauses.join(' OR ')})` : '';
+})();
+
+async function calculateMadDevelopers({
+  start,
+  end,
+  excludeSpecificRepos,
+  forkFilter,
+}: {
+  start: string;
+  end: string | null;
+  excludeSpecificRepos: SQL;
+  forkFilter: SQL;
+}): Promise<number> {
+  const madResult = await db.execute(sql`
+    SELECT COALESCE(SUM(monthly_count), 0)::int AS total
+    FROM (
+      SELECT
+        date_trunc('month', CAST(c.timestamp AS timestamp)) AS month,
+        COUNT(DISTINCT LOWER(TRIM(c.committer_email)))::int AS monthly_count
+      FROM "commit" c
+      JOIN repository r ON r.id = c.repository_id
+      WHERE c.timestamp >= ${start}
+        ${end ? sql`AND c.timestamp < ${end}` : sql``}
+        AND ${sql.raw(EMAIL_FILTER_SQL)}
+        ${excludeSpecificRepos} ${forkFilter} ${sql.raw(EXCLUDED_NAMES_SQL)}
+      GROUP BY date_trunc('month', CAST(c.timestamp AS timestamp))
+    ) monthly_counts;
+  `) as Array<{ total: number }> | { rows?: Array<{ total: number }> };
+
+  const rows = Array.isArray(madResult) ? madResult : (madResult.rows ?? []);
+  return Number(rows[0]?.total ?? 0);
+}
+
 type PeriodId = (typeof PERIOD_CONFIG)[number]["id"];
+
+type GithubMetricsResponse = {
+  period: {
+    id: string;
+    label: string;
+    brand: "klaytn" | "kaia";
+    start: string;
+    end: string | null;
+  };
+  availablePeriods: Array<{
+    id: string;
+    label: string;
+    brand: "klaytn" | "kaia";
+  }>;
+  metrics: {
+    repositories: number;
+    commits: number;
+    developers: number;
+    newDevelopers: number;
+  };
+  repositories: Array<{
+    id: string;
+    owner: string;
+    name: string;
+    url: string | null;
+    commitCount: number;
+    developerCount: number;
+    lastCommitAt: string | null;
+  }>;
+};
 
 function resolvePeriod(id?: string) {
   const period = PERIOD_CONFIG.find((p) => p.id === id);
@@ -88,8 +202,127 @@ export async function GET(req: NextRequest) {
     const periodParam = req.nextUrl.searchParams.get("period") || undefined;
     const period = resolvePeriod(periodParam);
     
-    // Check cache first
+    // First, check database for pre-computed metrics (fastest)
+    // Try direct SQL first (faster than Drizzle for simple queries)
+    console.log(`[GitHub Metrics] 🔍 Checking database cache for period: ${period.id}...`);
+    try {
+      const dbCheckStart = Date.now();
+      
+      // Use raw SQL with parameterized query (fastest approach)
+      const queryPromise = db.execute(sql`
+        SELECT 
+          period_id,
+          period_label,
+          brand,
+          start_date,
+          end_date,
+          metrics,
+          repositories,
+          computed_at
+        FROM github_metrics_cache
+        WHERE period_id = ${period.id}
+        LIMIT 1
+      `);
+      
+      const timeoutPromise = new Promise<never>((_, reject) => 
+        setTimeout(() => reject(new Error('Database query timeout after 3s')), 3000)
+      );
+      
+      const cachedResult = await Promise.race([queryPromise, timeoutPromise]) as Array<{
+        period_id: string;
+        period_label: string;
+        brand: string;
+        start_date: Date | string;
+        end_date: Date | string | null;
+        metrics: unknown;
+        repositories: unknown;
+        computed_at: Date | string;
+      }> | { rows?: Array<{
+        period_id: string;
+        period_label: string;
+        brand: string;
+        start_date: Date | string;
+        end_date: Date | string | null;
+        metrics: unknown;
+        repositories: unknown;
+        computed_at: Date | string;
+      }> };
+      
+      const dbCheckTime = Date.now() - dbCheckStart;
+      const cachedRows = Array.isArray(cachedResult) ? cachedResult : (cachedResult.rows ?? []);
+      
+      if (cachedRows.length > 0) {
+        const cached = cachedRows[0];
+        const startDate = cached.start_date instanceof Date ? cached.start_date : new Date(cached.start_date);
+        const endDate = cached.end_date ? (cached.end_date instanceof Date ? cached.end_date : new Date(cached.end_date)) : null;
+        const computedAt = cached.computed_at instanceof Date ? cached.computed_at : new Date(cached.computed_at);
+        
+        console.log(`[GitHub Metrics] ✅ Database cache HIT for period: ${period.id} (computed at ${computedAt.toISOString()}, query took ${dbCheckTime}ms)`);
+        
+        const responseData: GithubMetricsResponse = {
+          period: {
+            id: cached.period_id,
+            label: cached.period_label,
+            brand: cached.brand as "klaytn" | "kaia",
+            start: startDate.toISOString(),
+            end: endDate?.toISOString() ?? null,
+          },
+          availablePeriods: PERIOD_CONFIG.map(({ id, label, brand }) => ({
+            id,
+            label,
+            brand,
+          })),
+          metrics: cached.metrics as {
+            repositories: number;
+            commits: number;
+            developers: number;
+            newDevelopers: number;
+          },
+          repositories: cached.repositories as Array<{
+            id: string;
+            owner: string;
+            name: string;
+            url: string | null;
+            commitCount: number;
+            developerCount: number;
+            lastCommitAt: string | null;
+          }>,
+        };
+
+        return NextResponse.json(responseData);
+      } else {
+        console.log(`[GitHub Metrics] ⚠️ No cached data found for period: ${period.id} (query took ${dbCheckTime}ms)`);
+      }
+
+    } catch (dbError) {
+      const errorMsg = dbError instanceof Error ? dbError.message : String(dbError);
+      if (errorMsg.includes('timeout')) {
+        console.error(`[GitHub Metrics] ❌ Database query timed out (5s) - DB connection may be slow. Error: ${errorMsg}`);
+        console.error(`[GitHub Metrics] 💡 This suggests the database is slow or unreachable. Check your DATABASE_URL connection.`);
+      } else if (errorMsg.includes('does not exist') || errorMsg.includes('relation') || errorMsg.includes('github_metrics_cache')) {
+        console.error(`[GitHub Metrics] ❌ Table github_metrics_cache does not exist. Run: pnpm tsx scripts/add-github-metrics-cache-table-standalone.ts`);
+      } else {
+        console.error(`[GitHub Metrics] ❌ Database check failed:`, errorMsg.substring(0, 300));
+        if (dbError instanceof Error && dbError.stack) {
+          console.error(`[GitHub Metrics] Stack:`, dbError.stack.substring(0, 500));
+        }
+      }
+      // Continue to fallback computation (this will be slow)
+      console.warn(`[GitHub Metrics] ⚠️ Falling back to on-the-fly computation (will take 60+ seconds)...`);
+    }
+
+    // Fallback: Check in-memory cache
     const cacheKey = generateCacheKey("github-metrics", { period: period.id });
+    const cached = await getCachedData<GithubMetricsResponse>(cacheKey);
+    if (cached) {
+      console.log(`[GitHub Metrics] ✅ Memory cache HIT for period: ${period.id}`);
+      return NextResponse.json(cached);
+    }
+
+    console.log(`[GitHub Metrics] ❌ Cache MISS for period: ${period.id} - computing on-the-fly (this may take 60s)...`);
+    console.log(`[GitHub Metrics] 💡 Tip: Run 'pnpm tsx scripts/compute-github-metrics.ts' to pre-compute metrics`);
+    
+    // Type definition
     type GithubMetricsResponse = {
       period: {
         id: string;
@@ -115,10 +348,6 @@ export async function GET(req: NextRequest) {
         lastCommitAt: string | null;
       }>;
     };
-    const cached = await getCachedData<GithubMetricsResponse>(cacheKey);
-    if (cached) {
-      return NextResponse.json(cached);
-    }
 
     const { start, end } = getPeriodBounds(period.id);
 
@@ -144,24 +373,24 @@ export async function GET(req: NextRequest) {
     };
 
     const repoRowsResult = await db.execute(sql`
-      SELECT
-        r.id,
-        r.owner,
-        r.name,
-        r.url,
-        COUNT(c.sha)::int AS commit_count,
-        COUNT(DISTINCT LOWER(TRIM(c.committer_email)))::int AS developer_count,
-        MAX(c.timestamp)::text AS last_commit_at
-      FROM repository r
-      JOIN "commit" c
-        ON c.repository_id = r.id
-        AND ${timeCondition}
-        AND ${sql.raw(EMAIL_FILTER_SQL)}
-      WHERE 1=1 ${excludeSpecificRepos} ${forkFilter}
-      GROUP BY r.id, r.owner, r.name, r.url
-      HAVING COUNT(c.sha) > 0
-      ORDER BY LOWER(r.owner) ASC, LOWER(r.name) ASC;
-    `) as RepoRow[] | { rows?: RepoRow[] };
+          SELECT
+            r.id,
+            r.owner,
+            r.name,
+            r.url,
+            COUNT(c.sha)::int AS commit_count,
+            COUNT(DISTINCT LOWER(TRIM(c.committer_email)))::int AS developer_count,
+            MAX(c.timestamp)::text AS last_commit_at
+          FROM repository r
+          JOIN "commit" c
+            ON c.repository_id = r.id
+            AND ${timeCondition}
+            AND ${sql.raw(EMAIL_FILTER_SQL)}
+          WHERE 1=1 ${excludeSpecificRepos} ${forkFilter} ${sql.raw(EXCLUDED_NAMES_SQL)}
+          GROUP BY r.id, r.owner, r.name, r.url
+          HAVING COUNT(c.sha) > 0
+          ORDER BY LOWER(r.owner) ASC, LOWER(r.name) ASC;
+        `) as RepoRow[] | { rows?: RepoRow[] };
 
     const repoRows = Array.isArray(repoRowsResult)
       ? repoRowsResult
@@ -174,16 +403,16 @@ export async function GET(req: NextRequest) {
     };
 
     const totalsResult = await db.execute(sql`
-      SELECT
-        COUNT(DISTINCT r.id)::int AS repositories,
-        COUNT(c.sha)::int AS commits,
-        COUNT(DISTINCT LOWER(TRIM(c.committer_email)))::int AS developers
-      FROM repository r
-      JOIN "commit" c ON c.repository_id = r.id
-      WHERE ${timeCondition}
-        AND ${sql.raw(EMAIL_FILTER_SQL)}
-        ${excludeSpecificRepos} ${forkFilter};
-    `) as TotalsRow[] | { rows?: TotalsRow[] };
+          SELECT
+            COUNT(DISTINCT r.id)::int AS repositories,
+            COUNT(c.sha)::int AS commits,
+            COUNT(DISTINCT LOWER(TRIM(c.committer_email)))::int AS developers
+          FROM repository r
+          JOIN "commit" c ON c.repository_id = r.id
+          WHERE ${timeCondition}
+            AND ${sql.raw(EMAIL_FILTER_SQL)}
+            ${excludeSpecificRepos} ${forkFilter} ${sql.raw(EXCLUDED_NAMES_SQL)};
+        `) as TotalsRow[] | { rows?: TotalsRow[] };
 
     const totalsRow = Array.isArray(totalsResult)
       ? (totalsResult[0] ?? { repositories: 0, commits: 0, developers: 0 })
@@ -198,25 +427,32 @@ export async function GET(req: NextRequest) {
     };
 
     const newDevelopersResult = await db.execute(sql`
-      WITH all_first_commits AS (
-        SELECT
-          LOWER(TRIM(c.committer_email)) AS email,
-          MIN(c.timestamp::timestamp) AS first_ts
-        FROM "commit" c
-        JOIN repository r ON c.repository_id = r.id
-          WHERE ${sql.raw(EMAIL_FILTER_SQL)}
-            ${excludeSpecificRepos} ${forkFilter}
-        GROUP BY LOWER(TRIM(c.committer_email))
-      )
-      SELECT COUNT(*)::int AS count
-      FROM all_first_commits
-      WHERE first_ts >= ${start}
-        ${end ? sql`AND first_ts < ${end}` : sql``};
-    `) as NewDevelopersRow[] | { rows?: NewDevelopersRow[] };
+          WITH all_first_commits AS (
+            SELECT
+              LOWER(TRIM(c.committer_email)) AS email,
+              MIN(c.timestamp::timestamp) AS first_ts
+            FROM "commit" c
+            JOIN repository r ON c.repository_id = r.id
+              WHERE ${sql.raw(EMAIL_FILTER_SQL)}
+                ${excludeSpecificRepos} ${forkFilter} ${sql.raw(EXCLUDED_NAMES_SQL)}
+            GROUP BY LOWER(TRIM(c.committer_email))
+          )
+          SELECT COUNT(*)::int AS count
+          FROM all_first_commits
+          WHERE first_ts >= ${start}
+            ${end ? sql`AND first_ts < ${end}` : sql``};
+        `) as NewDevelopersRow[] | { rows?: NewDevelopersRow[] };
 
     const newDevelopers = Array.isArray(newDevelopersResult)
       ? Number((newDevelopersResult[0]?.count ?? 0))
       : Number((newDevelopersResult.rows?.[0]?.count ?? 0));
+
+    const madDevelopers = await calculateMadDevelopers({
+      start,
+      end,
+      excludeSpecificRepos,
+      forkFilter,
+    });
 
     const responseData = {
       period: {
@@ -231,12 +467,12 @@ export async function GET(req: NextRequest) {
         label,
         brand,
       })),
-      metrics: {
-        repositories: Number(totalsRow.repositories ?? 0),
-        commits: Number(totalsRow.commits ?? 0),
-        developers: Number(totalsRow.developers ?? 0),
-        newDevelopers,
-      },
+        metrics: {
+          repositories: Number(totalsRow.repositories ?? 0),
+          commits: Number(totalsRow.commits ?? 0),
+          developers: madDevelopers,
+          newDevelopers,
+        },
       repositories: repoRows.map((row) => ({
         id: row.id,
         owner: row.owner,
@@ -249,7 +485,9 @@ export async function GET(req: NextRequest) {
     };
 
     // Cache the response
+    console.log(`[GitHub Metrics] ✅ Data generated for period: ${period.id}, caching for ${CACHE_TTL.GITHUB_METRICS} hours`);
     await setCachedData(cacheKey, responseData, CACHE_TTL.GITHUB_METRICS);
+    console.log(`[GitHub Metrics] ✅ Cache saved for period: ${period.id}`);
 
     return NextResponse.json(responseData);
   } catch (error) {

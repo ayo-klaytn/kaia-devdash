@@ -12,6 +12,8 @@ const client =
   postgres(connectionString, {
     prepare: false,
     ssl: "require",
+    max: 10, // Maximum number of connections in the pool
+    idle_timeout: 20, // Close idle connections after 20 seconds
   });
 
 if (!globalForDb.__dbClient) {

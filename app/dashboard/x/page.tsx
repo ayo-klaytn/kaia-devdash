@@ -454,7 +454,7 @@ export default async function XPage() {
           return (
             <Card 
               key={index}
-              className="relative overflow-hidden transition-all duration-200 hover:shadow-md hover:scale-[1.02] border-0 shadow-sm"
+              className="relative overflow-hidden border-0 shadow-sm"
             >
               <div className={`absolute inset-0 bg-gradient-to-br ${card.gradient} opacity-50`} />
               <CardContent className="relative p-6">

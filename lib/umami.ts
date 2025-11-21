@@ -166,7 +166,7 @@ export async function umamiFetch(endpoint: string): Promise<unknown> {
 
     if (!res.ok) {
       const text = await res.text().catch(() => '');
-      console.error('Umami upstream error:', res.status, res.statusText, text);
+      console.error(`Umami upstream error [${endpoint}]:`, res.status, res.statusText, text);
       throw new Error(`Umami API error: ${res.status} ${res.statusText} ${text ? `- ${text}` : ''}`);
     }
 
@@ -188,7 +188,10 @@ export async function umamiFetch(endpoint: string): Promise<unknown> {
 }
 
 export async function getUmamiStats(startAt: number, endAt: number): Promise<UmamiStats> {
-  return await umamiFetch(`/api/websites/:id/stats?startAt=${startAt}&endAt=${endAt}&timezone=UTC`) as UmamiStats;
+  // Calculate appropriate unit based on time range (day for < 12 months, month for >= 12 months)
+  const daysDiff = (endAt - startAt) / (1000 * 60 * 60 * 24);
+  const unit = daysDiff > 365 ? 'month' : 'day';
+  return await umamiFetch(`/api/websites/:id/stats?startAt=${startAt}&endAt=${endAt}&unit=${unit}&timezone=UTC`) as UmamiStats;
 }
 
 export async function getUmamiPageviews(startAt: number, endAt: number, unit: 'day' | 'month' = 'day') {
@@ -201,21 +204,44 @@ export async function getUmamiPageviews(startAt: number, endAt: number, unit: 'd
 }
 
 export async function getUmamiTopPages(startAt: number, endAt: number): Promise<UmamiMetric[]> {
-  return await umamiFetch(`/api/websites/:id/metrics?startAt=${startAt}&endAt=${endAt}&type=url&timezone=UTC`) as UmamiMetric[];
+  // Calculate appropriate unit based on time range (day for < 12 months, month for >= 12 months)
+  const daysDiff = (endAt - startAt) / (1000 * 60 * 60 * 24);
+  const unit = daysDiff > 365 ? 'month' : 'day';
+  return await umamiFetch(`/api/websites/:id/metrics?startAt=${startAt}&endAt=${endAt}&unit=${unit}&type=path&timezone=UTC`) as UmamiMetric[];
 }
 
 export async function getUmamiReferrers(startAt: number, endAt: number): Promise<UmamiMetric[]> {
-  return await umamiFetch(`/api/websites/:id/metrics?startAt=${startAt}&endAt=${endAt}&type=referrer&timezone=UTC`) as UmamiMetric[];
+  const daysDiff = (endAt - startAt) / (1000 * 60 * 60 * 24);
+  const unit = daysDiff > 365 ? 'month' : 'day';
+  return await umamiFetch(`/api/websites/:id/metrics?startAt=${startAt}&endAt=${endAt}&unit=${unit}&type=referrer&timezone=UTC`) as UmamiMetric[];
 }
 
 export async function getUmamiBrowsers(startAt: number, endAt: number): Promise<UmamiMetric[]> {
-  return await umamiFetch(`/api/websites/:id/metrics?startAt=${startAt}&endAt=${endAt}&type=browser&timezone=UTC`) as UmamiMetric[];
+  const daysDiff = (endAt - startAt) / (1000 * 60 * 60 * 24);
+  const unit = daysDiff > 365 ? 'month' : 'day';
+  return await umamiFetch(`/api/websites/:id/metrics?startAt=${startAt}&endAt=${endAt}&unit=${unit}&type=browser&timezone=UTC`) as UmamiMetric[];
 }
 
 export async function getUmamiOperatingSystems(startAt: number, endAt: number): Promise<UmamiMetric[]> {
-  return await umamiFetch(`/api/websites/:id/metrics?startAt=${startAt}&endAt=${endAt}&type=os&timezone=UTC`) as UmamiMetric[];
+  const daysDiff = (endAt - startAt) / (1000 * 60 * 60 * 24);
+  const unit = daysDiff > 365 ? 'month' : 'day';
+  return await umamiFetch(`/api/websites/:id/metrics?startAt=${startAt}&endAt=${endAt}&unit=${unit}&type=os&timezone=UTC`) as UmamiMetric[];
 }
 
 export async function getUmamiDevices(startAt: number, endAt: number): Promise<UmamiMetric[]> {
-  return await umamiFetch(`/api/websites/:id/metrics?startAt=${startAt}&endAt=${endAt}&type=device&timezone=UTC`) as UmamiMetric[];
+  const daysDiff = (endAt - startAt) / (1000 * 60 * 60 * 24);
+  const unit = daysDiff > 365 ? 'month' : 'day';
+  try {
+    return await umamiFetch(`/api/websites/:id/metrics?startAt=${startAt}&endAt=${endAt}&unit=${unit}&type=device&timezone=UTC`) as UmamiMetric[];
+  } catch (error) {
+    // Some Umami versions might not support 'device' type, try alternative
+    console.warn('Umami devices API failed with type=device, trying type=screen...');
+    try {
+      return await umamiFetch(`/api/websites/:id/metrics?startAt=${startAt}&endAt=${endAt}&unit=${unit}&type=screen&timezone=UTC`) as UmamiMetric[];
+    } catch {
+      // If both fail, return empty array
+      console.warn('Umami devices API not available, returning empty array');
+      return [];
+    }
+  }
 }

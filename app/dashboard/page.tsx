@@ -38,8 +38,8 @@ export default async function Dashboard() {
 
   // Hardcoded quick metrics to avoid extra API latency
   const monthlyActiveDevs = 57;
-  const newDevelopers365 = 218;
-  const repositoriesCount = 282;
+  const newDevelopers365 = 180;
+  const repositoriesCount = 161;
   const activeContracts = 1247;
 
   const kpiCards = [
@@ -126,7 +126,7 @@ export default async function Dashboard() {
             return (
               <Card 
                 key={index}
-                className="relative overflow-hidden transition-all duration-200 hover:shadow-md hover:scale-[1.02] border-0 shadow-sm"
+                className="relative overflow-hidden border-0 shadow-sm"
               >
                 <div className={`absolute inset-0 bg-gradient-to-br ${card.gradient} opacity-50`} />
                 <CardContent className="relative p-6">
