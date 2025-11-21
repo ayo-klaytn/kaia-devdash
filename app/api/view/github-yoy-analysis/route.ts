@@ -33,9 +33,11 @@ type SepOctYoYResponse = {
   };
 };
 
+type Granularity = 'monthly' | 'quarterly';
+
 type KaiaEraYoYResponse = {
   view: 'kaia-era';
-  granularity: 'monthly' | 'quarterly';
+  granularity: Granularity;
   data: Array<{
     period: string;
     distinctAuthors: number;
@@ -172,7 +174,8 @@ async function sumMadDevelopers(start: string, end: string): Promise<number> {
 export async function GET(req: NextRequest) {
   try {
     const view = req.nextUrl.searchParams.get('view') || 'full-year';
-    const granularity = req.nextUrl.searchParams.get('granularity') || 'monthly';
+    const granularityParam = req.nextUrl.searchParams.get('granularity');
+    const granularity: Granularity = granularityParam === 'quarterly' ? 'quarterly' : 'monthly';
     
     console.log(`[GitHub YoY] 🔍 Request received for view: ${view}${view === 'kaia-era' ? `, granularity: ${granularity}` : ''}`);
     
