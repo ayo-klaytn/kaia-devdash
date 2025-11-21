@@ -1,7 +1,10 @@
 import postgres from "postgres";
 import { drizzle } from "drizzle-orm/postgres-js";
 
-const connectionString = process.env.DATABASE_URL!;
+const rawConnectionString = process.env.DATABASE_URL!;
+const connectionString = rawConnectionString.startsWith("postgresql://")
+  ? `postgres://${rawConnectionString.slice("postgresql://".length)}`
+  : rawConnectionString;
 
 // Reuse client across hot reloads/lambda invocations
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

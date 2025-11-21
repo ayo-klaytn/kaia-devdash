@@ -37,7 +37,7 @@ export default async function Dashboard() {
   }
 
   // Hardcoded quick metrics to avoid extra API latency
-  const monthlyActiveDevs = 57;
+  const monthlyActiveDevs = 50;
   const newDevelopers365 = 180;
   const repositoriesCount = 161;
   const activeContracts = 1247;
