@@ -35,6 +35,7 @@ type SepOctYoYResponse = {
 
 type KaiaEraYoYResponse = {
   view: 'kaia-era';
+  granularity: 'monthly' | 'quarterly';
   data: Array<{
     period: string;
     distinctAuthors: number;
@@ -453,7 +454,14 @@ export async function GET(req: NextRequest) {
         const cacheTTL = view === 'kaia-era' ? CACHE_TTL.GITHUB_METRICS * 2 : CACHE_TTL.GITHUB_METRICS;
         await setCachedData(cacheKey, responseData, cacheTTL);
 
-    console.log(`[GitHub YoY] Returning ${view} data:`, responseData.view, responseData.granularity || '', Array.isArray(responseData.data) ? `${responseData.data.length} items` : 'object');
+    const granularityLabel =
+      responseData.view === 'kaia-era' ? responseData.granularity : '';
+    console.log(
+      `[GitHub YoY] Returning ${view} data:`,
+      responseData.view,
+      granularityLabel,
+      Array.isArray(responseData.data) ? `${responseData.data.length} items` : 'object'
+    );
     return NextResponse.json(responseData);
   } catch (error) {
     console.error('Error generating GitHub YoY analysis:', error);
