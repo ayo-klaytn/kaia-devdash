@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from "next/server";
 import { SQL, sql } from "drizzle-orm";
 
 import db from "@/lib/db";
-import { githubMetricsCache } from "@/lib/db/schema";
 import { getCachedData, setCachedData, generateCacheKey, CACHE_TTL } from "@/lib/cache";
 
 // Increase timeout for complex queries (Next.js default is 10s, Vercel Pro is 60s)
@@ -322,33 +321,6 @@ export async function GET(req: NextRequest) {
     console.log(`[GitHub Metrics] ❌ Cache MISS for period: ${period.id} - computing on-the-fly (this may take 60s)...`);
     console.log(`[GitHub Metrics] 💡 Tip: Run 'pnpm tsx scripts/compute-github-metrics.ts' to pre-compute metrics`);
     
-    // Type definition
-    type GithubMetricsResponse = {
-      period: {
-        id: string;
-        label: string;
-        brand: "klaytn" | "kaia";
-        start: string;
-        end: string | null;
-      };
-      availablePeriods: Array<{ id: string; label: string; brand: "klaytn" | "kaia" }>;
-      metrics: {
-        repositories: number;
-        commits: number;
-        developers: number;
-        newDevelopers: number;
-      };
-      repositories: Array<{
-        id: string;
-        owner: string;
-        name: string;
-        url: string | null;
-        commitCount: number;
-        developerCount: number;
-        lastCommitAt: string | null;
-      }>;
-    };
-
     const { start, end } = getPeriodBounds(period.id);
 
     const timeCondition = buildTimeCondition(start, end);

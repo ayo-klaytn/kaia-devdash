@@ -6,6 +6,49 @@ import { getCachedData, setCachedData, generateCacheKey, CACHE_TTL } from "@/lib
 // Increase timeout for complex queries (Next.js default is 10s, Vercel Pro is 60s)
 export const maxDuration = 60;
 
+type FullYearYoYResponse = {
+  view: 'full-year';
+  data: Array<{
+    year: number;
+    distinctAuthors: number;
+    yoyPercent: number | null;
+  }>;
+};
+
+type JanAugYoYResponse = {
+  view: 'jan-aug';
+  data: {
+    '2024': { distinctAuthors: number; period: string };
+    '2025': { distinctAuthors: number; period: string };
+    yoyPercent: number | null;
+  };
+};
+
+type SepOctYoYResponse = {
+  view: 'sep-oct';
+  data: {
+    '2024': { distinctAuthors: number; period: string };
+    '2025': { distinctAuthors: number; period: string };
+    yoyPercent: number | null;
+  };
+};
+
+type KaiaEraYoYResponse = {
+  view: 'kaia-era';
+  data: Array<{
+    period: string;
+    distinctAuthors: number;
+    start: string;
+    end: string;
+  }>;
+};
+
+type GithubYoYResponse =
+  | FullYearYoYResponse
+  | JanAugYoYResponse
+  | SepOctYoYResponse
+  | KaiaEraYoYResponse;
+
 const EMAIL_FILTER_SQL = `
   c.committer_email IS NOT NULL
   AND c.committer_email <> ''
@@ -138,14 +181,14 @@ export async function GET(req: NextRequest) {
       cacheParams.granularity = granularity;
     }
     const cacheKey = generateCacheKey("github-yoy-analysis", cacheParams);
-    const cached = await getCachedData<any>(cacheKey);
+    const cached = await getCachedData<GithubYoYResponse>(cacheKey);
     if (cached) {
       console.log(`[GitHub YoY] ✅ Cache HIT for view: ${view}${view === 'kaia-era' ? `, granularity: ${granularity}` : ''}`);
       return NextResponse.json(cached);
     }
     console.log(`[GitHub YoY] ❌ Cache MISS for view: ${view}${view === 'kaia-era' ? `, granularity: ${granularity}` : ''}, generating data...`);
 
-    let responseData;
+    let responseData: GithubYoYResponse;
 
     if (view === 'full-year') {
       // Full-year Y-o-Y: 2022, 2023, 2024 (if complete)

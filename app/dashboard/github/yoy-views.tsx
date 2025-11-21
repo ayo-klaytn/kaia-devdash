@@ -102,7 +102,7 @@ export function FullYearYoYTable() {
               </tr>
             </thead>
             <tbody>
-              {data.map((row, index) => (
+              {data.map((row) => (
                 <tr key={row.year} className="border-b hover:bg-muted/30">
                   <td className="p-3 font-medium">{row.year}</td>
                   <td className="p-3 text-right">{row.distinctAuthors.toLocaleString()}</td>
@@ -258,8 +258,8 @@ export function KaiaEraStrategicView() {
               </tr>
             </thead>
             <tbody>
-              {data.map((row, index) => (
-                <tr key={index} className="border-b hover:bg-muted/30">
+              {data.map((row) => (
+                <tr key={`${row.start}-${row.end}`} className="border-b hover:bg-muted/30">
                   <td className="p-3 font-medium">{row.period}</td>
                   <td className="p-3 text-right">{row.distinctAuthors.toLocaleString()}</td>
                 </tr>

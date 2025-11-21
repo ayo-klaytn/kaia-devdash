@@ -235,7 +235,7 @@ export async function getUmamiDevices(startAt: number, endAt: number): Promise<U
     return await umamiFetch(`/api/websites/:id/metrics?startAt=${startAt}&endAt=${endAt}&unit=${unit}&type=device&timezone=UTC`) as UmamiMetric[];
   } catch (error) {
     // Some Umami versions might not support 'device' type, try alternative
-    console.warn('Umami devices API failed with type=device, trying type=screen...');
+    console.warn('Umami devices API failed with type=device, trying type=screen...', error);
     try {
       return await umamiFetch(`/api/websites/:id/metrics?startAt=${startAt}&endAt=${endAt}&unit=${unit}&type=screen&timezone=UTC`) as UmamiMetric[];
     } catch {

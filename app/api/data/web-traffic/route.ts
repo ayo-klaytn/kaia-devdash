@@ -6,15 +6,6 @@ import {
 
 export const runtime = 'nodejs';
 
-// Helper function to safely extract numeric value from Umami stats
-function getStatValue(stat: unknown): number {
-  if (typeof stat === 'number') return stat;
-  if (stat && typeof stat === 'object' && stat !== null && 'value' in stat && typeof (stat as { value: unknown }).value === 'number') {
-    return (stat as { value: number }).value;
-  }
-  return 0;
-}
-
 interface UmamiMetric {
   x: string;
   y: number;
