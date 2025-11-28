@@ -46,7 +46,7 @@ export default async function XPage() {
     .map((line) => line.replace(/^"|"$/g, ""))
     .map((line) => line.split(/,(?=(?:[^"]*"[^"]*")*[^"]*$)/));
 
-  type Daily = { date: Date; impressions: number; engagements: number; profileVisits: number; replies: number; likes: number; reposts: number; bookmarks: number; shares: number };
+type Daily = { date: Date; impressions: number; engagements: number; profileVisits: number; replies: number; likes: number; reposts: number; bookmarks: number; shares: number; newFollows: number };
   const daily: Daily[] = rows.map((cols) => {
     const dateStr = cols[0].replace(/^"|"$/g, "");
     const d = new Date(dateStr);
@@ -61,14 +61,15 @@ export default async function XPage() {
       replies: n(8),
       reposts: n(9),
       profileVisits: n(10),
+      newFollows: n(6),
     };
   });
 
   // Group by month for chart
-  const monthly = daily.reduce((acc: Record<string, { month: string; impressions: number; engagements: number; profileVisits: number; replies: number; likes: number; reposts: number; bookmarks: number; shares: number }>, d) => {
+  const monthly = daily.reduce((acc: Record<string, { month: string; impressions: number; engagements: number; profileVisits: number; replies: number; likes: number; reposts: number; bookmarks: number; shares: number; newFollows: number }>, d) => {
     const month = d.date.toISOString().slice(0, 7); // YYYY-MM
     if (!acc[month]) {
-      acc[month] = { month, impressions: 0, engagements: 0, profileVisits: 0, replies: 0, likes: 0, reposts: 0, bookmarks: 0, shares: 0 };
+      acc[month] = { month, impressions: 0, engagements: 0, profileVisits: 0, replies: 0, likes: 0, reposts: 0, bookmarks: 0, shares: 0, newFollows: 0 };
     }
     acc[month].impressions += d.impressions;
     acc[month].engagements += d.engagements;
@@ -78,8 +79,9 @@ export default async function XPage() {
     acc[month].reposts += d.reposts;
     acc[month].bookmarks += d.bookmarks;
     acc[month].shares += d.shares;
+    acc[month].newFollows += d.newFollows;
     return acc;
-  }, {} as Record<string, { month: string; impressions: number; engagements: number; profileVisits: number; replies: number; likes: number; reposts: number; bookmarks: number; shares: number }>);
+  }, {} as Record<string, { month: string; impressions: number; engagements: number; profileVisits: number; replies: number; likes: number; reposts: number; bookmarks: number; shares: number; newFollows: number }>);
 
   const monthlySeries = Object.values(monthly)
     .sort((a, b) => new Date(a.month + '-01').getTime() - new Date(b.month + '-01').getTime())
@@ -87,10 +89,74 @@ export default async function XPage() {
       month: new Date(m.month + '-01').toLocaleDateString('en-US', { month: 'short', year: 'numeric' }),
       impressions: m.impressions,
       engagementRate: m.impressions > 0 ? Number(((m.engagements / m.impressions) * 100).toFixed(2)) : 0,
+      newFollowers: m.newFollows,
     }));
 
   // Developer Content Engagement Data
   const developerContent = [
+    {
+      title: "Flatten the State, Shrink the Disk",
+      url: "https://x.com/BuildonKaia/status/1993953232146846196",
+      views: "1.2k",
+      likes: 19,
+      retweets: 6,
+      date: "2025-11-27",
+      type: "Technical"
+    },
+    {
+      title: "Kaia Next Builders November Demo Day Announcement",
+      url: "https://x.com/BuildonKaia/status/1993590548578681344",
+      views: "2.2k",
+      likes: 26,
+      retweets: 13,
+      date: "2025-11-26",
+      type: "Event"
+    },
+    {
+      title: "Bug Bounty with Hacken Proof Announcement",
+      url: "https://x.com/BuildonKaia/status/1993288566458200270",
+      views: "3.2k",
+      likes: 31,
+      retweets: 12,
+      date: "2025-11-25",
+      type: "Announcement"
+    },
+    {
+      title: "Kaia Next Builders November Demo Day Announcement",
+      url: "https://x.com/BuildonKaia/status/1992926174394343719",
+      views: "4.3k",
+      likes: 39,
+      retweets: 15,
+      date: "2025-11-24",
+      type: "Event"
+    },
+    {
+      title: "Cutting Blockchain Storage in Half Infographics",
+      url: "https://x.com/BuildonKaia/status/1992820476201287768",
+      views: "1.2k",
+      likes: 17,
+      retweets: 4,
+      date: "2025-11-24",
+      type: "Announcement"
+    },
+    {
+      title: "Cutting Blockchain Storage in Half Deep Dive",
+      url: "https://x.com/BuildonKaia/status/1991417667941732478",
+      views: "5.7k",
+      likes: 21,
+      retweets: 12,
+      date: "2025-11-20",
+      type: "Technical"
+    },
+    {
+      title: "Kaia v2.1.0 Announcement",
+      url: "https://x.com/BuildonKaia/status/1983081299431858612",
+      views: "9k",
+      likes: 40,
+      retweets: 14,
+      date: "2025-10-28",
+      type: "Announcement"
+    },
     {
       title: "Kaia Wave Stablecoin Summer Hackathon Winners Announcement",
       url: "https://x.com/BuildonKaia/status/1975406735998525935",
@@ -568,8 +634,9 @@ export default async function XPage() {
                   reposts: a.reposts + b.reposts,
                   bookmarks: a.bookmarks + b.bookmarks,
                   shares: a.shares + b.shares,
+                  newFollows: a.newFollows + b.newFollows,
                 }),
-                { impressions: 0, engagements: 0, profileVisits: 0, replies: 0, likes: 0, reposts: 0, bookmarks: 0, shares: 0 }
+                { impressions: 0, engagements: 0, profileVisits: 0, replies: 0, likes: 0, reposts: 0, bookmarks: 0, shares: 0, newFollows: 0 }
               );
               const engagementRate = totals.impressions > 0 ? ((totals.engagements / totals.impressions) * 100).toFixed(1) : 0;
               return (
@@ -597,6 +664,10 @@ export default async function XPage() {
                   <div className="flex flex-col gap-1 p-3 rounded-lg border text-center hover:bg-muted/50 transition-colors">
                     <span className="text-xl font-bold">{totals.profileVisits.toLocaleString()}</span>
                     <span className="text-xs text-muted-foreground">Profile Visits</span>
+                  </div>
+                  <div className="flex flex-col gap-1 p-3 rounded-lg border text-center hover:bg-muted/50 transition-colors">
+                    <span className="text-xl font-bold">{totals.newFollows.toLocaleString()}</span>
+                    <span className="text-xs text-muted-foreground">New Followers</span>
                   </div>
                 </>
               );

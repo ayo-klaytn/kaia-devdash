@@ -84,9 +84,9 @@ export default async function WebTrafficPage() {
     return (
       <div className="flex flex-col gap-6 p-6">
         <div className="flex flex-col gap-2">
-          <h1 className="text-3xl font-bold tracking-tight">Web Traffic</h1>
+          <h1 className="text-3xl font-bold tracking-tight">Kaia Docs Site</h1>
           <p className="text-muted-foreground">
-            Web traffic (last 30 days) from Umami Analytics
+            Kaia docs site traffic (last 30 days) from Umami Analytics
           </p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
