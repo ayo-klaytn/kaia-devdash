@@ -3,7 +3,76 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
+export const dynamic = "force-dynamic";
+
 export default async function OnchainMetricsPage() {
+  // Resolve base URL for server-side fetches
+  const { headers } = await import("next/headers");
+  const headersList = await headers();
+  const host = headersList.get("host") || "";
+  const proto = headersList.get("x-forwarded-proto") || "https";
+  const baseUrl = host ? `${proto}://${host}` : "";
+
+  let activeContracts = 1247;
+  let hotContracts = 89;
+  let tvlUsd = 2400000;
+  let maxTps = 8265;
+  let dailyTps = 5;
+
+  try {
+    const [activeRes, hotRes, tvlRes, maxTpsRes, tpsRes] = await Promise.all([
+      fetch(`${baseUrl}/api/data/active-contracts`, { cache: "no-store" }),
+      fetch(`${baseUrl}/api/data/hot-contracts`, { cache: "no-store" }),
+      fetch(`${baseUrl}/api/data/tvl`, { cache: "no-store" }),
+      fetch(`${baseUrl}/api/data/max-tps`, { cache: "no-store" }),
+      fetch(`${baseUrl}/api/data/daily-tps`, { cache: "no-store" }),
+    ]);
+
+    if (activeRes.ok) {
+      const json = await activeRes.json();
+      if (typeof json?.activeContracts === "number" && json.activeContracts > 0) {
+        activeContracts = json.activeContracts;
+      }
+    }
+
+    if (hotRes.ok) {
+      const json = await hotRes.json();
+      if (typeof json?.hotContracts === "number" && json.hotContracts > 0) {
+        hotContracts = json.hotContracts;
+      }
+    }
+
+    if (tvlRes.ok) {
+      const json = await tvlRes.json();
+      if (typeof json?.tvlUsd === "number" && json.tvlUsd > 0) {
+        tvlUsd = json.tvlUsd;
+      }
+    }
+
+    if (maxTpsRes.ok) {
+      const json = await maxTpsRes.json();
+      if (typeof json?.maxTps === "number" && json.maxTps > 0) {
+        maxTps = json.maxTps;
+      }
+    }
+
+    if (tpsRes.ok) {
+      const json = await tpsRes.json();
+      if (typeof json?.dailyTps === "number" && json.dailyTps > 0) {
+        dailyTps = json.dailyTps;
+      }
+    }
+  } catch {
+    // fall back to defaults
+  }
+
+  const tvlDisplay = new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+    notation: "compact",
+    maximumFractionDigits: 1,
+  }).format(tvlUsd);
+
   return (
     <div className="flex flex-col gap-4 p-4">
       <div className="flex flex-col items-start gap-4">
@@ -209,7 +278,9 @@ export default async function OnchainMetricsPage() {
           </CardHeader>
           <CardContent>
             <div className="text-center py-8">
-              <div className="text-3xl font-bold text-blue-600 mb-2">1,247</div>
+              <div className="text-3xl font-bold text-blue-600 mb-2">
+                {activeContracts.toLocaleString()}
+              </div>
               <div className="text-sm text-muted-foreground">+12% from last month</div>
               <div className="mt-4 p-4 bg-muted rounded-lg">
                 <p className="text-sm text-muted-foreground">
@@ -236,7 +307,9 @@ export default async function OnchainMetricsPage() {
           </CardHeader>
           <CardContent>
             <div className="text-center py-8">
-              <div className="text-3xl font-bold text-orange-600 mb-2">89</div>
+              <div className="text-3xl font-bold text-orange-600 mb-2">
+                {hotContracts.toLocaleString()}
+              </div>
               <div className="text-sm text-muted-foreground">High activity contracts</div>
               <div className="mt-4 p-4 bg-muted rounded-lg">
                 <p className="text-sm text-muted-foreground">
@@ -263,7 +336,9 @@ export default async function OnchainMetricsPage() {
           </CardHeader>
           <CardContent>
             <div className="text-center py-8">
-              <div className="text-3xl font-bold text-green-600 mb-2">$2.4M</div>
+              <div className="text-3xl font-bold text-green-600 mb-2">
+                {tvlDisplay}
+              </div>
               <div className="text-sm text-muted-foreground">+8.5% from last week</div>
               <div className="mt-4 p-4 bg-muted rounded-lg">
                 <p className="text-sm text-muted-foreground">
@@ -290,7 +365,9 @@ export default async function OnchainMetricsPage() {
           </CardHeader>
           <CardContent>
             <div className="text-center py-8">
-              <div className="text-3xl font-bold text-purple-600 mb-2">15,000</div>
+              <div className="text-3xl font-bold text-purple-600 mb-2">
+                {maxTps.toLocaleString()}
+              </div>
               <div className="text-sm text-muted-foreground">Peak performance</div>
               <div className="mt-4 p-4 bg-muted rounded-lg">
                 <p className="text-sm text-muted-foreground">
@@ -317,7 +394,9 @@ export default async function OnchainMetricsPage() {
           </CardHeader>
           <CardContent>
             <div className="text-center py-8">
-              <div className="text-3xl font-bold text-indigo-600 mb-2">3,200</div>
+              <div className="text-3xl font-bold text-indigo-600 mb-2">
+                {dailyTps.toLocaleString()}
+              </div>
               <div className="text-sm text-muted-foreground">24-hour average</div>
               <div className="mt-4 p-4 bg-muted rounded-lg">
                 <p className="text-sm text-muted-foreground">

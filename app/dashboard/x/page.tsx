@@ -1,9 +1,10 @@
 import { XChart, type SocialMetric } from "@/app/dashboard/x/chart";
 // import { XCommunityChart } from "@/app/dashboard/x/community-chart";
 import { BokChart } from "@/app/dashboard/x/bok-chart";
+import { DeveloperContentList } from "@/app/dashboard/x/developer-content-list";
 import fs from "fs/promises";
 import path from "path";
-import { Eye, Heart, Repeat2, ExternalLink, TrendingUp, BarChart3, MessageSquare } from "lucide-react";
+import { Eye, TrendingUp, BarChart3, MessageSquare } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 
 export const dynamic = "force-dynamic";
@@ -547,45 +548,10 @@ type Daily = { date: Date; impressions: number; engagements: number; profileVisi
             <MessageSquare className="w-5 h-5 text-primary" />
             <h2 className="text-xl font-semibold">Developer Content Engagement</h2>
           </div>
-          <p className="text-sm text-muted-foreground mb-4">
-            Track views, likes, and retweets for developer-focused announcements and content
+          <p className="text-sm text-muted-foreground">
+            Track views, likes, and retweets for developer-focused announcements and content.
           </p>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 max-h-96 overflow-y-auto">
-            {developerContent.map((content, index) => (
-              <a
-                key={index}
-                href={content.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex flex-col gap-3 p-4 rounded-lg border hover:bg-muted/50 transition-all hover:shadow-sm group"
-              >
-                <div className="flex items-start justify-between gap-2">
-                  <h3 className="font-medium text-sm line-clamp-2 group-hover:text-primary transition-colors">{content.title}</h3>
-                  <ExternalLink className="w-3 h-3 text-muted-foreground group-hover:text-primary transition-colors shrink-0 mt-0.5" />
-                </div>
-                <div className="flex items-center gap-3 text-xs text-muted-foreground">
-                  <div className="flex items-center gap-1">
-                    <Eye className="w-3 h-3" />
-                    <span>{content.views}</span>
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <Heart className="w-3 h-3" />
-                    <span>{content.likes}</span>
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <Repeat2 className="w-3 h-3" />
-                    <span>{content.retweets}</span>
-                  </div>
-                </div>
-                <div className="flex items-center justify-between text-xs">
-                  <span className="text-muted-foreground">{content.date}</span>
-                  <span className="px-2 py-1 bg-primary/10 text-primary rounded-full text-xs font-medium">
-                    {content.type}
-                  </span>
-                </div>
-              </a>
-            ))}
-          </div>
+          <DeveloperContentList items={developerContent} />
         </CardContent>
       </Card>
 
@@ -621,6 +587,13 @@ type Daily = { date: Date; impressions: number; engagements: number; profileVisi
             <BarChart3 className="w-5 h-5 text-primary" />
             <h2 className="text-xl font-semibold">Build on Kaia — Analytics</h2>
           </div>
+          <p className="text-xs text-muted-foreground mb-4">
+            <span className="font-semibold">Impressions</span> measure how many times Build on Kaia posts were
+            shown across X (timeline, profile, search, Explore, embeds), reflecting overall reach.{" "}
+            <span className="font-semibold">Engagements</span> capture all interactions on those posts
+            (likes, reposts, quotes, replies, link clicks, profile taps, media plays, etc.), indicating how
+            strongly the content resonated. All metrics are sourced from X&apos;s native analytics.
+          </p>
           <BokChart data={monthlySeries} />
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 mt-4">
             {(() => {
@@ -683,6 +656,12 @@ type Daily = { date: Date; impressions: number; engagements: number; profileVisi
             <BarChart3 className="w-5 h-5 text-primary" />
             <h2 className="text-xl font-semibold">Kaia Dev Intern</h2>
           </div>
+          <p className="text-xs text-muted-foreground mb-4">
+            Kaia Dev Intern is an internally managed, “intern-style” X account that complements the main Build
+            on Kaia handle with light-hearted, informal engagement. It reacts to posts, adds playful commentary,
+            boosts conversations, and helps make technical updates feel more relatable as a personality extension
+            of the Kaia DevRel brand.
+          </p>
           {chartData && chartData.length > 0 ? (
             <XChart chartData={chartData} />
           ) : (
