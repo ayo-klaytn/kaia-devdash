@@ -37,6 +37,11 @@ const data = {
           icon: Radio,
         },
         {
+          title: "Manage X Posts",
+          url: "/dashboard/x/manage",
+          icon: MessageSquareText,
+        },
+        {
           title: "Web Traffic",
           url: "/dashboard/web-traffic",
           icon: Earth,

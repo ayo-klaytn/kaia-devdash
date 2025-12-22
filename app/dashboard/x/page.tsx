@@ -2,6 +2,7 @@ import { XChart, type SocialMetric } from "@/app/dashboard/x/chart";
 // import { XCommunityChart } from "@/app/dashboard/x/community-chart";
 import { BokChart } from "@/app/dashboard/x/bok-chart";
 import { DeveloperContentList } from "@/app/dashboard/x/developer-content-list";
+import { ManageXPostsModal } from "@/app/dashboard/x/manage-x-posts-modal";
 import fs from "fs/promises";
 import path from "path";
 import { Eye, TrendingUp, BarChart3, MessageSquare } from "lucide-react";
@@ -93,8 +94,16 @@ type Daily = { date: Date; impressions: number; engagements: number; profileVisi
       newFollowers: m.newFollows,
     }));
 
-  // Developer Content Engagement Data
-  const developerContent = [
+  // Fallback: Original hardcoded data (kept as baseline)
+  const fallbackDeveloperContent: Array<{
+    title: string;
+    url: string;
+    views: string;
+    likes: number;
+    retweets: number;
+    date: string;
+    type: string;
+  }> = [
     {
       title: "Flatten the State, Shrink the Disk",
       url: "https://x.com/BuildonKaia/status/1993953232146846196",
@@ -466,6 +475,66 @@ type Daily = { date: Date; impressions: number; engagements: number; profileVisi
     }
   ];
 
+  // Fetch Developer Content Engagement Data from database
+  let databasePosts: Array<{
+    title: string;
+    url: string;
+    views: string;
+    likes: number;
+    retweets: number;
+    date: string;
+    type: string;
+  }> = [];
+
+  try {
+    const developerContentResponse = await fetch(`${baseUrl}/api/view/x-posts?account=BuildonKaia&limit=1000`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      cache: "no-store", // Always fetch fresh data
+    });
+
+    if (developerContentResponse.ok) {
+      const posts = await developerContentResponse.json() as Array<{
+        title: string;
+        url: string;
+        views: string | null;
+        likes: number;
+        retweets: number;
+        date: string;
+        type: string;
+      }>;
+      databasePosts = posts.map((post) => ({
+        title: post.title,
+        url: post.url,
+        views: post.views || "0",
+        likes: post.likes || 0,
+        retweets: post.retweets || 0,
+        date: post.date,
+        type: post.type,
+      }));
+    } else {
+      console.error('Failed to fetch developer content:', developerContentResponse.status, developerContentResponse.statusText);
+    }
+  } catch (error) {
+    console.error('Error fetching developer content:', error);
+  }
+
+  // Merge: Database posts override fallback posts (by URL), then add any new database posts
+  // Create a map of fallback posts by URL
+  const fallbackMap = new Map(fallbackDeveloperContent.map(post => [post.url, post]));
+  
+  // Override with database posts (database takes priority)
+  databasePosts.forEach(post => {
+    fallbackMap.set(post.url, post);
+  });
+
+  // Convert back to array and sort by date (newest first)
+  const developerContent = Array.from(fallbackMap.values()).sort(
+    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+  );
+
   const insightCards = [
     {
       value: developerContent.length.toString(),
@@ -544,11 +613,14 @@ type Daily = { date: Date; impressions: number; engagements: number; profileVisi
       {/* Developer Content Engagement Section */}
       <Card className="border-0 shadow-sm">
         <CardContent className="p-6">
-          <div className="flex items-center gap-2 mb-4">
-            <MessageSquare className="w-5 h-5 text-primary" />
-            <h2 className="text-xl font-semibold">Developer Content Engagement</h2>
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center gap-2">
+              <MessageSquare className="w-5 h-5 text-primary" />
+              <h2 className="text-xl font-semibold">Developer Content Engagement</h2>
+            </div>
+            <ManageXPostsModal />
           </div>
-          <p className="text-sm text-muted-foreground">
+          <p className="text-sm text-muted-foreground mb-4">
             Track views, likes, and retweets for developer-focused announcements and content.
           </p>
           <DeveloperContentList items={developerContent} />

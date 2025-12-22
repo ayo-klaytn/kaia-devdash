@@ -311,3 +311,20 @@ export const apiCache = pgTable("api_cache", {
   expiresAt: timestamp("expires_at").notNull(),
   createdAt: timestamp("created_at").notNull(),
 });
+
+// X/Twitter Posts table for storing developer content posts
+export const xPosts = pgTable("x_posts", {
+  id: text("id").primaryKey(), // Twitter status ID extracted from URL
+  title: text("title").notNull(),
+  url: text("url").notNull().unique(), // Full X/Twitter post URL
+  views: text("views"), // Stored as string (e.g., "1.2k", "9k")
+  viewsNumber: integer("views_number"), // Parsed numeric value for sorting
+  likes: integer("likes").notNull().default(0),
+  retweets: integer("retweets").notNull().default(0),
+  comments: integer("comments").default(0),
+  date: text("date").notNull(), // ISO date string (YYYY-MM-DD)
+  type: text("type").notNull(), // Announcement, Tutorial, Event, Technical, Integration, Workshop
+  account: text("account").notNull().default("BuildonKaia"), // Account name
+  createdAt: timestamp("created_at").notNull(),
+  updatedAt: timestamp("updated_at").notNull(),
+});
