@@ -45,27 +45,44 @@ export default async function XPage() {
     .trim()
     .split(/\r?\n/)
     .slice(1) // skip header
+    .filter((line) => line.trim().length > 0) // Filter out empty lines
     .map((line) => line.replace(/^"|"$/g, ""))
     .map((line) => line.split(/,(?=(?:[^"]*"[^"]*")*[^"]*$)/));
 
 type Daily = { date: Date; impressions: number; engagements: number; profileVisits: number; replies: number; likes: number; reposts: number; bookmarks: number; shares: number; newFollows: number };
-  const daily: Daily[] = rows.map((cols) => {
-    const dateStr = cols[0].replace(/^"|"$/g, "");
-    const d = new Date(dateStr);
-    const n = (idx: number) => Number(String(cols[idx]).replace(/[^0-9.-]/g, "")) || 0;
-    return {
-      date: d,
-      impressions: n(1),
-      likes: n(2),
-      engagements: n(3),
-      bookmarks: n(4),
-      shares: n(5),
-      replies: n(8),
-      reposts: n(9),
-      profileVisits: n(10),
-      newFollows: n(6),
-    };
-  });
+  const daily: Daily[] = rows
+    .map((cols) => {
+      if (!cols[0]) return null; // Skip rows without date
+      const dateStr = cols[0].replace(/^"|"$/g, "").trim();
+      // Parse date - format is like "Fri, Jan 16, 2026" or "Wed, Dec 31, 2025"
+      // JavaScript Date can parse this format directly
+      let d = new Date(dateStr);
+      // If date parsing fails, try alternative parsing
+      if (isNaN(d.getTime())) {
+        // Try parsing without day name: "Jan 16, 2026"
+        const withoutDay = dateStr.replace(/^[^,]+,?\s*/, "");
+        d = new Date(withoutDay);
+      }
+      // If still invalid, skip this row
+      if (isNaN(d.getTime())) {
+        console.warn(`Invalid date: ${dateStr}`);
+        return null;
+      }
+      const n = (idx: number) => Number(String(cols[idx] || "").replace(/[^0-9.-]/g, "")) || 0;
+      return {
+        date: d,
+        impressions: n(1),
+        likes: n(2),
+        engagements: n(3),
+        bookmarks: n(4),
+        shares: n(5),
+        replies: n(8),
+        reposts: n(9),
+        profileVisits: n(10),
+        newFollows: n(6),
+      };
+    })
+    .filter((d): d is Daily => d !== null); // Filter out invalid dates
 
   // Group by month for chart
   const monthly = daily.reduce((acc: Record<string, { month: string; impressions: number; engagements: number; profileVisits: number; replies: number; likes: number; reposts: number; bookmarks: number; shares: number; newFollows: number }>, d) => {
