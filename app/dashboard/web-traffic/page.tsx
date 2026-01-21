@@ -2,7 +2,8 @@ import { UserPen, Users, Eye, Clock, TrendingDown } from "lucide-react";
 import { WebTrafficChart, MonthlyViewsChart } from "@/app/dashboard/web-traffic/chart";
 import { Card, CardContent } from "@/components/ui/card";
 
-export const dynamic = 'force-dynamic';
+// Web traffic changes relatively slowly; cache page HTML for 30 minutes
+export const revalidate = 1800;
 
 // Monthly series is now provided by the API; no separate client fetch
 

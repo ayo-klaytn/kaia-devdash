@@ -1,77 +1,32 @@
 //
-import { MadProgressChart } from "@/app/dashboard/developers/mad-progress-chart"
-import { MultiYearDeveloperMetrics } from "@/app/dashboard/developers/multi-year-developer-metrics"
-import { DeveloperDemographics } from "@/app/dashboard/developers/developer-demographics"
-import { Card, CardContent } from "@/components/ui/card"
-import { Users, Sparkles } from "lucide-react"
+import { MadProgressChart } from "@/app/dashboard/developers/mad-progress-chart";
+import { MultiYearDeveloperMetrics } from "@/app/dashboard/developers/multi-year-developer-metrics";
+import { DeveloperDemographics } from "@/app/dashboard/developers/developer-demographics";
+import { Card, CardContent } from "@/components/ui/card";
+import { Users, Sparkles } from "lucide-react";
+import { getDevelopersData, type DevelopersResponse } from "@/lib/services/developers";
 
-export const dynamic = 'force-dynamic'
+// Developers metrics can be cached for a bit; keep dashboard reasonably fresh
+export const revalidate = 900;
 
 export default async function DevelopersPage() {
-  // Resolve absolute base URL from headers at runtime
-  const { headers } = await import('next/headers');
-  const headersList = await headers();
-  const host = headersList.get('host') || '';
-  const proto = headersList.get('x-forwarded-proto') || 'https';
-  const baseUrl = host ? `${proto}://${host}` : '';
-
-  // Add timeout for API calls
-  const fetchWithTimeout = async (url: string, options: RequestInit, timeout = 20000) => {
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), timeout);
-    
-    try {
-      const response = await fetch(url, {
-        ...options,
-        signal: controller.signal,
-      });
-      clearTimeout(timeoutId);
-      return response;
-    } catch (error) {
-      clearTimeout(timeoutId);
-      throw error;
-    }
-  };
-
-  // Default-safe data shape in case API is slow or unavailable
-  type DevelopersData = {
-    numberOfDevelopers: number;
-    numberOfActiveMonthlyDevelopers: number;
-    monthlyActiveDevelopers: Array<{ email: string | null; name: string | null }>;
-    newDevelopers365d: Array<{ email: string | null; name: string | null; firstAt: string }>;
-    monthlyMadProgress: Array<{ month: string; count: number; year: number; monthNumber: number }>;
-    uniqueDevelopersAcrossPeriod: number;
-    totalDeveloperMonths: number;
-    developers: unknown[];
-  };
-
-  let data: DevelopersData = {
-    numberOfDevelopers: 0,
-    numberOfActiveMonthlyDevelopers: 0,
-    monthlyActiveDevelopers: [],
-    newDevelopers365d: [],
-    monthlyMadProgress: [],
-    uniqueDevelopersAcrossPeriod: 0,
-    totalDeveloperMonths: 0,
-    developers: []
-  };
-
-  // Fetch main developers data, but don't fail the page on error/timeout
+  // Fetch main developers data directly from the shared service
+  let data: DevelopersResponse;
   try {
-    const response = await fetchWithTimeout(
-      `${baseUrl}/api/view/developers?page=1&limit=200`,
-      { method: "GET", headers: { "Content-Type": "application/json" } },
-      20000
-    );
-    if (response.ok) {
-      data = await response.json();
-    }
+    data = await getDevelopersData({ page: 1, limit: 200 });
   } catch (e) {
-    console.error('Developers API fetch (non-fatal):', e);
+    console.error("Developers data fetch (non-fatal):", e);
+    data = {
+      numberOfDevelopers: 0,
+      numberOfActiveMonthlyDevelopers: 0,
+      monthlyActiveDevelopers: [],
+      newDevelopers365d: [],
+      monthlyMadProgress: [],
+      uniqueDevelopersAcrossPeriod: 0,
+      totalDeveloperMonths: 0,
+      developers: [],
+    };
   }
-
-  // Log the data to see what we're getting
-  console.log('Developers API response:', data);
 
   return (
       <div className="flex flex-col gap-6 p-6">

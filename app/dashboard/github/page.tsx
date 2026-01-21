@@ -1,13 +1,14 @@
 import Link from "next/link";
-import { notFound } from "next/navigation";
 import { Package, Users, GitCommit, Sparkles } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 
-import { columns, RepositoryRow } from "@/app/dashboard/github/columns";
+import { columns } from "@/app/dashboard/github/columns";
 import { DataTable } from "@/app/dashboard/github/data-table";
 import { FullYearYoYTable, KaiaEraStrategicView } from "@/app/dashboard/github/yoy-views";
+import { getGithubMetrics, GithubMetricsResponse } from "@/lib/services/github-metrics";
 
-export const dynamic = 'force-dynamic'
+// GitHub metrics change slowly; we can safely cache page HTML for an hour
+export const revalidate = 3600;
 
 const PERIOD_LABELS: Record<string, string> = {
   "klaytn-2022": "2022",
@@ -19,28 +20,6 @@ const PERIOD_LABELS: Record<string, string> = {
 
 const PERIOD_ORDER = ["kaia-2024", "klaytn-2024", "klaytn-2023", "klaytn-2022", "all"];
 
-type GithubMetricsResponse = {
-  period: {
-    id: string;
-    label: string;
-    brand: "klaytn" | "kaia";
-    start: string;
-    end: string | null;
-  };
-  availablePeriods: Array<{
-    id: string;
-    label: string;
-    brand: "klaytn" | "kaia";
-  }>;
-  metrics: {
-    repositories: number;
-    commits: number;
-    developers: number;
-    newDevelopers: number;
-  };
-  repositories: RepositoryRow[];
-};
-
 const DEFAULT_PERIOD = "kaia-2024";
 
 export default async function GitHub({
@@ -48,60 +27,13 @@ export default async function GitHub({
 }: {
   searchParams: Promise<{ period?: string | string[] }>;
 }) {
-  // Resolve absolute base URL from headers
-  const { headers } = await import('next/headers');
-  const headersList = await headers();
-  const host = headersList.get('host') || '';
-  const proto = headersList.get('x-forwarded-proto') || 'https';
-  const baseUrl = host ? `${proto}://${host}` : '';
-
   const { period } = await searchParamsPromise;
   const periodParam = Array.isArray(period) ? period[0] : period;
-
-  const periodId = PERIOD_LABELS[periodParam ?? ""] ? periodParam! : DEFAULT_PERIOD;
-
-  // For server-side fetches, we rely on maxDuration in the API route (60s)
-  // But we still need a timeout to prevent hanging forever
-  const fetchWithTimeout = async (url: string, options: RequestInit, timeout = 300000) => {
-    // Use a very long timeout (5 minutes) for server-side fetches
-    // The actual API limit is maxDuration=60s, but this gives buffer for network
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), timeout);
-    
-    try {
-      const response = await fetch(url, {
-        ...options,
-        signal: controller.signal,
-      });
-      clearTimeout(timeoutId);
-      return response;
-    } catch (error) {
-      clearTimeout(timeoutId);
-      throw error;
-    }
-  };
+  const periodId = PERIOD_LABELS[periodParam ?? ""] ? (periodParam as string) : DEFAULT_PERIOD;
 
   try {
-    // Fetch current period metrics
-    const metricsRes = await fetchWithTimeout(
-      `${baseUrl}/api/view/github-metrics?period=${encodeURIComponent(periodId)}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      },
-      120000 // 120 second timeout - API route has maxDuration=60s, this gives plenty of buffer
-    );
-
-    if (!metricsRes.ok) {
-      if (metricsRes.status === 404) {
-        notFound();
-      }
-      throw new Error(`GitHub metrics API call failed: ${metricsRes.status} ${metricsRes.statusText}`);
-    }
-
-    const metricsData = (await metricsRes.json()) as GithubMetricsResponse;
+    // Call shared service directly instead of doing an internal HTTP hop
+    const metricsData: GithubMetricsResponse = await getGithubMetrics(periodId);
 
     const repositories = metricsData.repositories;
     const stats = {

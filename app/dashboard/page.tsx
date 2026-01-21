@@ -1,7 +1,8 @@
 import { Package, UserPen, Users, GitBranch, Eye, FileText, TrendingUp } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 
-export const dynamic = 'force-dynamic'
+// Overview mostly shows slow-moving KPIs; cache page HTML for 30 minutes
+export const revalidate = 1800;
 
 export default async function Dashboard() {
   const { headers } = await import('next/headers');

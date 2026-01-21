@@ -3,7 +3,8 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
-export const dynamic = "force-dynamic";
+// Onchain metrics can be a little fresh but don't need per-request recompute
+export const revalidate = 300;
 
 export default async function OnchainMetricsPage() {
   // Resolve base URL for server-side fetches

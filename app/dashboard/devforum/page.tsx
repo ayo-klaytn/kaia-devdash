@@ -2,7 +2,8 @@ import { ExternalLink, UserPen, Users, MessageSquare } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 // import { DevForumChart } from "@/app/dashboard/devforum/chart";
 
-export const dynamic = "force-dynamic";
+// DevForum stats are fetched from Discourse; cache page HTML for 15 minutes
+export const revalidate = 900;
 
 export default async function DevForumPage() {
   const { headers } = await import('next/headers');

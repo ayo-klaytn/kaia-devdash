@@ -1,7 +1,8 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { ExternalLink, MessageSquare, Wrench, CheckCircle } from "lucide-react"
 
-export const dynamic = 'force-dynamic'
+// Static content; can be fully static without revalidation
+export const revalidate = false
 
 export default async function IssueResolutionPage() {
   return (

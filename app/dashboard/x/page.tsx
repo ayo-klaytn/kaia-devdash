@@ -3,113 +3,20 @@ import { XChart, type SocialMetric } from "@/app/dashboard/x/chart";
 import { BokChart } from "@/app/dashboard/x/bok-chart";
 import { DeveloperContentList } from "@/app/dashboard/x/developer-content-list";
 import { ManageXPostsModal } from "@/app/dashboard/x/manage-x-posts-modal";
-import fs from "fs/promises";
-import path from "path";
 import { Eye, TrendingUp, BarChart3, MessageSquare } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
+import { getKaiaDevInternData, getBokAnalyticsSeries } from "@/lib/services/social-media";
 
-export const dynamic = "force-dynamic";
+// X analytics are backed by DB and update relatively slowly; cache page HTML
+export const revalidate = 900;
 
 export default async function XPage() {
-  // Get the base URL for server-side fetch
-  const { headers } = await import('next/headers');
-  const headersList = await headers();
-  const host = headersList.get('host') || '';
-  const proto = headersList.get('x-forwarded-proto') || 'https';
-  const baseUrl = host ? `${proto}://${host}` : '';
-  let chartData: SocialMetric[] = [];
-  try {
-    const chartDataResponse = await fetch(`${baseUrl}/api/view/social-media`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+  const [kaiaDevInternRows, monthlySeries] = await Promise.all([
+    getKaiaDevInternData(365),
+    getBokAnalyticsSeries(),
+  ]);
 
-    if (chartDataResponse.ok) {
-      const chartDataResponse_json = await chartDataResponse.json();
-      chartData = chartDataResponse_json.kaiaDevIntern || [];
-    } else {
-      console.error('Failed to fetch social media data:', chartDataResponse.status, chartDataResponse.statusText);
-    }
-  } catch (error) {
-    console.error('Error fetching social media data:', error);
-  }
-
-  // Load Build on Kaia CSV from mocks (server-side)
-  const csvPath = path.join(process.cwd(), "lib", "mocks", "bok-analytics.csv");
-  const csvText = await fs.readFile(csvPath, "utf8");
-
-  // Parse CSV (Date,Impressions,Likes,Engagements,Bookmarks,Shares,New follows,Unfollows,Replies,Reposts,Profile visits,Create Post,Video views,Media views)
-  const rows = csvText
-    .trim()
-    .split(/\r?\n/)
-    .slice(1) // skip header
-    .filter((line) => line.trim().length > 0) // Filter out empty lines
-    .map((line) => line.replace(/^"|"$/g, ""))
-    .map((line) => line.split(/,(?=(?:[^"]*"[^"]*")*[^"]*$)/));
-
-type Daily = { date: Date; impressions: number; engagements: number; profileVisits: number; replies: number; likes: number; reposts: number; bookmarks: number; shares: number; newFollows: number };
-  const daily: Daily[] = rows
-    .map((cols) => {
-      if (!cols[0]) return null; // Skip rows without date
-      const dateStr = cols[0].replace(/^"|"$/g, "").trim();
-      // Parse date - format is like "Fri, Jan 16, 2026" or "Wed, Dec 31, 2025"
-      // JavaScript Date can parse this format directly
-      let d = new Date(dateStr);
-      // If date parsing fails, try alternative parsing
-      if (isNaN(d.getTime())) {
-        // Try parsing without day name: "Jan 16, 2026"
-        const withoutDay = dateStr.replace(/^[^,]+,?\s*/, "");
-        d = new Date(withoutDay);
-      }
-      // If still invalid, skip this row
-      if (isNaN(d.getTime())) {
-        console.warn(`Invalid date: ${dateStr}`);
-        return null;
-      }
-      const n = (idx: number) => Number(String(cols[idx] || "").replace(/[^0-9.-]/g, "")) || 0;
-      return {
-        date: d,
-        impressions: n(1),
-        likes: n(2),
-        engagements: n(3),
-        bookmarks: n(4),
-        shares: n(5),
-        replies: n(8),
-        reposts: n(9),
-        profileVisits: n(10),
-        newFollows: n(6),
-      };
-    })
-    .filter((d): d is Daily => d !== null); // Filter out invalid dates
-
-  // Group by month for chart
-  const monthly = daily.reduce((acc: Record<string, { month: string; impressions: number; engagements: number; profileVisits: number; replies: number; likes: number; reposts: number; bookmarks: number; shares: number; newFollows: number }>, d) => {
-    const month = d.date.toISOString().slice(0, 7); // YYYY-MM
-    if (!acc[month]) {
-      acc[month] = { month, impressions: 0, engagements: 0, profileVisits: 0, replies: 0, likes: 0, reposts: 0, bookmarks: 0, shares: 0, newFollows: 0 };
-    }
-    acc[month].impressions += d.impressions;
-    acc[month].engagements += d.engagements;
-    acc[month].profileVisits += d.profileVisits;
-    acc[month].replies += d.replies;
-    acc[month].likes += d.likes;
-    acc[month].reposts += d.reposts;
-    acc[month].bookmarks += d.bookmarks;
-    acc[month].shares += d.shares;
-    acc[month].newFollows += d.newFollows;
-    return acc;
-  }, {} as Record<string, { month: string; impressions: number; engagements: number; profileVisits: number; replies: number; likes: number; reposts: number; bookmarks: number; shares: number; newFollows: number }>);
-
-  const monthlySeries = Object.values(monthly)
-    .sort((a, b) => new Date(a.month + '-01').getTime() - new Date(b.month + '-01').getTime())
-    .map((m) => ({
-      month: new Date(m.month + '-01').toLocaleDateString('en-US', { month: 'short', year: 'numeric' }),
-      impressions: m.impressions,
-      engagementRate: m.impressions > 0 ? Number(((m.engagements / m.impressions) * 100).toFixed(2)) : 0,
-      newFollowers: m.newFollows,
-    }));
+  const chartData = (kaiaDevInternRows || []) as unknown as SocialMetric[];
 
   // Fallback: Original hardcoded data (kept as baseline)
   const fallbackDeveloperContent: Array<{
@@ -504,16 +411,19 @@ type Daily = { date: Date; impressions: number; engagements: number; profileVisi
   }> = [];
 
   try {
-    const developerContentResponse = await fetch(`${baseUrl}/api/view/x-posts?account=BuildonKaia&limit=1000`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
+    const developerContentResponse = await fetch(
+      "/api/view/x-posts?account=BuildonKaia&limit=1000",
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        cache: "no-store",
       },
-      cache: "no-store", // Always fetch fresh data
-    });
+    );
 
     if (developerContentResponse.ok) {
-      const posts = await developerContentResponse.json() as Array<{
+      const posts = (await developerContentResponse.json()) as Array<{
         title: string;
         url: string;
         views: string | null;
@@ -532,10 +442,14 @@ type Daily = { date: Date; impressions: number; engagements: number; profileVisi
         type: post.type,
       }));
     } else {
-      console.error('Failed to fetch developer content:', developerContentResponse.status, developerContentResponse.statusText);
+      console.error(
+        "Failed to fetch developer content:",
+        developerContentResponse.status,
+        developerContentResponse.statusText,
+      );
     }
   } catch (error) {
-    console.error('Error fetching developer content:', error);
+    console.error("Error fetching developer content:", error);
   }
 
   // Merge: Database posts override fallback posts (by URL), then add any new database posts
@@ -686,21 +600,20 @@ type Daily = { date: Date; impressions: number; engagements: number; profileVisi
           <BokChart data={monthlySeries} />
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 mt-4">
             {(() => {
-              const totals = daily.reduce(
-                (a, b) => ({
-                  impressions: a.impressions + b.impressions,
-                  engagements: a.engagements + b.engagements,
-                  profileVisits: a.profileVisits + b.profileVisits,
-                  replies: a.replies + b.replies,
-                  likes: a.likes + b.likes,
-                  reposts: a.reposts + b.reposts,
-                  bookmarks: a.bookmarks + b.bookmarks,
-                  shares: a.shares + b.shares,
-                  newFollows: a.newFollows + b.newFollows,
+              const totals = monthlySeries.reduce(
+                (a, m) => ({
+                  impressions: a.impressions + m.impressions,
+                  engagements:
+                    a.engagements +
+                    Math.round((m.engagementRate / 100) * m.impressions),
+                  newFollows: a.newFollows + m.newFollowers,
                 }),
-                { impressions: 0, engagements: 0, profileVisits: 0, replies: 0, likes: 0, reposts: 0, bookmarks: 0, shares: 0, newFollows: 0 }
+                { impressions: 0, engagements: 0, newFollows: 0 },
               );
-              const engagementRate = totals.impressions > 0 ? ((totals.engagements / totals.impressions) * 100).toFixed(1) : 0;
+              const engagementRate =
+                totals.impressions > 0
+                  ? ((totals.engagements / totals.impressions) * 100).toFixed(1)
+                  : 0;
               return (
                 <>
                   <div className="flex flex-col gap-1 p-3 rounded-lg border text-center hover:bg-muted/50 transition-colors">
@@ -716,20 +629,12 @@ type Daily = { date: Date; impressions: number; engagements: number; profileVisi
                     <span className="text-xs text-muted-foreground">Engagement Rate</span>
                   </div>
                   <div className="flex flex-col gap-1 p-3 rounded-lg border text-center hover:bg-muted/50 transition-colors">
-                    <span className="text-xl font-bold">{totals.likes.toLocaleString()}</span>
-                    <span className="text-xs text-muted-foreground">Likes</span>
-                  </div>
-                  <div className="flex flex-col gap-1 p-3 rounded-lg border text-center hover:bg-muted/50 transition-colors">
-                    <span className="text-xl font-bold">{totals.reposts.toLocaleString()}</span>
-                    <span className="text-xs text-muted-foreground">Reposts</span>
-                  </div>
-                  <div className="flex flex-col gap-1 p-3 rounded-lg border text-center hover:bg-muted/50 transition-colors">
-                    <span className="text-xl font-bold">{totals.profileVisits.toLocaleString()}</span>
-                    <span className="text-xs text-muted-foreground">Profile Visits</span>
-                  </div>
-                  <div className="flex flex-col gap-1 p-3 rounded-lg border text-center hover:bg-muted/50 transition-colors">
-                    <span className="text-xl font-bold">{totals.newFollows.toLocaleString()}</span>
-                    <span className="text-xs text-muted-foreground">New Followers</span>
+                    <span className="text-xl font-bold">
+                      {totals.newFollows.toLocaleString()}
+                    </span>
+                    <span className="text-xs text-muted-foreground">
+                      New Followers
+                    </span>
                   </div>
                 </>
               );
