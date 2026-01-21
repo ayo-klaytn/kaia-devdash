@@ -1,0 +1,58 @@
+name: GitHub Metrics Cron
+
+on:
+  schedule:
+    # Run daily at 2 AM UTC (adjust timezone as needed)
+    # Format: minute hour day month day-of-week
+    # This runs every day at 2:00 AM UTC
+    - cron: '0 2 * * *'
+  workflow_dispatch: # Allow manual trigger from GitHub UI
+
+jobs:
+  aggregate-github-metrics:
+    name: Aggregate GitHub Metrics
+    runs-on: ubuntu-latest
+    timeout-minutes: 30 # Safety timeout (GitHub Actions default is 6 hours)
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: latest
+      
+      - name: Install dependencies
+        run: bun install
+      
+      - name: Run GitHub metrics aggregation (githubMetricsCache)
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          API_SECRET: ${{ secrets.API_SECRET }}
+          BETTER_AUTH_URL: ${{ secrets.BETTER_AUTH_URL }}
+          NEXT_PUBLIC_BASE_URL: ${{ secrets.BETTER_AUTH_URL }}
+        run: |
+          echo "🔄 Starting GitHub metrics aggregation (githubMetricsCache)..."
+          bun tsx scripts/compute-github-metrics.ts
+          echo "✅ GitHub metrics aggregation complete"
+      
+      - name: Call aggregate-github API (developerSummary, madCache28d)
+        env:
+          API_SECRET: ${{ secrets.API_SECRET }}
+          BETTER_AUTH_URL: ${{ secrets.BETTER_AUTH_URL }}
+        run: |
+          echo "🔄 Starting developer summary aggregation (developerSummary, madCache28d)..."
+          curl -X POST "${BETTER_AUTH_URL}/api/jobs/aggregate-github?window=all" \
+            -H "apiSecret: ${API_SECRET}" \
+            -H "Content-Type: application/json" \
+            --fail --show-error --silent --output /dev/null
+          echo "✅ Developer summary aggregation complete"
+      
+      - name: Summary
+        run: |
+          echo "✅ All GitHub metrics have been aggregated successfully!"
+          echo "📊 Metrics are now available in:"
+          echo "   - githubMetricsCache (for /dashboard/github)"
+          echo "   - developerSummary (for /dashboard/developers)"
+          echo "   - madCache28d (for /dashboard/developers)"
