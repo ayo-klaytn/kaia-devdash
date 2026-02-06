@@ -16,11 +16,12 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart"
-import kaiadevforum from "@/lib/mocks/kaia-devforum.json"
 
 export const description = "An interactive bar chart"
 
-const chartData = kaiadevforum.daily_stats
+// NOTE: This component is currently unused. The devforum page uses API data instead.
+// Mock data removed - component kept for potential future use.
+const chartData: Array<{ date: string; posts: number; members: number }> = []
 
 const chartConfig = {
   posts: {

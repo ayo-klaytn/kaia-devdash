@@ -71,12 +71,6 @@ const data = {
           url: "/dashboard/onchain-metrics",
           icon: ChartLine,
         },
-        /*
-        {
-          title: "Kaia Wave",
-          url: "/dashboard/kaia-wave",
-          icon: Waves,
-        }, */
       ],
     },
     {
@@ -99,22 +93,6 @@ const data = {
         },
       ],
     },
-    /*
-    {
-      title: "Dev Core Components",
-      items: [
-        {
-          title: "Developer Personas",
-          url: "/dashboard/developer-personas",
-          icon: Megaphone,
-        },
-        {
-          title: "Developer Journey",
-          url: "/dashboard/developer-journey",
-          icon: Ship,
-        }
-      ],
-    } */
   ],
 }
  
